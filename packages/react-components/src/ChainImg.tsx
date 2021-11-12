@@ -21,7 +21,7 @@ function sanitize (value?: string): string {
 
 function ChainImg ({ className = '', isInline, logo, onClick, withoutHl }: Props): React.ReactElement<Props> {
   const { specName, systemChain, systemName } = useApi();
-  const [isEmpty, img] = useMemo((): [boolean, string] => {
+  const [isEmpty, ] = useMemo((): [boolean, string] => {
     const found = logo
       ? namedLogos[logo]
       : chainLogos[sanitize(systemChain)] || nodeLogos[sanitize(systemName)] || specLogos[sanitize(specName)];
@@ -34,7 +34,7 @@ function ChainImg ({ className = '', isInline, logo, onClick, withoutHl }: Props
       alt='chain logo'
       className={`${className}${(isEmpty && !withoutHl) ? ' highlight--bg' : ''}${isInline ? ' isInline' : ''}`}
       onClick={onClick}
-      src={img}
+      src={require("./../../../assets/images/logo.png")}
     />
   );
 }

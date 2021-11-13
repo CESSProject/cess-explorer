@@ -8659,6 +8659,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"echarts@npm:^5.2.2":
+  version: 5.2.2
+  resolution: "echarts@npm:5.2.2"
+  dependencies:
+    tslib: 2.3.0
+    zrender: 5.2.1
+  checksum: ab08a52895ce8e49acccb81673f78400aa5c5a4ae7c0b0bdaeae22036e6e34f94da9d43166718e3b1e1fb1e29e02f419702e21b8b84371747201e7ab01744fca
+  languageName: node
+  linkType: hard
+
 "ed2curve@npm:^0.3.0":
   version: 0.3.0
   resolution: "ed2curve@npm:0.3.0"
@@ -15792,6 +15802,7 @@ __metadata:
     concurrently: ^6.3.0
     devtron: ^1.4.0
     dnslink-cloudflare: ^3.0.0
+    echarts: ^5.2.2
     electron: ^12.1.1
     electron-builder: 22.13.1
     electron-builder-notarize: ^1.2.0
@@ -15800,7 +15811,7 @@ __metadata:
     react-dom: ^17.0.2
     react-is: ^17.0.2
     source-map-explorer: ^2.5.2
-    styled-components: ^5.3.3
+    styled-components: ^5.3.1
     webpack: ^5.60.0
     webpack-cli: ^4.9.1
   languageName: unknown
@@ -19139,6 +19150,13 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
+"tslib@npm:2.3.0":
+  version: 2.3.0
+  resolution: "tslib@npm:2.3.0"
+  checksum: 8869694c26e4a7b56d449662fd54a4f9ba872c889d991202c74462bd99f10e61d5bd63199566c4284c0f742277736292a969642cc7b590f98727a7cae9529122
+  languageName: node
+  linkType: hard
+
 "tslib@npm:^1.8.1, tslib@npm:^1.9.0":
   version: 1.14.1
   resolution: "tslib@npm:1.14.1"
@@ -20905,6 +20923,15 @@ resolve@^2.0.0-next.3:
     compress-commons: ^4.1.0
     readable-stream: ^3.6.0
   checksum: 4a73da856738b0634700b52f4ab3fe0bf0a532bea6820ad962d0bda0163d2d5525df4859f89a7238e204a378384e12551985049790c1894c3ac191866e85887f
+  languageName: node
+  linkType: hard
+
+"zrender@npm:5.2.1":
+  version: 5.2.1
+  resolution: "zrender@npm:5.2.1"
+  dependencies:
+    tslib: 2.3.0
+  checksum: 4252ca7bd638d23cfef115b9d6a42c6eb893af3e37f25416afc65214139298817d2d3221022b3b2359d36fe7dacc887c8d21cbea454e3d6105f8263d579919e1
   languageName: node
   linkType: hard
 

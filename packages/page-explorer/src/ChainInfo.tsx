@@ -1,5 +1,6 @@
 import React  from 'react';
 import styled from "styled-components";
+// import * as echarts from "echarts"
 
 interface Props{
   className?: String,
@@ -8,6 +9,7 @@ interface Props{
 function ChainInfo({className}: Props): React.ReactElement<Props>{
   return (
     <div className={`${className} chain-info`}>
+      {/*详情*/}
       <div className={"chain-info-details"}>
         <div className={"chain-info-details-block"}>
           <span className={"chain-info-details-block-item label"}>tipset height</span>
@@ -33,6 +35,10 @@ function ChainInfo({className}: Props): React.ReactElement<Props>{
           <span className={"chain-info-details-block-item label"}>active miners</span>
           <span className={"chain-info-details-block-item"}>121</span>
         </div>
+      </div>
+      {/*饼图*/}
+      <div className={"chain-info-bar"}>
+        <div ref={"chain-info-bar"} className={"chain-info-bar-box"}> </div>
       </div>
     </div>
   )

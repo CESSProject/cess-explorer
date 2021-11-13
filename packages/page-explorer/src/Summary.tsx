@@ -10,7 +10,6 @@ import { BN_ONE, formatNumber } from '@polkadot/util';
 
 import SummarySession from './SummarySession';
 import { useTranslation } from './translate';
-import styled from "styled-components";
 
 interface Props {
   eventCount: number;
@@ -21,8 +20,8 @@ function Summary ({ eventCount }: Props): React.ReactElement {
   const { api } = useApi();
   
   return (
-    <div style={{background: "url(" + require("./../../../assets/images/topBg.png" )+ ") no-repeat top", maxWidth: '100%', padding: 0, height: '263px'}}>
-      <SummaryBox className={'explore-summary-box'}>
+    <div className={"explore-summary-container"} style={{background: "url(" + require("./../../../assets/images/topBg.png" )+ ") no-repeat top", maxWidth: '100%', height: '263px'}}>
+      <SummaryBox className="noMargin">
         <section>
           {api.query.timestamp && (
             <>
@@ -67,12 +66,7 @@ function Summary ({ eventCount }: Props): React.ReactElement {
         </section>
       </SummaryBox>
     </div>
-  
   );
 }
 
-export default React.memo(styled(Summary)`
-  .explore-summary-box{
-    margin-top: 0 !important;
-  }
-`);
+export default React.memo(Summary);

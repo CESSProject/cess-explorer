@@ -23,7 +23,7 @@ function Main ({ eventCount, events, headers }: Props): React.ReactElement<Props
   return (
     <>
       <Query />
-      <Summary eventCount={eventCount}/>
+      <Summary eventCount={eventCount} />
       <Columar>
         <Columar.Column>
           <BlockHeaders headers={headers} />

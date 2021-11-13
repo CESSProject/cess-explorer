@@ -46,7 +46,11 @@ export default React.memo(styled(SummaryBox)`
       margin-top: 0.75rem;
     }
   }
-
+  
+  &.noMargin {
+    margin: 0;
+  }
+  
   &.isSmall {
     margin-bottom: 0;
   }

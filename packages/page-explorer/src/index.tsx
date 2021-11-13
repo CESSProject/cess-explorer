@@ -15,6 +15,7 @@ import Forks from './Forks';
 import Main from './Main';
 import NodeInfo from './NodeInfo';
 import { useTranslation } from './translate';
+import styled from "styled-components";
 
 interface Props {
   basePath: string;
@@ -60,6 +61,7 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
         basePath={basePath}
         hidden={hidden}
         items={itemsRef.current}
+        className={'explorer-app'}
       />
       <Switch>
         <Route path={`${basePath}/forks`}><Forks /></Route>
@@ -78,4 +80,9 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
   );
 }
 
-export default React.memo(ExplorerApp);
+export default React.memo(styled(ExplorerApp)`
+  .explorer-app{
+    margin-bottom: 0;
+  }
+`);
+

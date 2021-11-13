@@ -46,11 +46,12 @@ export default React.memo(styled(SummaryBox)`
       margin-top: 0.75rem;
     }
   }
-  
-  &.noMargin {
+
+  &.explore-summary-container {
     margin: 0;
+    width: 100%;
   }
-  
+
   &.isSmall {
     margin-bottom: 0;
   }

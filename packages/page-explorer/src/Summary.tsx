@@ -3,67 +3,22 @@
 
 import React from 'react';
 
-import { CardSummary, SummaryBox } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
-import { BestFinalized, BestNumber, BlockToTime, TimeNow, TotalIssuance } from '@polkadot/react-query';
-import { BN_ONE, formatNumber } from '@polkadot/util';
-
-import SummarySession from './SummarySession';
-import { useTranslation } from './translate';
+import { SummaryBox } from '@polkadot/react-components';
+import Query from "@polkadot/app-explorer/Query";
 
 interface Props {
   eventCount: number;
 }
 
-function Summary ({ eventCount }: Props): React.ReactElement {
-  const { t } = useTranslation();
-  const { api } = useApi();
-  
+function Summary ({ eventCount }: Props): React.ReactElement<Props> {
+
   return (
-    <div className={"explore-summary-container"} style={{background: "url(" + require("./../../../assets/images/topBg.png" )+ ") no-repeat top", maxWidth: '100%', height: '263px'}}>
-      <SummaryBox className="noMargin">
-        <section>
-          {api.query.timestamp && (
-            <>
-              <CardSummary label={t<string>('last block')}>
-                <TimeNow/>
-              </CardSummary>
-              <CardSummary
-                className='media--800'
-                label={t<string>('target')}
-              >
-                <BlockToTime value={BN_ONE}/>
-              </CardSummary>
-            </>
-          )}
-          {api.query.balances && (
-            <CardSummary
-              className='media--800'
-              label={t<string>('total issuance')}
-            >
-              <TotalIssuance/>
-            </CardSummary>
-          )}
-        </section>
-        <section className='media--1200'>
-          <SummarySession withEra={false}/>
-        </section>
-        <section>
-          <CardSummary
-            className='media--1000'
-            label={t<string>('last events')}
-          >
-            {formatNumber(eventCount)}
-          </CardSummary>
-          {api.query.grandpa && (
-            <CardSummary label={t<string>('finalized')}>
-              <BestFinalized/>
-            </CardSummary>
-          )}
-          <CardSummary label={t<string>('best')}>
-            <BestNumber/>
-          </CardSummary>
-        </section>
+    <div className={"explore-summary-container"} style={{
+      background: "url(" + require("./../../../assets/images/topBg.png") + ") no-repeat top",
+      maxWidth: '100%', height: '263px',padding: '0 8rem',display: 'flex', alignItems: 'center',justifyContent: 'flex-start'
+    }}>
+      <SummaryBox className="explore-summary-container">
+        <Query className={"explore-query-group"}/>
       </SummaryBox>
     </div>
   );

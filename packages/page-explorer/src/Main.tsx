@@ -10,8 +10,9 @@ import { Columar } from '@polkadot/react-components';
 
 import BlockHeaders from './BlockHeaders';
 import Events from './Events';
-import Query from './Query';
+
 import Summary from './Summary';
+import ChainInfo from './ChainInfo';
 
 interface Props {
   eventCount: number;
@@ -22,8 +23,8 @@ interface Props {
 function Main ({ eventCount, events, headers }: Props): React.ReactElement<Props> {
   return (
     <>
-      <Query />
       <Summary eventCount={eventCount} />
+      <ChainInfo />
       <Columar>
         <Columar.Column>
           <BlockHeaders headers={headers} />

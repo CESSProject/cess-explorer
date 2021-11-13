@@ -52,7 +52,7 @@ function Query ({ className = '', value: propsValue }: Props): React.ReactElemen
         isError={!isValid && value.length !== 0}
         onChange={_setHash}
         onEnter={_onQuery}
-        placeholder={t<string>('block hash or number to query')}
+        placeholder={t<string>('Search by Block Hash / Extrinsics Hash / Address /  Miner ID')}
         withLabel={false}
       >
         <Button
@@ -65,6 +65,13 @@ function Query ({ className = '', value: propsValue }: Props): React.ReactElemen
 }
 
 export default React.memo(styled(Query)`
+  &.explore-query-group{
+    position: relative;
+    .explorer--query{
+      width: 40em;
+      margin-left: 200px;
+    }
+  }
   .explorer--query {
     width: 20em;
   }

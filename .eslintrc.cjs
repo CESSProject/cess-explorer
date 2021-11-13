@@ -26,6 +26,10 @@ module.exports = {
     // needs to be switched on at some point
     '@typescript-eslint/no-explicit-any': 'off',
     // this seems very broken atm, false positives
-    '@typescript-eslint/unbound-method': 'off'
+    '@typescript-eslint/unbound-method': 'off',
+    // -------------- custom rules --------------------
+    "react/react-in-jsx-scope": "off",
+    "no-unused-variable": "off",
+    '@typescript-eslint/no-unused-vars': "off",
   }
 };

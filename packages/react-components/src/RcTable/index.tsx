@@ -4,12 +4,13 @@ import { useTable, useExpanded,usePagination } from 'react-table'
 
 interface Props{
   className?: String,
+  paginationClassName?: String,
   columns?: any,
   data?: any,
   renderRowSubComponent?: Function | null
 }
 
-function RcTable({ columns: userColumns, data, renderRowSubComponent, className }:Props) : React.ReactElement<Props>{
+function RcTable({ columns: userColumns, data, renderRowSubComponent, className, paginationClassName }:Props) : React.ReactElement<Props>{
 
   const {
     getTableProps,
@@ -68,17 +69,17 @@ function RcTable({ columns: userColumns, data, renderRowSubComponent, className 
         })}
         </tbody>
       </table>
-      <div className="pagination">
-        <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+      <div className={`${className} pagination`} >
+        <button className={"pagination-btn"} onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
           {'<<'}
         </button>{' '}
-        <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+        <button className={"pagination-btn"} onClick={() => previousPage()} disabled={!canPreviousPage}>
           {'<'}
         </button>{' '}
-        <button onClick={() => nextPage()} disabled={!canNextPage}>
+        <button className={"pagination-btn"} onClick={() => nextPage()} disabled={!canNextPage}>
           {'>'}
         </button>{' '}
-        <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+        <button className={"pagination-btn"} onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
           {'>>'}
         </button>{' '}
         <span>
@@ -142,6 +143,20 @@ export default styled(RcTable)`
 
     :last-child {
       border-right: 0;
+    }
+  }
+  &.pagination {
+
+    text-align: right;
+    border: 0;
+    margin-top: 20px;
+    padding: 0.5rem;
+    &-btn{
+      border: 1px solid #DBDBDB;
+      color: #DBDBDB;
+    }
+    >span, select{
+      color: #DBDBDB;
     }
   }
 `;

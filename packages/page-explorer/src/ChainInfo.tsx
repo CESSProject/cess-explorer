@@ -53,6 +53,31 @@ function ChainInfo({className}: Props): React.ReactElement<Props>{
     window.addEventListener("resize", resize);
   }, [])
 
+  useEffect(() =>{
+    let canvas = document.getElementById("chain-info-percent-canvas") as HTMLCanvasElement;
+    let ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
+    //1、画未使用的容量弧线描边
+    ctx?.beginPath();
+    ctx?.arc(150,150,100,0.5*Math.PI,1.5* Math.PI, false);
+    ctx.lineWidth=3;
+    ctx.strokeStyle="#8FBFFF";
+    ctx?.stroke();
+    ctx?.save();
+    //2、画已使用的容量弧线描边
+    ctx?.beginPath();
+    ctx?.arc(150,150,100, 0.5*Math.PI,1.5* Math.PI, true);
+    ctx.strokeStyle="#FF9C07";
+    ctx.lineWidth=6;
+    ctx?.stroke();
+    ctx?.save();
+    //3、画交汇圆点
+    ctx?.beginPath();
+    ctx?.arc(150,50,16,0,2* Math.PI);
+    ctx.fillStyle = "#FF9C07";
+    ctx?.fill();
+    ctx?.closePath();
+  },[])
+
   return (
     <div className={`${className} chain-info`}>
       {/*详情*/}
@@ -87,8 +112,8 @@ function ChainInfo({className}: Props): React.ReactElement<Props>{
         <div id="chain-info-bar-box" ref={chainInfoRef} className={"chain-info-bar-box"} />
       </div>
       {/*百分比图*/}
-      <div className={"chain-info-storage-trend"}>
-
+      <div className={"chain-info-percent"}>
+        <canvas id={"chain-info-percent-canvas"} width={300} height={300}/>
       </div>
     </div>
   )

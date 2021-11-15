@@ -9,7 +9,10 @@ const option ={
       type: 'shadow'
     }
   },
-  legend: {},
+  legend: {
+    icon: 'circle',
+    right: '4%'
+  },
   grid: {
     left: '3%',
     right: '4%',

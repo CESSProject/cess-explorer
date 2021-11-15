@@ -13,6 +13,7 @@ import Events from './Events';
 
 import Summary from './Summary';
 import ChainInfo from './ChainInfo';
+import NetworkStorageTrend from './NetworkStorageTrend';
 
 interface Props {
   eventCount: number;
@@ -25,6 +26,7 @@ function Main ({ eventCount, events, headers }: Props): React.ReactElement<Props
     <>
       <Summary eventCount={eventCount} />
       <ChainInfo />
+      <NetworkStorageTrend />
       <Columar>
         <Columar.Column>
           <BlockHeaders headers={headers} />

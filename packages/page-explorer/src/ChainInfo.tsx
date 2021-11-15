@@ -1,12 +1,58 @@
-import React  from 'react';
+import React, {useEffect, useRef} from 'react';
 import styled from "styled-components";
-// import * as echarts from "echarts"
+import * as echarts from "echarts"
 
 interface Props{
   className?: String,
 }
 
+const option = {
+  tooltip: {
+    trigger: 'item'
+  },
+  legend: {
+    bottom: '5%',
+    left: 'center'
+  },
+  series: [
+    {
+      name: 'Access From',
+      type: 'pie',
+      radius: ['40%', '70%'],
+      color: ['#5078FE', '#5CD5B4'],
+      avoidLabelOverlap: false,
+      label: {
+        show: false,
+        position: 'center'
+      },
+      emphasis: {
+        label: {
+          show: true,
+          fontSize: '40',
+          fontWeight: 'bold'
+        }
+      },
+      labelLine: {
+        show: false
+      },
+      data: [
+        { value: 1048, name: 'Search Engine' },
+        { value: 735, name: 'Direct' },
+      ]
+    }
+  ]
+};
+
 function ChainInfo({className}: Props): React.ReactElement<Props>{
+  const chainInfoRef = useRef<any>()
+
+  useEffect(()=>{
+    let myChart = chainInfoRef.current = echarts.init(document.getElementById("chain-info-bar-box") as HTMLDivElement);
+    myChart.setOption(option);
+    const resize = chainInfoRef.current.resize();
+    window.addEventListener("resize", resize);
+  }, [])
+
   return (
     <div className={`${className} chain-info`}>
       {/*详情*/}
@@ -38,7 +84,11 @@ function ChainInfo({className}: Props): React.ReactElement<Props>{
       </div>
       {/*饼图*/}
       <div className={"chain-info-bar"}>
-        <div ref={"chain-info-bar"} className={"chain-info-bar-box"}> </div>
+        <div id="chain-info-bar-box" ref={chainInfoRef} className={"chain-info-bar-box"} />
+      </div>
+      {/*百分比图*/}
+      <div className={"chain-info-storage-trend"}>
+
       </div>
     </div>
   )
@@ -48,11 +98,13 @@ export default React.memo(styled(ChainInfo)`
   margin: -50px 1.5rem 1.5rem 1.5rem;
   background: white;
   width: 90% !important;
+  height: 100%;
   padding: 35px 1.5rem !important;
   box-sizing: border-box;
   border-radius: 6px;
+  display: flex;
     .chain-info-details{
-      width: 30%;
+      width: 33%;
       display: flex;
       flex-wrap: wrap;
       &-block{
@@ -76,6 +128,13 @@ export default React.memo(styled(ChainInfo)`
       }
       .middle-block{
         margin: 50px 0;
+      }
+    }
+    .chain-info-bar{
+      width: 33%;
+      &-box{
+        width: 100%;
+        height: 100%;
       }
     }
 `);

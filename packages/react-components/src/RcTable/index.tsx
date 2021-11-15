@@ -146,17 +146,16 @@ export default styled(RcTable)`
     }
   }
   &.pagination {
-
     text-align: right;
     border: 0;
     margin-top: 20px;
     padding: 0.5rem;
-    &-btn{
+    .pagination-btn{
+      border-radius: 3px;
       border: 1px solid #DBDBDB;
-      color: #DBDBDB;
     }
-    >span, select{
-      color: #DBDBDB;
+    input{
+      border-color: #DBDBDB;
     }
   }
 `;

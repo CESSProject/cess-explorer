@@ -1,5 +1,5 @@
 import RcTable from "@polkadot/react-components/RcTable"
-import React, {useState} from "react"
+import React, {Fragment, useState} from "react"
 import styled from "styled-components"
 
 interface Props{
@@ -8,14 +8,6 @@ interface Props{
 
 function AccoutDetail({className}: Props) :React.ReactElement<Props>{
   const [state, setState] = useState({
-    columns:  [
-      {Header: 'Extrinsic ID', accessor: 'ExtrinsicID'},
-      {Header: 'Block', accessor: 'Block'},
-      {Header: 'Extrinsic Hash', accessor: 'ExtrinsicHash'},
-      {Header: 'Time', accessor: 'Time'},
-      {Header: 'Result', accessor: 'Result'},
-      {Header: 'Call', accessor: 'Call'},
-    ],
     data: [
       {
         ExtrinsicID: 'Hello',
@@ -34,6 +26,44 @@ function AccoutDetail({className}: Props) :React.ReactElement<Props>{
       },
     ]
   })
+
+  const columns = React.useMemo(()=> [
+    {Header: 'Extrinsic ID', accessor: 'ExtrinsicID'},
+    {Header: 'Block', accessor: 'Block'},
+    {Header: 'Extrinsic Hash', accessor: 'ExtrinsicHash'},
+    {Header: 'Time', accessor: 'Time'},
+    {Header: 'Result', accessor: 'Result'},
+    {
+      Header: 'Call', accessor: 'Call', id: 'expander', // It needs an ID
+      Cell: ({row}) => (
+        <span {...row.getToggleRowExpandedProps()}>
+          {row.isExpanded ? row.values.expander + '👇' :  row.values.expander +'👉'}
+        </span>
+      ),
+    },
+  ], [])
+
+  const renderRowSubComponent = React.useCallback(
+    ({ row }) => (
+      <Fragment>
+        <div style={{width: 600, textAlign: 'left', float: 'right', border: '1px dashed #DBDBDB', padding: 10,boxSizing: 'border-box'}}>
+          <p>AccountId32</p>
+          <p style={{display: 'flex', justifyContent: 'space-between'}}>
+            <span>Account name</span>
+            <span>5DJPrZNBXD9vn6KgUBBvAFWGLJuD_</span>
+          </p>
+        </div>
+        <div style={{width: 600, textAlign: 'left', float: 'right', border: '1px dashed #DBDBDB', padding: 10,boxSizing: 'border-box', margin: '8px 0'}}>
+          <p>AccountId32</p>
+          <p style={{display: 'flex', justifyContent: 'space-between'}}>
+            <span>Account name</span>
+            <span>5DJPrZNBXD9vn6KgUBBvAFWGLJuD_</span>
+          </p>
+        </div>
+      </Fragment>
+    ),
+    []
+  )
 
   return (
     <div className={`${className} "accout-detail"`}>
@@ -71,7 +101,7 @@ function AccoutDetail({className}: Props) :React.ReactElement<Props>{
           </div>
         </div>
         <div className={"accout-table"}>
-          <RcTable columns={state.columns} data={state.data} />
+          <RcTable columns={columns} data={state.data} renderRowSubComponent={renderRowSubComponent}/>
         </div>
       </div>
     </div>

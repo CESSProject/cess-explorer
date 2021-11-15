@@ -1,14 +1,15 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useTable } from 'react-table'
+import { useTable, useExpanded } from 'react-table'
 
 interface Props{
   className?: String,
   columns?: any,
-  data?: any
+  data?: any,
+  renderRowSubComponent?: Function | null
 }
 
-function RcTable({columns, data, className}:Props) : React.ReactElement<Props>{
+function RcTable({ columns: userColumns, data, renderRowSubComponent, className }:Props) : React.ReactElement<Props>{
   // Use the state and functions returned from useTable to build your UI
   const {
     getTableProps,
@@ -16,10 +17,11 @@ function RcTable({columns, data, className}:Props) : React.ReactElement<Props>{
     headerGroups,
     rows,
     prepareRow,
+    visibleColumns,
   } = useTable({
-    columns,
+    columns: userColumns,
     data,
-  })
+  },useExpanded)
   return (
     <table {...getTableProps()} className={`${className} normal-styles`}>
       <thead>
@@ -32,16 +34,25 @@ function RcTable({columns, data, className}:Props) : React.ReactElement<Props>{
       ))}
       </thead>
       <tbody {...getTableBodyProps()}>
-      {rows.map((row: any, i: any) => {
-        prepareRow(row)
-        return (
-          <tr {...row.getRowProps()}>
-            {row.cells.map((cell: any) => {
-              return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-            })}
-          </tr>
-        )
-      })}
+        {rows.map((row: any, i: any) => {
+          prepareRow(row)
+          return (
+            <React.Fragment {...row.getRowProps()} key={i}>
+              <tr>
+                {row.cells.map((cell: any) => {
+                  return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                })}
+              </tr>
+              {row.isExpanded ? (
+                <tr>
+                  <td colSpan={visibleColumns.length}>
+                    { renderRowSubComponent && renderRowSubComponent({ row })}
+                  </td>
+                </tr>
+              ) : null}
+            </React.Fragment>
+          )
+        })}
       </tbody>
     </table>
   )

@@ -86,6 +86,7 @@
       "./node_modules/@polkadot/ts",
       "./node_modules/@types"
     ],
-    "noUnusedParameters":false
+    "noUnusedParameters":false,
+    "noImplicitAny": false
   }
 }

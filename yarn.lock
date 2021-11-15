@@ -4424,6 +4424,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/react-table@npm:^7.7.8":
+  version: 7.7.8
+  resolution: "@types/react-table@npm:7.7.8"
+  dependencies:
+    "@types/react": "*"
+  checksum: 8ee32341a2f20001d6b8ec80709a786391fde033e71634f8b3e5e2108532e123322bac8522583274f52b8901045085f9185b8a9e25717595589641d551bb2ce3
+  languageName: node
+  linkType: hard
+
 "@types/react@npm:*":
   version: 17.0.0
   resolution: "@types/react@npm:17.0.0"
@@ -15796,6 +15805,7 @@ __metadata:
     "@types/react-copy-to-clipboard": ^5.0.2
     "@types/react-dom": ^17.0.10
     "@types/react-router-dom": ^5.3.2
+    "@types/react-table": ^7.7.8
     "@types/store": ^2.0.2
     "@types/styled-components": ^5.1.15
     "@types/styled-theming": ^2.2.5

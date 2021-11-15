@@ -1,4 +1,5 @@
-import React from "react"
+import RcTable from "@polkadot/react-components/RcTable"
+import React, {useState} from "react"
 import styled from "styled-components"
 
 interface Props{
@@ -6,6 +7,34 @@ interface Props{
 }
 
 function AccoutDetail({className}: Props) :React.ReactElement<Props>{
+  const [state, setState] = useState({
+    columns:  [
+      {Header: 'Extrinsic ID', accessor: 'ExtrinsicID'},
+      {Header: 'Block', accessor: 'Block'},
+      {Header: 'Extrinsic Hash', accessor: 'ExtrinsicHash'},
+      {Header: 'Time', accessor: 'Time'},
+      {Header: 'Result', accessor: 'Result'},
+      {Header: 'Call', accessor: 'Call'},
+    ],
+    data: [
+      {
+        ExtrinsicID: 'Hello',
+        Block: 'World',
+        Call: 'staking(guarantee)'
+      },
+      {
+        ExtrinsicID: 'react-table',
+        Block: 'rocks',
+        Call: 'balances(transfer_keep_alive)'
+      },
+      {
+        ExtrinsicID: 'whatever',
+        Block: 'you want',
+        Call: 'staking(guarantee)'
+      },
+    ]
+  })
+
   return (
     <div className={`${className} "accout-detail"`}>
       <div className={"accout-title"}>
@@ -40,6 +69,9 @@ function AccoutDetail({className}: Props) :React.ReactElement<Props>{
             <span>123.14</span>
             <span>MB</span>
           </div>
+        </div>
+        <div className={"accout-table"}>
+          <RcTable columns={state.columns} data={state.data} />
         </div>
       </div>
     </div>
@@ -93,6 +125,9 @@ export default React.memo(styled(AccoutDetail)`
           margin: 0 6px 0 28px;
         }
       }
+    }
+    & .accout-table{
+      margin-top: 40px;
     }
   }
 `)

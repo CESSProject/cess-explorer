@@ -87,6 +87,7 @@
       "./node_modules/@types"
     ],
     "noUnusedParameters":false,
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "noUnusedLocals": false
   }
 }

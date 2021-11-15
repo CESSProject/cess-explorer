@@ -15820,6 +15820,7 @@ __metadata:
     react: ^17.0.2
     react-dom: ^17.0.2
     react-is: ^17.0.2
+    react-table: ^7.7.0
     source-map-explorer: ^2.5.2
     styled-components: ^5.3.1
     webpack: ^5.60.0
@@ -16647,6 +16648,15 @@ __metadata:
   peerDependencies:
     react: ">=15"
   checksum: 7daae084bf64531eb619cc5f4cc40ce5ae0a541b64f71d74ec71a38cbf6130ebdbb7cf38f157303fad5846deec259401f96c4d6c7386466dcc989719e01f9aaa
+  languageName: node
+  linkType: hard
+
+"react-table@npm:^7.7.0":
+  version: 7.7.0
+  resolution: "react-table@npm:7.7.0"
+  peerDependencies:
+    react: ^16.8.3 || ^17.0.0-0
+  checksum: a679edecc76d3e51311b095528395b38ac85a1ffa371716bea01559a5fdc75af9a6abb9bb907c63190c8e77da22b11f7b05065b3a45d190d8f43cb83e4366206
   languageName: node
   linkType: hard
 

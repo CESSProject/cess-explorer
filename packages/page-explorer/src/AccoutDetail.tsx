@@ -9,21 +9,24 @@ interface Props{
 function AccoutDetail({className}: Props) :React.ReactElement<Props>{
   const [state, setState] = useState({
     data: [
-      {
-        ExtrinsicID: 'Hello',
-        Block: 'World',
-        Call: 'staking(guarantee)'
-      },
-      {
-        ExtrinsicID: 'react-table',
-        Block: 'rocks',
-        Call: 'balances(transfer_keep_alive)'
-      },
-      {
-        ExtrinsicID: 'whatever',
-        Block: 'you want',
-        Call: 'staking(guarantee)'
-      },
+      {ExtrinsicID: 'Hello', Block: 'World', Call: 'staking(guarantee)'},
+      {ExtrinsicID: 'react-table', Block: 'rocks', Call: 'balances(transfer_keep_alive)'},
+      {ExtrinsicID: 'whatever', Block: 'you want', Call: 'staking(guarantee)'},
+      {ExtrinsicID: 'Hello', Block: 'World', Call: 'staking(guarantee)'},
+      {ExtrinsicID: 'react-table', Block: 'rocks', Call: 'balances(transfer_keep_alive)'},
+      {ExtrinsicID: 'whatever', Block: 'you want', Call: 'staking(guarantee)'},
+      {ExtrinsicID: 'Hello', Block: 'World', Call: 'staking(guarantee)'},
+      {ExtrinsicID: 'react-table', Block: 'rocks', Call: 'balances(transfer_keep_alive)'},
+      {ExtrinsicID: 'whatever', Block: 'you want', Call: 'staking(guarantee)'},
+      {ExtrinsicID: 'Hello', Block: 'World', Call: 'staking(guarantee)'},
+      {ExtrinsicID: 'react-table', Block: 'rocks', Call: 'balances(transfer_keep_alive)'},
+      {ExtrinsicID: 'whatever', Block: 'you want', Call: 'staking(guarantee)'},
+      {ExtrinsicID: 'Hello1', Block: 'World', Call: 'staking(guarantee)'},
+      {ExtrinsicID: 'react-table2', Block: 'rocks', Call: 'balances(transfer_keep_alive)'},
+      {ExtrinsicID: 'whatever2', Block: 'you want', Call: 'staking(guarantee)'},
+      {ExtrinsicID: 'Hell2o', Block: 'World', Call: 'staking(guarantee)'},
+      {ExtrinsicID: 'react-tabl2e', Block: 'rocks', Call: 'balances(transfer_keep_alive)'},
+      {ExtrinsicID: 'whatev2er', Block: 'you want', Call: 'staking(guarantee)'},
     ]
   })
 

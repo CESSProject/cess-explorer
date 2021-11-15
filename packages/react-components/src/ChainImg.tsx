@@ -34,7 +34,7 @@ function ChainImg ({ className = '', isInline, logo, onClick, withoutHl }: Props
       alt='chain logo'
       className={`${className}${(isEmpty && !withoutHl) ? ' highlight--bg' : ''}${isInline ? ' isInline' : ''}`}
       onClick={onClick}
-      src={require("./../../../assets/images/logo-ionic-outline.svg")}
+      src={require("./../../../assets/images/logo.png")}
     />
   );
 }

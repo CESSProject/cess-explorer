@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from "react";
 import styled from "styled-components";
 import * as echarts from "echarts";
-import {Button} from "@polkadot/react-components";
+import {Button, Icon} from "@polkadot/react-components";
 import RcTable from "@polkadot/react-components/RcTable";
 
 
@@ -83,7 +83,16 @@ function MinerDetail({className}: Props): React.ReactElement<Props> {
     {Header: 'Block', accessor: 'Block'},
     {Header: 'Extrinsic Hash', accessor: 'ExtrinsicHash'},
     {Header: 'Time', accessor: 'Time'},
-    {Header: 'Result', accessor: 'Result'},
+    {
+      Header: 'Result', accessor: 'Result', id: 'result',
+      Cell: ({row}) => (
+        <div>
+          <Icon color='#EB3434'  icon='times-circle' />
+          <Icon color='#5CD5B4'  icon='check-circle'/>
+          <Icon color='#FF9C07'  icon='clock'/>
+        </div>
+      ),
+    },
     {
       Header: 'Call', accessor: 'Call', id: 'expander', // It needs an ID
       Cell: ({row}) => (
@@ -184,7 +193,7 @@ function MinerDetail({className}: Props): React.ReactElement<Props> {
           <div className={"btn-actions"}>
             <Button isSelected label={"Extrinsics (2)"} onClick={changeTableFilter}/>
           </div>
-          <RcTable columns={columns} data={state.data} renderRowSubComponent={renderRowSubComponent}/>
+          <RcTable isShowPagination={false} columns={columns} data={state.data} renderRowSubComponent={renderRowSubComponent}/>
         </div>
       </div>
     </div>

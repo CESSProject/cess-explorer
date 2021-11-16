@@ -40,6 +40,7 @@ function Icon ({ className = '', color = 'normal', icon, isPadded, isSpinning, o
       {...extraProps}
       className={`ui--Icon ${color}Color${onClick ? ' isClickable' : ''}${isPadded ? ' isPadded' : ''} ${className}`}
       icon={icon}
+      color={color}
       onClick={onClick}
       size={size}
       spin={isSpinning}

@@ -169,11 +169,13 @@ function MinerDetail({className}: Props): React.ReactElement<Props> {
             <div className={"miner-info-left-tr label"}>Balance</div>
             <div className={"miner-info-left-tr"}>
               <span className={"miner-info-left-td"}>Account name</span>
-              <span className={"miner-info-left-td"}>0x08cd_y6g6s</span>
+              <span className={"miner-info-left-td"}><span
+                className={"accout-info-left-td-value"}>8.1234 </span><span>tCESS</span></span>
             </div>
             <div className={"miner-info-left-tr"}>
               <span className={"miner-info-left-td"}>Account</span>
-              <span className={"miner-info-left-td"}>cTHDK35f4i7ujFS3K6jPiEQZ22mXpjasf3Jzorqf32EEhup1J</span>
+              <span className={"miner-info-left-td"}><span
+                className={"accout-info-left-td-value"}>8.1234 </span><span>tCESS</span></span>
             </div>
             <div className={"miner-info-left-tr"}>
               <span className={"miner-info-left-td"}>Total</span>

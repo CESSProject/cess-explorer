@@ -3,7 +3,7 @@ import styled from "styled-components";
 import * as echarts from "echarts"
 
 interface Props{
-  className?: String,
+  className?: string,
 }
 
 const option = {

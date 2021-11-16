@@ -1,6 +1,7 @@
 import RcTable from "@polkadot/react-components/RcTable"
 import React, {Fragment, useState} from "react"
 import styled from "styled-components"
+import {Button} from "@polkadot/react-components";
 
 interface Props{
   className? :String
@@ -48,25 +49,29 @@ function AccoutDetail({className}: Props) :React.ReactElement<Props>{
 
   const renderRowSubComponent = React.useCallback(
     ({ row }) => (
-      <Fragment>
-        <div style={{width: 700, textAlign: 'left', float: 'right', border: '1px dashed #DBDBDB', padding: 10,boxSizing: 'border-box'}}>
+      <div className={"expand-group"}>
+        <div>
           <p>AccountId32</p>
-          <p style={{display: 'flex', justifyContent: 'space-between'}}>
+          <p>
             <span>Account name</span>
             <span>5DJPrZNBXD9vn6KgUBBvAFWGLJuD_</span>
           </p>
         </div>
-        <div style={{width: 700, textAlign: 'left', float: 'right', border: '1px dashed #DBDBDB', padding: 10,boxSizing: 'border-box', margin: '8px 0'}}>
+        <div>
           <p>AccountId32</p>
-          <p style={{display: 'flex', justifyContent: 'space-between'}}>
+          <p>
             <span>Account name</span>
             <span>5DJPrZNBXD9vn6KgUBBvAFWGLJuD_</span>
           </p>
         </div>
-      </Fragment>
+      </div>
     ),
     []
   )
+
+  const changeTableFilter = () =>{
+
+  }
 
   return (
     <div className={`${className} "accout-detail"`}>
@@ -104,6 +109,10 @@ function AccoutDetail({className}: Props) :React.ReactElement<Props>{
           </div>
         </div>
         <div className={"accout-table"}>
+          <div className={"btn-actions"}>
+            <Button isSelected label={"Extrinsics (2)"} onClick={changeTableFilter}/>
+            <Button label={"Data (10)"} onClick={changeTableFilter} className={"select-btn"}/>
+          </div>
           <RcTable columns={columns} data={state.data} renderRowSubComponent={renderRowSubComponent}/>
         </div>
       </div>
@@ -161,6 +170,29 @@ export default React.memo(styled(AccoutDetail)`
     }
     & .accout-table{
       margin-top: 40px;
+      .btn-actions{
+        margin-bottom: 20px;
+        .select-btn{
+          margin-left: 20px;
+          background: #DBDBDB;
+        }
+      }
+
+      .expand-group{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        >div{
+          width: 700px;text-align: left; border: 1px dashed #DBDBDB; padding: 10px;box-sizing: border-box;
+          >p:last-child{
+            display: flex;
+            justify-content: space-between;
+          }
+        }
+        >div:last-child{
+          margin: 8px 0;
+        }
+      }
     }
   }
 `)

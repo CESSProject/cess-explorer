@@ -3,14 +3,15 @@ import styled from 'styled-components'
 import { useTable, useExpanded,usePagination } from 'react-table'
 
 interface Props{
-  className?: String,
-  paginationClassName?: String,
+  className?: string,
+  paginationClassName?: string,
+  isShowPagination?:boolean,
   columns?: any,
   data?: any,
   renderRowSubComponent?: Function | null
 }
 
-function RcTable({ columns: userColumns, data, renderRowSubComponent, className, paginationClassName }:Props) : React.ReactElement<Props>{
+function RcTable({ columns: userColumns, data, renderRowSubComponent, className, paginationClassName,isShowPagination = true }:Props) : React.ReactElement<Props>{
 
   const {
     getTableProps,
@@ -69,52 +70,53 @@ function RcTable({ columns: userColumns, data, renderRowSubComponent, className,
         })}
         </tbody>
       </table>
-      <div className={`${className} pagination`} >
-        <button className={"pagination-btn"} onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-          {'<<'}
-        </button>{' '}
-        <button className={"pagination-btn"} onClick={() => previousPage()} disabled={!canPreviousPage}>
-          {'<'}
-        </button>{' '}
-        <button className={"pagination-btn"} onClick={() => nextPage()} disabled={!canNextPage}>
-          {'>'}
-        </button>{' '}
-        <button className={"pagination-btn"} onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
-          {'>>'}
-        </button>{' '}
-        <span>
+      {
+        isShowPagination &&   <div className={`${className} pagination`} >
+          <button className={"pagination-btn"} onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+            {'<<'}
+          </button>{' '}
+          <button className={"pagination-btn"} onClick={() => previousPage()} disabled={!canPreviousPage}>
+            {'<'}
+          </button>{' '}
+          <button className={"pagination-btn"} onClick={() => nextPage()} disabled={!canNextPage}>
+            {'>'}
+          </button>{' '}
+          <button className={"pagination-btn"} onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+            {'>>'}
+          </button>{' '}
+          <span>
           Page{' '}
-          <strong>
+            <strong>
             {pageIndex + 1} of {pageOptions.length}
           </strong>{' '}
         </span>
-        <span>
+          <span>
           | Go to page:{' '}
-          <input
-            type="number"
-            defaultValue={pageIndex + 1}
-            onChange={e => {
-              const page = e.target.value ? Number(e.target.value) - 1 : 0
-              gotoPage(page)
-            }}
-            style={{ width: '100px' }}
-          />
+            <input
+              type="number"
+              defaultValue={pageIndex + 1}
+              onChange={e => {
+                const page = e.target.value ? Number(e.target.value) - 1 : 0
+                gotoPage(page)
+              }}
+              style={{ width: '100px' }}
+            />
         </span>{' '}
-        <select
-          value={pageSize}
-          onChange={e => {
-            setPageSize(Number(e.target.value))
-          }}
-        >
-          {[10, 20, 30, 40, 50].map(pageSize => (
-            <option key={pageSize} value={pageSize}>
-              Show {pageSize}
-            </option>
-          ))}
-        </select>
-      </div>
+          <select
+            value={pageSize}
+            onChange={e => {
+              setPageSize(Number(e.target.value))
+            }}
+          >
+            {[10, 20, 30, 40, 50].map(pageSize => (
+              <option key={pageSize} value={pageSize}>
+                Show {pageSize}
+              </option>
+            ))}
+          </select>
+        </div>
+      }
     </>
-
   )
 }
 

@@ -6,11 +6,24 @@ interface Props{
   className?: string
 }
 
+const list = [
+  {a:1 ,b:2, c:3},
+  {a:1 ,b:2, c:3},
+  {a:1 ,b:2, c:3},
+  {a:1 ,b:2, c:3},
+  {a:1 ,b:2, c:3},
+]
+
 function ExtrinsicDetail({className}:Props) :React.ReactElement<Props>{
+  const [isShowJson, toggleShowJson] = useState(false);
 
   const getMoreParameter = () =>{
 
   }
+
+  const showJsonCode = () => {
+    toggleShowJson(!isShowJson);
+  };
 
   return (
     <div className={`${className} extrinsic-detail`}>
@@ -78,7 +91,9 @@ function ExtrinsicDetail({className}:Props) :React.ReactElement<Props>{
               <Button isSelected label={"More"} onClick={getMoreParameter} />
             </div>
             <div className={"extrinsic-content-form-item-parameter-actions"}>
-              <Button isSelected label={"View Code"} onClick={getMoreParameter} />
+              <Button isSelected label={"View Code"} onClick={showJsonCode} />
+              {/*<div><pre><code>{JSON.stringify(list, null, 2)}</code></pre></div>*/}
+              { isShowJson && <div><pre><code>{JSON.stringify(list, null, 2)}</code></pre></div> }
             </div>
           </div>
         </div>
@@ -115,8 +130,11 @@ export default React.memo(styled(ExtrinsicDetail)`
       &-parameter{
         width: 90%;
         display: flex;
+        justify-content: space-between;
         &-list{
-          width: 50%;
+          width: 40%;
+          max-height: 400px;
+          overflow-y: auto;
           >p{
             border-bottom: 1px solid #DBDBDB;
             >span{
@@ -127,7 +145,16 @@ export default React.memo(styled(ExtrinsicDetail)`
         }
         &-actions{
           width: 50%;
-          text-align: center;
+          text-align: left;
+          max-height: 400px;
+          overflow-y: auto;
+          >div{
+            border-left: 3px solid #8FBFFF;
+            >pre{
+              border: 1px dotted #DBDBDB;
+              margin: 18px 0 0 24px
+            }
+          }
         }
       }
     }

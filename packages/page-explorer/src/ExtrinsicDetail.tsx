@@ -92,7 +92,6 @@ function ExtrinsicDetail({className}:Props) :React.ReactElement<Props>{
             </div>
             <div className={"extrinsic-content-form-item-parameter-actions"}>
               <Button isSelected label={"View Code"} onClick={showJsonCode} />
-              {/*<div><pre><code>{JSON.stringify(list, null, 2)}</code></pre></div>*/}
               { isShowJson && <div><pre><code>{JSON.stringify(list, null, 2)}</code></pre></div> }
             </div>
           </div>

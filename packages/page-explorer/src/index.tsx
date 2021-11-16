@@ -16,6 +16,13 @@ import Main from './Main';
 import NodeInfo from './NodeInfo';
 import { useTranslation } from './translate';
 import styled from "styled-components";
+import Miners from './Miners';
+import Summary from "@polkadot/app-explorer/Summary";
+import ChainInfo from "@polkadot/app-explorer/ChainInfo";
+import NetworkStorageTrend from "@polkadot/app-explorer/NetworkStorageTrend";
+import AccoutDetail from "@polkadot/app-explorer/AccoutDetail";
+import MinerDetail from "../MinerDetail";
+import ExtrinsicDetail from "@polkadot/app-explorer/ExtrinsicDetail";
 
 interface Props {
   basePath: string;
@@ -47,7 +54,11 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
     {
       name: 'node',
       text: t<string>('Node info')
-    }
+    },
+    {
+      name: 'miners',
+      text: t<string>('Miners')
+    },
   ]);
 
   const hidden = useMemo(
@@ -63,17 +74,20 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
         items={itemsRef.current}
         className={'explorer-app'}
       />
+      <Summary eventCount={eventCount} />
+      <ChainInfo />
+      <NetworkStorageTrend />
+      <AccoutDetail />
+      <MinerDetail />
+      <ExtrinsicDetail />
       <Switch>
         <Route path={`${basePath}/forks`}><Forks /></Route>
         <Route path={`${basePath}/query/:value`}><BlockInfo /></Route>
         <Route path={`${basePath}/query`}><BlockInfo /></Route>
         <Route path={`${basePath}/node`}><NodeInfo /></Route>
+        <Route path={`${basePath}/miners`}><Miners /></Route>
         <Route>
-          <Main
-            eventCount={eventCount}
-            events={events}
-            headers={lastHeaders}
-          />
+          <Main eventCount={eventCount} events={events} headers={lastHeaders} />
         </Route>
       </Switch>
     </main>

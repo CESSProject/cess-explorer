@@ -151,11 +151,22 @@ export default styled(RcTable)`
     margin-top: 20px;
     padding: 0.5rem;
     .pagination-btn{
-      border-radius: 3px;
+      border-radius: 4px;
       border: 1px solid #DBDBDB;
+      line-height: 2 !important;
+      min-width: 36px;
     }
-    input{
-      border-color: #DBDBDB;
+    input, select{
+      border-radius: 4px;
+      border: 1px solid #DBDBDB;
+      line-height: 2 !important;
+      &:focus{
+        border: 1px solid #5078FE;
+        outline: none;
+      }
+    }
+    select{
+      min-height: 36px;
     }
   }
 `;

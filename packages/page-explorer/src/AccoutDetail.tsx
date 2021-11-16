@@ -49,14 +49,14 @@ function AccoutDetail({className}: Props) :React.ReactElement<Props>{
   const renderRowSubComponent = React.useCallback(
     ({ row }) => (
       <Fragment>
-        <div style={{width: 600, textAlign: 'left', float: 'right', border: '1px dashed #DBDBDB', padding: 10,boxSizing: 'border-box'}}>
+        <div style={{width: 700, textAlign: 'left', float: 'right', border: '1px dashed #DBDBDB', padding: 10,boxSizing: 'border-box'}}>
           <p>AccountId32</p>
           <p style={{display: 'flex', justifyContent: 'space-between'}}>
             <span>Account name</span>
             <span>5DJPrZNBXD9vn6KgUBBvAFWGLJuD_</span>
           </p>
         </div>
-        <div style={{width: 600, textAlign: 'left', float: 'right', border: '1px dashed #DBDBDB', padding: 10,boxSizing: 'border-box', margin: '8px 0'}}>
+        <div style={{width: 700, textAlign: 'left', float: 'right', border: '1px dashed #DBDBDB', padding: 10,boxSizing: 'border-box', margin: '8px 0'}}>
           <p>AccountId32</p>
           <p style={{display: 'flex', justifyContent: 'space-between'}}>
             <span>Account name</span>

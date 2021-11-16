@@ -148,13 +148,11 @@ function MinerDetail({className}: Props): React.ReactElement<Props> {
             </div>
             <div className={"miner-info-left-tr"}>
               <span className={"miner-info-left-td"}>Total</span>
-              <span className={"miner-info-left-td"}><span
-                className={"accout-info-left-td-value"}>12.1234 </span><span>tCESS</span></span>
+              <span className={"miner-info-left-td"}>cTHDK35f4i7ujFS3K6jPiEQZ22mXpjasf3Jzorqf32EEhup1J</span>
             </div>
             <div className={"miner-info-left-tr"}>
               <span className={"miner-info-left-td"}>Available transfers</span>
-              <span className={"miner-info-left-td"}><span
-                className={"accout-info-left-td-value"}>8.1234 </span><span>tCESS</span></span>
+              <span className={"miner-info-left-td"}>cTHDK35f4i7ujFS3K6jPiEQZ22mXpjasf3Jzorqf32EEhup1J</span>
             </div>
           </div>
           <div className={"miner-info-right"}>
@@ -170,22 +168,22 @@ function MinerDetail({className}: Props): React.ReactElement<Props> {
             <div className={"miner-info-left-tr"}>
               <span className={"miner-info-left-td"}>Account name</span>
               <span className={"miner-info-left-td"}><span
-                className={"accout-info-left-td-value"}>8.1234 </span><span>tCESS</span></span>
+                className={"miner-info-left-td-value"}>8.1234 </span><span>tCESS</span></span>
             </div>
             <div className={"miner-info-left-tr"}>
               <span className={"miner-info-left-td"}>Account</span>
               <span className={"miner-info-left-td"}><span
-                className={"accout-info-left-td-value"}>8.1234 </span><span>tCESS</span></span>
+                className={"miner-info-left-td-value"}>8.1234 </span><span>tCESS</span></span>
             </div>
             <div className={"miner-info-left-tr"}>
               <span className={"miner-info-left-td"}>Total</span>
               <span className={"miner-info-left-td"}><span
-                className={"accout-info-left-td-value"}>12.1234 </span><span>tCESS</span></span>
+                className={"miner-info-left-td-value"}>12.1234 </span><span>tCESS</span></span>
             </div>
             <div className={"miner-info-left-tr"}>
               <span className={"miner-info-left-td"}>Available transfers</span>
               <span className={"miner-info-left-td"}><span
-                className={"accout-info-left-td-value"}>8.1234 </span><span>tCESS</span></span>
+                className={"miner-info-left-td-value"}>8.1234 </span><span>tCESS</span></span>
             </div>
           </div>
         </div>

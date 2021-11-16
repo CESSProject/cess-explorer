@@ -10,12 +10,13 @@ import { Columar } from '@polkadot/react-components';
 
 import BlockHeaders from './BlockHeaders';
 import Events from './Events';
-
 import Summary from './Summary';
+
 import ChainInfo from './ChainInfo';
 import NetworkStorageTrend from './NetworkStorageTrend';
 import AccoutDetail from './AccoutDetail';
 import MinerDetail from '../MinerDetail';
+import ExtrinsicDetail from "@polkadot/app-explorer/ExtrinsicDetail";
 
 interface Props {
   eventCount: number;
@@ -31,6 +32,7 @@ function Main ({ eventCount, events, headers }: Props): React.ReactElement<Props
       <NetworkStorageTrend />
       <AccoutDetail />
       <MinerDetail />
+      <ExtrinsicDetail />
       <Columar>
         <Columar.Column>
           <BlockHeaders headers={headers} />

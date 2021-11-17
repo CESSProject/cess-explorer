@@ -1,6 +1,7 @@
 import React, {useEffect, useRef} from "react";
 import styled from "styled-components";
 import * as echarts from "echarts";
+import Icon from "@polkadot/react-components/Icon";
 
 const option ={
   tooltip: {
@@ -14,7 +15,7 @@ const option ={
     right: '4%'
   },
   grid: {
-    left: '3%',
+    left: '0',
     right: '4%',
     bottom: '3%',
     containLabel: true
@@ -72,6 +73,10 @@ function NetworkStorageTrend({className}: Props): React.ReactElement<Props>{
 
   return (
     <div className={`${className} network-storage-trend`}>
+      <div className={"network-storage-trend-title"}>
+        <Icon className='highlight--color' icon='dot-circle'/>
+        <span>Network Storage Trend</span>
+      </div>
       <div id="network-storage-trend-box" ref={networkStorageTrendRef} className={"network-storage-trend-box"} />
     </div>
   )
@@ -85,6 +90,14 @@ export default React.memo(styled(NetworkStorageTrend)`
   padding: 35px 1.5rem !important;
   box-sizing: border-box;
   height: 420px;
+  .network-storage-trend-title{
+    >span{
+      font-size: 24px;
+      color: #464646;
+      margin-left: 5px;
+      vertical-align: middle;
+    }
+  }
   .network-storage-trend-box{
     width: 100%;
     height: 100%;

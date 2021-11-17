@@ -8,27 +8,36 @@ interface Props{
 
 const option = {
   tooltip: {
-    trigger: 'item'
+    trigger: 'item',
   },
   legend: {
-    bottom: '5%',
-    left: 'center'
+    align: 'right',
+    right: '5%',
+    top: 'center',
+    orient: 'vertical',
+    icon: 'roundRect',
+    itemWidth: 8,
+    itemHeight: 61,
+    formatter: (value ,ee) =>{
+      console.log(value, 'valuevaluevaluevaluevaluevaluevaluevaluevalue',ee)
+      return value;
+    }
   },
   series: [
     {
-      name: 'Access From',
+      name: 'Chain Info',
       type: 'pie',
-      radius: ['40%', '70%'],
+      radius: ['50%', '70%'],
+      hoverAnimation:false,
       color: ['#5078FE', '#5CD5B4'],
-      avoidLabelOverlap: false,
       label: {
         show: false,
-        position: 'center'
+        position: 'center',
       },
       emphasis: {
         label: {
           show: true,
-          fontSize: '40',
+          fontSize: '18',
           fontWeight: 'bold'
         }
       },
@@ -36,8 +45,8 @@ const option = {
         show: false
       },
       data: [
-        { value: 1048, name: 'Search Engine' },
-        { value: 735, name: 'Direct' },
+        { value: 2.3, name: 'used storage' },
+        { value: 1.7, name: 'available storage' },
       ]
     }
   ]
@@ -114,6 +123,13 @@ function ChainInfo({className}: Props): React.ReactElement<Props>{
       {/*百分比图*/}
       <div className={"chain-info-percent"}>
         <canvas id={"chain-info-percent-canvas"} width={300} height={300}/>
+        <div className={"chain-info-percent-detail"}>
+          <div className={"chain-info-percent-detail-left"}>
+            <p>utilization</p>
+            <p>33.3 %</p>
+          </div>
+          <div className={"chain-info-percent-detail-right"} />
+        </div>
       </div>
     </div>
   )
@@ -160,6 +176,33 @@ export default React.memo(styled(ChainInfo)`
       &-box{
         width: 100%;
         height: 100%;
+      }
+
+    }
+    .chain-info-percent{
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      &-detail{
+        display: flex;
+        align-items: center;
+        &-left{
+          >p:first-child{
+            font-size: 14px;
+            color: #858585;
+          }
+          >p:last-child{
+            font-size: 28px;
+            color: #464646;
+          }
+        }
+        &-right{
+          width: 8px;
+          height: 61px;
+          border-radius: 6px;
+          background: #FF9C07;
+          margin-left: 12px;
+        }
       }
     }
 `);

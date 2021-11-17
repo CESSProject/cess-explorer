@@ -96,6 +96,8 @@ export default React.memo(styled(NetworkStorageTrend)`
       color: #464646;
       margin-left: 5px;
       vertical-align: middle;
+      display: inline-block;
+      margin-top: -3px;
     }
   }
   .network-storage-trend-box{

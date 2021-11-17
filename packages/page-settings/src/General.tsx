@@ -145,14 +145,14 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
           options={themeOptions}
         />
       </div>
-      <div className='ui--row'>
-        <Dropdown
-          defaultValue={i18nLang}
-          label={t<string>('default interface language')}
-          onChange={_handleChange('i18nLang')}
-          options={translateLanguages}
-        />
-      </div>
+      {/*<div className='ui--row'>*/}
+      {/*  <Dropdown*/}
+      {/*    defaultValue={i18nLang}*/}
+      {/*    label={t<string>('default interface language')}*/}
+      {/*    onChange={_handleChange('i18nLang')}*/}
+      {/*    options={translateLanguages}*/}
+      {/*  />*/}
+      {/*</div>*/}
       {isLedgerCapable && (
         <>
           <div className='ui--row'>

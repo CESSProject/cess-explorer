@@ -3,20 +3,24 @@
 
 import type { TabItem } from './types';
 
-import React from 'react';
+import React, {useState} from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
 import Badge from '../Badge';
+import Icon from "@polkadot/react-components/Icon";
 
 interface Props extends TabItem {
   basePath: string;
   className?: string;
   count?: number;
   index: number;
+  icon?: boolean
 }
 
-function Tab ({ basePath, className = '', count, hasParams, index, isExact, isRoot, name, text }: Props): React.ReactElement<Props> {
+function Tab ({ basePath, className = '', count, hasParams, index, isExact, isRoot, name, text, icon = false }: Props): React.ReactElement<Props> {
+  const [isSelected, setActive] = useState(false);
+
   const to = isRoot
     ? basePath
     : `${basePath}/${name}`;
@@ -25,15 +29,26 @@ function Tab ({ basePath, className = '', count, hasParams, index, isExact, isRo
   // params are problematic for dynamic hidden such as app-accounts
   const tabIsExact = isExact || !hasParams || index === 0;
 
+  const checkIsChecked = (match, location) =>{
+    if(!match){
+      setActive(false)
+      return false
+    }
+    setActive(true)
+    return true
+  }
+
   return (
     <NavLink
       activeClassName='tabLinkActive'
+      isActive={checkIsChecked}
       className={`ui--Tab ${className}`}
       exact={tabIsExact}
       strict={tabIsExact}
       to={to}
     >
       <div className='tabLinkText'>
+        {icon && <img src={require(`./../../../../assets/icons/explore/${isSelected ? `${text}Active`: text}.png`)} alt={""} className={"tabLinkIcon"}/>}
         {text}
       </div>
       {!!count && (
@@ -59,10 +74,11 @@ export default React.memo(styled(Tab)`
 
 
     &:hover {
-      color: #8B8B8B;
+      color: var(--bg-theme);
 
       .tabLinkText::after{
-        background-color: #8B8B8B;
+        width: 100%;
+        background-color: var(--bg-theme);
       }
     }
 
@@ -70,7 +86,7 @@ export default React.memo(styled(Tab)`
     &.tabLinkActive .tabLinkText::after {
       content: '';
       position: absolute;
-      width: 3.14rem;
+      width: 100%;
       height: 2px;
       bottom: -2px;
       left: 50%;
@@ -78,7 +94,7 @@ export default React.memo(styled(Tab)`
     }
 
   &.tabLinkActive {
-    color: var(--color-text) !important;
+    color: var(--bg-theme) !important;
     font-weight: 400;
 
     &:hover {
@@ -91,6 +107,9 @@ export default React.memo(styled(Tab)`
     height: 100%;
     display: flex;
     align-items: center;
+    .tabLinkIcon{
+      margin-right: 5px;
+    }
   }
 
   .tabCounter {

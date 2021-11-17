@@ -21,7 +21,7 @@ import Summary from "@polkadot/app-explorer/Summary";
 import ChainInfo from "@polkadot/app-explorer/ChainInfo";
 import NetworkStorageTrend from "@polkadot/app-explorer/NetworkStorageTrend";
 import AccoutDetail from "@polkadot/app-explorer/AccoutDetail";
-import MinerDetail from "../MinerDetail";
+import MinerDetail from "./MinerDetail";
 import ExtrinsicDetail from "@polkadot/app-explorer/ExtrinsicDetail";
 
 interface Props {
@@ -40,24 +40,28 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
     {
       isRoot: true,
       name: 'chain',
-      text: t<string>('Chain info')
+      text: t<string>('Chain info'),
+      icon: true
     },
     {
       hasParams: true,
       name: 'query',
-      text: t<string>('Block details')
+      text: t<string>('Block details'),
+      icon: true
     },
-    {
-      name: 'forks',
-      text: t<string>('Forks')
-    },
+    // {
+    //   name: 'forks',
+    //   text: t<string>('Forks')
+    // },
     {
       name: 'node',
-      text: t<string>('Node info')
+      text: t<string>('Node info'),
+      icon: true
     },
     {
       name: 'miners',
-      text: t<string>('Miners')
+      text: t<string>('Miners'),
+      icon: true
     },
   ]);
 

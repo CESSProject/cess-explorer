@@ -14,14 +14,23 @@ const option = {
     trigger: 'item'
   },
   legend: {
+    align: 'right',
+    right: '5%',
     top: 'center',
-    right: '5%'
+    orient: 'vertical',
+    icon: 'roundRect',
+    itemWidth: 8,
+    itemHeight: 61,
+    formatter: (value ,ee) =>{
+      return value;
+    }
   },
   series: [
     {
       name: 'Access From',
       type: 'pie',
-      radius: ['40%', '70%'],
+      radius: ['50%', '70%'],
+      hoverAnimation:false,
       color: ['#5078FE', '#5CD5B4'],
       avoidLabelOverlap: false,
       label: {
@@ -74,8 +83,9 @@ function MinerDetail({className}: Props): React.ReactElement<Props> {
   useEffect(() => {
     let myChart = minerInfoRef.current = echarts.init(document.getElementById("miner-info-box") as HTMLDivElement);
     myChart.setOption(option);
-    const resize = minerInfoRef.current.resize();
-    window.addEventListener("resize", resize);
+    window.addEventListener("resize", () =>{
+      minerInfoRef.current.resize();
+    });
   }, [])
 
   const columns = React.useMemo(()=> [
@@ -97,7 +107,8 @@ function MinerDetail({className}: Props): React.ReactElement<Props> {
       Header: 'Call', accessor: 'Call', id: 'expander', // It needs an ID
       Cell: ({row}) => (
         <span {...row.getToggleRowExpandedProps()}>
-          {row.isExpanded ? row.values.expander + '👇' :  row.values.expander +'👉'}
+          {row.values.expander}
+          <Icon icon={row.isExpanded ? 'caret-up' : 'caret-down'}/>
         </span>
       ),
     },

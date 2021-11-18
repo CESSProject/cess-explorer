@@ -2,6 +2,7 @@ import RcTable from "@polkadot/react-components/RcTable"
 import React, {Fragment, useState} from "react"
 import styled from "styled-components"
 import {Button} from "@polkadot/react-components";
+import Icon from "@polkadot/react-components/Icon";
 
 interface Props{
   className? :String
@@ -41,7 +42,8 @@ function AccoutDetail({className}: Props) :React.ReactElement<Props>{
       Header: 'Call', accessor: 'Call', id: 'expander', // It needs an ID
       Cell: ({row}) => (
         <span {...row.getToggleRowExpandedProps()}>
-          {row.isExpanded ? row.values.expander + '👇' :  row.values.expander +'👉'}
+          {row.values.expander}
+          <Icon icon={row.isExpanded ? 'caret-up' : 'caret-down'}/>
         </span>
       ),
     },

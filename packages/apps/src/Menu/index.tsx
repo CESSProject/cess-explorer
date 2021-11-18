@@ -99,7 +99,7 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
   const groupRef = useRef({
     accounts: t('Accounts'),
     developer: t('Developer'),
-    governance: t('Governance'),
+    // governance: t('Governance'),   // 隐藏此一级菜单
     network: t('Network'),
     settings: t('Settings')
   });

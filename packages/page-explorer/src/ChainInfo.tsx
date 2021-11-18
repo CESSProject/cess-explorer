@@ -60,7 +60,7 @@ function ChainInfo({className}: Props): React.ReactElement<Props>{
     window.addEventListener("resize", () =>{
       chainInfoRef.current.resize();
     });
-  },)
+  },[])
 
   useEffect(() =>{
     let canvas = document.getElementById("chain-info-percent-canvas") as HTMLCanvasElement;

@@ -3,6 +3,8 @@ import React, {Fragment, useState} from "react"
 import styled from "styled-components"
 import {Button} from "@polkadot/react-components";
 import Icon from "@polkadot/react-components/Icon";
+import IdentityIcon from "@polkadot/react-components/IdentityIcon";
+import ReactTooltip from 'react-tooltip';
 
 interface Props{
   className? :String
@@ -86,11 +88,15 @@ function AccoutDetail({className}: Props) :React.ReactElement<Props>{
             <div className={"accout-info-left-tr"}>Account</div>
             <div className={"accout-info-left-tr"}>
               <span className={"accout-info-left-td"}>Account name</span>
-              <span className={"accout-info-left-td"}>0x08cd_y6g6s</span>
+              <span className={"accout-info-left-td account-name"}>
+                <IdentityIcon value={"0x08cd_y6g6s"} />
+                0x08cd_y6g6s
+              </span>
             </div>
             <div className={"accout-info-left-tr"}>
               <span className={"accout-info-left-td"}>Account</span>
-              <span className={"accout-info-left-td"}>cTHDK35f4i7ujFS3K6jPiEQZ22mXpjasf3Jzorqf32EEhup1J</span>
+              <span className={"accout-info-left-td ellipsis"} data-tip={"cTHDK35f4i7ujFS3K6jPiEQZ22mXpjasf3Jzorqf32EEhup1J"}>cTHDK35f4i7ujFS3K6jPiEQZ22mXpjasf3Jzorqf32EEhup1J</span>
+              <ReactTooltip />
             </div>
             <div className={"accout-info-left-tr"}>
               <span className={"accout-info-left-td"}>Total</span>
@@ -147,6 +153,16 @@ export default React.memo(styled(AccoutDetail)`
         &-td{
           display: inline-block;
           width: 50%;
+          &.account-name{
+            div{
+              vertical-align: middle;
+              margin-right: 3px;
+            }
+          }
+          &.ellipsis{
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
           &-value{
             font-size: 28px;
             color: #5078FE;

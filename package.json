@@ -109,6 +109,7 @@
   },
   "dependencies": {
     "echarts": "^5.2.2",
-    "react-table": "^7.7.0"
+    "react-table": "^7.7.0",
+    "react-tooltip": "^4.2.21"
   }
 }

@@ -84,7 +84,7 @@ function NetworkStorageTrend({className}: Props): React.ReactElement<Props>{
 }
 
 export default React.memo(styled(NetworkStorageTrend)`
-  margin: 20px 0;
+  margin: 20px 0 50px 0;
   height: 420px;
   .network-storage-trend-title,.network-storage-trend-box{
     background: white;
@@ -106,6 +106,5 @@ export default React.memo(styled(NetworkStorageTrend)`
   .network-storage-trend-box{
     width: 100%;
     height: 100%;
-    margin-bottom: 20px;
   }
 `)

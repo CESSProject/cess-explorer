@@ -140,7 +140,7 @@ function ChainInfo({className}: Props): React.ReactElement<Props>{
 export default React.memo(styled(ChainInfo)`
   margin-top: -50px;
     .chain-info{
-      padding: 0.375rem 0.75rem 0.375rem 1.5rem;
+      padding: 1.5rem;
       display: flex;
       width: 100%;
       height: 100%;

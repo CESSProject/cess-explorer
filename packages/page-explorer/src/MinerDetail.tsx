@@ -3,7 +3,7 @@ import styled from "styled-components";
 import * as echarts from "echarts";
 import {Button, Icon} from "@polkadot/react-components";
 import RcTable from "@polkadot/react-components/RcTable";
-
+import ReactTooltip from "react-tooltip";
 
 interface Props {
   className?: String
@@ -40,7 +40,7 @@ const option = {
       emphasis: {
         label: {
           show: true,
-          fontSize: '40',
+          fontSize: '18',
           fontWeight: 'bold'
         }
       },
@@ -154,16 +154,20 @@ function MinerDetail({className}: Props): React.ReactElement<Props> {
               <span className={"miner-info-left-td"}>0x08cd_y6g6s</span>
             </div>
             <div className={"miner-info-left-tr"}>
-              <span className={"miner-info-left-td"}>Account</span>
-              <span className={"miner-info-left-td"}>cTHDK35f4i7ujFS3K6jPiEQZ22mXpjasf3Jzorqf32EEhup1J</span>
+              <span className={"miner-info-left-td"}>Account1</span>
+              <span className={"miner-info-left-td ellipsis"} data-tip={"cTHDK35f4i7ujFS3K6jPiEQZ22mXpjasf3Jzorqf32EEhup1J"}>
+                cTHDK35f4i7ujFS3K6jPiEQZ22mXpjasf3Jzorqf32EEhup1J
+              </span>
+              <ReactTooltip />
             </div>
             <div className={"miner-info-left-tr"}>
-              <span className={"miner-info-left-td"}>Total</span>
-              <span className={"miner-info-left-td"}>cTHDK35f4i7ujFS3K6jPiEQZ22mXpjasf3Jzorqf32EEhup1J</span>
+              <span className={"miner-info-left-td"}>Account2 name</span>
+              <span className={"miner-info-left-td"}>0x08cd_y6g6s</span>
             </div>
             <div className={"miner-info-left-tr"}>
-              <span className={"miner-info-left-td"}>Available transfers</span>
-              <span className={"miner-info-left-td"}>cTHDK35f4i7ujFS3K6jPiEQZ22mXpjasf3Jzorqf32EEhup1J</span>
+              <span className={"miner-info-left-td"}>Account2</span>
+              <span className={"miner-info-left-td ellipsis"} data-tip={"cTHDK35f4i7ujFS3K6jPiEQZ22mXpjasf3Jzorqf32EEhup1J"}>cTHDK35f4i7ujFS3K6jPiEQZ22mXpjasf3Jzorqf32EEhup1J</span>
+              <ReactTooltip />
             </div>
           </div>
           <div className={"miner-info-right"}>
@@ -245,6 +249,11 @@ export default React.memo(styled(MinerDetail)`
         &-td {
           display: inline-block;
           width: 50%;
+
+          &.ellipsis{
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
 
           &-value {
             font-size: 28px;

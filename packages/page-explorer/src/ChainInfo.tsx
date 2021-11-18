@@ -88,47 +88,49 @@ function ChainInfo({className}: Props): React.ReactElement<Props>{
   },[])
 
   return (
-    <div className={`${className} chain-info`}>
+    <div className={`${className}`}>
       {/*详情*/}
-      <div className={"chain-info-details"}>
-        <div className={"chain-info-details-block"}>
-          <span className={"chain-info-details-block-item label"}>tipset height</span>
-          <span className={"chain-info-details-block-item"}>1235</span>
-        </div>
-        <div className={"chain-info-details-block"}>
-          <span className={"chain-info-details-block-item label"}>latest block</span>
-          <span className={"chain-info-details-block-item"}>1.1 <span className={"unit"}>secs ago</span></span>
-        </div>
-        <div className={"chain-info-details-block middle-block"}>
-          <span className={"chain-info-details-block-item label"}>avg block time</span>
-          <span className={"chain-info-details-block-item"}>4.8 <span className={"unit"}>s</span></span>
-        </div>
-        <div className={"chain-info-details-block middle-block"}>
-          <span className={"chain-info-details-block-item label"}>block reward</span>
-          <span className={"chain-info-details-block-item"}>124.2345 <span className={"unit"}>tCESS</span></span>
-        </div>
-        <div className={"chain-info-details-block"}>
-          <span className={"chain-info-details-block-item label"}>24h average block reward</span>
-          <span className={"chain-info-details-block-item"}>1.2234 <span className={"unit"}>tCESS/TB</span></span>
-        </div>
-        <div className={"chain-info-details-block"}>
-          <span className={"chain-info-details-block-item label"}>active miners</span>
-          <span className={"chain-info-details-block-item"}>121</span>
-        </div>
-      </div>
-      {/*饼图*/}
-      <div className={"chain-info-bar"}>
-        <div id="chain-info-bar-box" ref={chainInfoRef} className={"chain-info-bar-box"} />
-      </div>
-      {/*百分比图*/}
-      <div className={"chain-info-percent"}>
-        <canvas id={"chain-info-percent-canvas"} width={300} height={300}/>
-        <div className={"chain-info-percent-detail"}>
-          <div className={"chain-info-percent-detail-left"}>
-            <p>utilization</p>
-            <p>33.3 %</p>
+      <div className={"chain-info"}>
+        <div className={"chain-info-details"}>
+          <div className={"chain-info-details-block"}>
+            <span className={"chain-info-details-block-item label"}>tipset height</span>
+            <span className={"chain-info-details-block-item"}>1235</span>
           </div>
-          <div className={"chain-info-percent-detail-right"} />
+          <div className={"chain-info-details-block"}>
+            <span className={"chain-info-details-block-item label"}>latest block</span>
+            <span className={"chain-info-details-block-item"}>1.1 <span className={"unit"}>secs ago</span></span>
+          </div>
+          <div className={"chain-info-details-block middle-block"}>
+            <span className={"chain-info-details-block-item label"}>avg block time</span>
+            <span className={"chain-info-details-block-item"}>4.8 <span className={"unit"}>s</span></span>
+          </div>
+          <div className={"chain-info-details-block middle-block"}>
+            <span className={"chain-info-details-block-item label"}>block reward</span>
+            <span className={"chain-info-details-block-item"}>124.2345 <span className={"unit"}>tCESS</span></span>
+          </div>
+          <div className={"chain-info-details-block"}>
+            <span className={"chain-info-details-block-item label"}>24h average block reward</span>
+            <span className={"chain-info-details-block-item"}>1.2234 <span className={"unit"}>tCESS/TB</span></span>
+          </div>
+          <div className={"chain-info-details-block"}>
+            <span className={"chain-info-details-block-item label"}>active miners</span>
+            <span className={"chain-info-details-block-item"}>121</span>
+          </div>
+        </div>
+        {/*饼图*/}
+        <div className={"chain-info-bar"}>
+          <div id="chain-info-bar-box" ref={chainInfoRef} className={"chain-info-bar-box"} />
+        </div>
+        {/*百分比图*/}
+        <div className={"chain-info-percent"}>
+          <canvas id={"chain-info-percent-canvas"} width={300} height={300}/>
+          <div className={"chain-info-percent-detail"}>
+            <div className={"chain-info-percent-detail-left"}>
+              <p>utilization</p>
+              <p>33.3 %</p>
+            </div>
+            <div className={"chain-info-percent-detail-right"} />
+          </div>
         </div>
       </div>
     </div>
@@ -136,72 +138,74 @@ function ChainInfo({className}: Props): React.ReactElement<Props>{
 }
 
 export default React.memo(styled(ChainInfo)`
-  margin: -50px 1.5rem 1.5rem 1.5rem;
-  background: white;
-  width: 90% !important;
-  height: 100%;
-  padding: 35px 1.5rem !important;
-  box-sizing: border-box;
-  border-radius: 6px;
-  display: flex;
-    .chain-info-details{
-      width: 33%;
+  margin-top: -50px;
+    .chain-info{
+      padding: 0.375rem 0.75rem 0.375rem 1.5rem;
       display: flex;
-      flex-wrap: wrap;
-      &-block{
+      width: 100%;
+      height: 100%;
+      background: white;
+      border-radius: 6px;
+      .chain-info-details{
+        width: 33%;
         display: flex;
-        flex-direction: column;
-        width: 50%;
-        .label{
-          font-size: 14px;
-          font-weight: 400;
-          line-height: 22px;
-          color: #858585;
-        }
-        &-item{
-          font-size: 28px;
-          font-weight: 300;
-          color: #464646;
-          .unit{
-            font-size: 18px;
-          }
-        }
-      }
-      .middle-block{
-        margin: 50px 0;
-      }
-    }
-    .chain-info-bar{
-      width: 33%;
-      &-box{
-        width: 100%;
-        height: 100%;
-      }
-
-    }
-    .chain-info-percent{
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      &-detail{
-        display: flex;
-        align-items: center;
-        &-left{
-          >p:first-child{
+        flex-wrap: wrap;
+        &-block{
+          display: flex;
+          flex-direction: column;
+          width: 50%;
+          .label{
             font-size: 14px;
+            font-weight: 400;
+            line-height: 22px;
             color: #858585;
           }
-          >p:last-child{
+          &-item{
             font-size: 28px;
+            font-weight: 300;
             color: #464646;
+            .unit{
+              font-size: 18px;
+            }
           }
         }
-        &-right{
-          width: 8px;
-          height: 61px;
-          border-radius: 6px;
-          background: #FF9C07;
-          margin-left: 12px;
+        .middle-block{
+          margin: 50px 0;
+        }
+      }
+      .chain-info-bar{
+        width: 33%;
+        &-box{
+          width: 100%;
+          height: 100%;
+        }
+
+      }
+      .chain-info-percent{
+        width: 34%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        &-detail{
+          display: flex;
+          align-items: center;
+          &-left{
+            >p:first-child{
+              font-size: 14px;
+              color: #858585;
+            }
+            >p:last-child{
+              font-size: 28px;
+              color: #464646;
+            }
+          }
+          &-right{
+            width: 8px;
+            height: 61px;
+            border-radius: 6px;
+            background: #FF9C07;
+            margin-left: 12px;
+          }
         }
       }
     }

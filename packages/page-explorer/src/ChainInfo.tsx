@@ -19,7 +19,6 @@ const option = {
     itemWidth: 8,
     itemHeight: 61,
     formatter: (value ,ee) =>{
-      console.log(value, 'valuevaluevaluevaluevaluevaluevaluevaluevalue',ee)
       return value;
     }
   },
@@ -58,9 +57,10 @@ function ChainInfo({className}: Props): React.ReactElement<Props>{
   useEffect(()=>{
     let myChart = chainInfoRef.current = echarts.init(document.getElementById("chain-info-bar-box") as HTMLDivElement);
     myChart.setOption(option);
-    const resize = chainInfoRef.current.resize();
-    window.addEventListener("resize", resize);
-  }, [])
+    window.addEventListener("resize", () =>{
+      chainInfoRef.current.resize();
+    });
+  },)
 
   useEffect(() =>{
     let canvas = document.getElementById("chain-info-percent-canvas") as HTMLCanvasElement;

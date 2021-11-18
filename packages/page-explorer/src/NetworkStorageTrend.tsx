@@ -67,8 +67,9 @@ function NetworkStorageTrend({className}: Props): React.ReactElement<Props>{
   useEffect(() =>{
     let myChart = networkStorageTrendRef.current = echarts.init(document.getElementById("network-storage-trend-box") as HTMLDivElement);
     myChart.setOption(option);
-    const resize = networkStorageTrendRef.current.resize();
-    window.addEventListener("resize", resize);
+    window.addEventListener("resize", () =>{
+      networkStorageTrendRef.current.resize();
+    });
   }, [])
 
   return (

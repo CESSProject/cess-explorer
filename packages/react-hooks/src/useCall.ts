@@ -118,7 +118,7 @@ function subscribe <T> (mountedRef: MountedRef, tracker: TrackerRef, fn: TrackFn
             } catch (error) {
               let extra = '...';
 
-              if (isQuery(fn)) {
+              if (fn && isQuery(fn)) {
                 extra = `${fn.creator.section}.${fn.creator.method}`;
               }
 

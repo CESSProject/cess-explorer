@@ -155,10 +155,10 @@ function MinerDetail({className}: Props): React.ReactElement<Props> {
             </div>
             <div className={"miner-info-left-tr"}>
               <span className={"miner-info-left-td"}>Account1</span>
-              <span className={"miner-info-left-td ellipsis"} data-tip={"cTHDK35f4i7ujFS3K6jPiEQZ22mXpjasf3Jzorqf32EEhup1J"}>
+              <span className={"miner-info-left-td ellipsis"} data-effect={"solid"} data-tip={"cTHDK35f4i7ujFS3K6jPiEQZ22mXpjasf3Jzorqf32EEhup1J"}>
                 cTHDK35f4i7ujFS3K6jPiEQZ22mXpjasf3Jzorqf32EEhup1J
               </span>
-              <ReactTooltip />
+              <ReactTooltip effect="solid" delayUpdate={500} delayHide={2000}/>
             </div>
             <div className={"miner-info-left-tr"}>
               <span className={"miner-info-left-td"}>Account2 name</span>
@@ -166,8 +166,8 @@ function MinerDetail({className}: Props): React.ReactElement<Props> {
             </div>
             <div className={"miner-info-left-tr"}>
               <span className={"miner-info-left-td"}>Account2</span>
-              <span className={"miner-info-left-td ellipsis"} data-tip={"cTHDK35f4i7ujFS3K6jPiEQZ22mXpjasf3Jzorqf32EEhup1J"}>cTHDK35f4i7ujFS3K6jPiEQZ22mXpjasf3Jzorqf32EEhup1J</span>
-              <ReactTooltip />
+              <span className={"miner-info-left-td ellipsis"} data-effect={"solid"} data-tip={"cTHDK35f4i7ujFS3K6jPiEQZ22mXpjasf3Jzorqf32EEhup1J"}>cTHDK35f4i7ujFS3K6jPiEQZ22mXpjasf3Jzorqf32EEhup1J</span>
+              <ReactTooltip effect="solid" delayUpdate={500} delayHide={2000}/>
             </div>
           </div>
           <div className={"miner-info-right"}>

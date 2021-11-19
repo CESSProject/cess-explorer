@@ -95,8 +95,8 @@ function AccoutDetail({className}: Props) :React.ReactElement<Props>{
             </div>
             <div className={"accout-info-left-tr"}>
               <span className={"accout-info-left-td"}>Account</span>
-              <span className={"accout-info-left-td ellipsis"} data-tip={"cTHDK35f4i7ujFS3K6jPiEQZ22mXpjasf3Jzorqf32EEhup1J"}>cTHDK35f4i7ujFS3K6jPiEQZ22mXpjasf3Jzorqf32EEhup1J</span>
-              <ReactTooltip isCapture={true} clickable={true}/>
+              <span className={"accout-info-left-td ellipsis"} data-effect={"solid"} data-tip={"cTHDK35f4i7ujFS3K6jPiEQZ22mXpjasf3Jzorqf32EEhup1J"}>cTHDK35f4i7ujFS3K6jPiEQZ22mXpjasf3Jzorqf32EEhup1J</span>
+              <ReactTooltip effect="solid" delayUpdate={500} delayHide={2000}/>
             </div>
             <div className={"accout-info-left-tr"}>
               <span className={"accout-info-left-td"}>Total</span>

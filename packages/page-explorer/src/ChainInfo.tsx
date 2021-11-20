@@ -1,66 +1,156 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import styled from "styled-components";
 import * as echarts from "echarts"
+import {useApi} from "@polkadot/react-hooks";
+import { useTranslation } from './translate';
+import {  BlockAuthorsContext, TimeNow } from '@polkadot/react-query';
+import _ from "lodash"
 
 interface Props{
   className?: string,
 }
 
-const option = {
-  tooltip: {
-    trigger: 'item',
-  },
-  legend: {
-    align: 'right',
-    right: '5%',
-    top: 'center',
-    orient: 'vertical',
-    icon: 'roundRect',
-    itemWidth: 8,
-    itemHeight: 61,
-    formatter: (value ,ee) =>{
-      return value;
-    }
-  },
-  series: [
-    {
-      name: 'Chain Info',
-      type: 'pie',
-      radius: ['50%', '70%'],
-      hoverAnimation:false,
-      color: ['#5078FE', '#5CD5B4'],
-      label: {
-        show: false,
-        position: 'center',
+const option: any = {
+    tooltip: {
+      trigger: 'item',
+    },
+    legend: {
+      align: 'right',
+      right: '5%',
+      top: 'center',
+      orient: 'vertical',
+      icon: 'roundRect',
+      itemWidth: 8,
+      itemHeight: 61,
+
+      formatter: [
+        '{a|这段文本采用样式a}',
+        '{b|这段文本采用样式b}这段用默认样式{x|这段用样式x}'
+      ].join('\n'),
+      rich: {
+        a: {
+          color: 'red',
+        },
       },
-      emphasis: {
+    },
+    series: [
+      {
+        name: 'Chain Info',
+        type: 'pie',
+        radius: ['50%', '70%'],
+        color: ['#5078FE', '#5CD5B4'],
         label: {
-          show: true,
-          fontSize: '18',
-          fontWeight: 'bold'
-        }
-      },
-      labelLine: {
-        show: false
-      },
-      data: [
-        { value: 2.3, name: 'used storage' },
-        { value: 1.7, name: 'available storage' },
-      ]
-    }
-  ]
-};
+          show: false,
+          position: 'center',
+        },
+        emphasis: {
+          label: {
+            show: true,
+            fontSize: '18',
+            fontWeight: 'bold'
+          }
+        },
+        labelLine: {
+          show: false
+        },
+        data: [
+          {name: 'aaa', value: '222'},
+          {name: 'ffff', value: '333'}
+        ]
+      }
+    ]
+  };
 
 function ChainInfo({className}: Props): React.ReactElement<Props>{
   const chainInfoRef = useRef<any>()
+  const { t } = useTranslation();
+  const { api } = useApi();
+  const { lastHeaders } = useContext(BlockAuthorsContext);
+  const [barData, setBarData] = useState<any>([])
 
-  useEffect(()=>{
+  useEffect(() =>{
     let myChart = chainInfoRef.current = echarts.init(document.getElementById("chain-info-bar-box") as HTMLDivElement);
-    myChart.setOption(option);
+    (async (): Promise<void> =>{
+      const storageInfo = await api.query.sminer.storageInfoValue();
+      console.log(storageInfo, '1111111111111111111')
+      let barData = [
+        { value: _.get(storageInfo , 'used_storage.words.0' ), name: 'used storage'},
+        { value: _.get(storageInfo , 'available_storage.words.0' ), name: 'available storage'},
+      ];
+      setBarData(barData);
+      // const option: any = {
+      //   tooltip: {
+      //     trigger: 'item',
+      //   },
+      //   legend: {
+      //     align: 'right',
+      //     right: '5%',
+      //     top: 'center',
+      //     orient: 'vertical',
+      //     icon: 'roundRect',
+      //     itemWidth: 8,
+      //     itemHeight: 61,
+      //
+      //     formatter: [
+      //       '{a|这段文本采用样式a}',
+      //       '{b|这段文本采用样式b}这段用默认样式{x|这段用样式x}'
+      //     ].join('\n'),
+      //     rich: {
+      //       a: {
+      //         color: 'red',
+      //       },
+      //     },
+      //   },
+      //   series: [
+      //     {
+      //       name: 'Chain Info',
+      //       type: 'pie',
+      //       radius: ['50%', '70%'],
+      //       color: ['#5078FE', '#5CD5B4'],
+      //       label: {
+      //         show: false,
+      //         position: 'center',
+      //       },
+      //       emphasis: {
+      //         label: {
+      //           show: true,
+      //           fontSize: '18',
+      //           fontWeight: 'bold'
+      //         }
+      //       },
+      //       labelLine: {
+      //         show: false
+      //       },
+      //       data: barData
+      //     }
+      //   ]
+      // };
+      option.legend ={
+        align: 'right',
+          right: '5%',
+          top: 'center',
+          orient: 'vertical',
+          icon: 'roundRect',
+          itemWidth: 8,
+          itemHeight: 61,
+
+          formatter: [
+          '{a|这段文本采用样式a}',
+          '{b|这段文本采用样式b}这段用默认样式{x|这段用样式x}'
+        ].join('\n'),
+          rich: {
+          a: {
+            color: 'red',
+          },
+        },
+      }
+      myChart.setOption(option);
+    })().catch(console.error);
     window.addEventListener("resize", () =>{
       chainInfoRef.current.resize();
     });
-  },[])
+  }, [])
+
 
   useEffect(() =>{
     let canvas = document.getElementById("chain-info-percent-canvas") as HTMLCanvasElement;
@@ -94,11 +184,11 @@ function ChainInfo({className}: Props): React.ReactElement<Props>{
         <div className={"chain-info-details"}>
           <div className={"chain-info-details-block"}>
             <span className={"chain-info-details-block-item label"}>tipset height</span>
-            <span className={"chain-info-details-block-item"}>1235</span>
+            <span className={"chain-info-details-block-item"}>{lastHeaders.length}</span>
           </div>
           <div className={"chain-info-details-block"}>
             <span className={"chain-info-details-block-item label"}>latest block</span>
-            <span className={"chain-info-details-block-item"}>1.1 <span className={"unit"}>secs ago</span></span>
+            <span className={"chain-info-details-block-item"}> <TimeNow /> <span className={"unit"} /></span>
           </div>
           <div className={"chain-info-details-block middle-block"}>
             <span className={"chain-info-details-block-item label"}>avg block time</span>

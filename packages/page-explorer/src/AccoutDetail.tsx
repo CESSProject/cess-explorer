@@ -5,12 +5,15 @@ import {Button} from "@polkadot/react-components";
 import Icon from "@polkadot/react-components/Icon";
 import IdentityIcon from "@polkadot/react-components/IdentityIcon";
 import ReactTooltip from 'react-tooltip';
+import {useApi} from "@polkadot/react-hooks";
 
 interface Props{
   className? :String
 }
 
 function AccoutDetail({className}: Props) :React.ReactElement<Props>{
+  const { api } = useApi();
+
   const [state, setState] = useState({
     data: [
       {ExtrinsicID: 'Hello', Block: 'World', Call: 'staking(guarantee)'},
@@ -89,8 +92,8 @@ function AccoutDetail({className}: Props) :React.ReactElement<Props>{
             <div className={"accout-info-left-tr"}>
               <span className={"accout-info-left-td"}>Account name</span>
               <span className={"accout-info-left-td account-name"}>
-                <IdentityIcon value={"0x08cd_y6g6s"} />
-                0x08cd_y6g6s
+                <IdentityIcon value={api.genesisHash} />
+                <span>0x08cd_y6g6s</span>
               </span>
             </div>
             <div className={"accout-info-left-tr"}>
@@ -156,7 +159,9 @@ export default React.memo(styled(AccoutDetail)`
           &.account-name{
             div{
               vertical-align: middle;
-              margin-right: 3px;
+            }
+            >span{
+              margin-left: 5px;
             }
           }
           &.ellipsis{

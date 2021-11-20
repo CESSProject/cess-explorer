@@ -4045,6 +4045,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/echarts@npm:^4.9.12":
+  version: 4.9.12
+  resolution: "@types/echarts@npm:4.9.12"
+  dependencies:
+    "@types/zrender": "*"
+  checksum: 4ab93b65400837f377693b243d7db281f0b830e4fa1676c3100f27385b8f134cc8fa0dc54910cc13e26745a555fcaf79ba1ccf3864fadaf899a9e49ca5840684
+  languageName: node
+  linkType: hard
+
 "@types/eslint-scope@npm:^3.7.0":
   version: 3.7.0
   resolution: "@types/eslint-scope@npm:3.7.0"
@@ -4647,6 +4656,13 @@ __metadata:
   dependencies:
     "@types/yargs-parser": "*"
   checksum: 6f4600d3b786c0eb083782f59c9ed61bb4c204269b0a07819bb9e9b1fc29deaf4fe28abde7dca5fbf3cf851beca9458cbcf63ebd128ebfe83d31002d84337b31
+  languageName: node
+  linkType: hard
+
+"@types/zrender@npm:*":
+  version: 4.0.1
+  resolution: "@types/zrender@npm:4.0.1"
+  checksum: 2d18f65241a10232d1600359821ff6ace09afee75e52d6b44f4ddc7244af6915c5b944857cd580955ae213f67f8d07187326a8bc94ef1ebd2807cc23921c548c
   languageName: node
   linkType: hard
 
@@ -15799,6 +15815,7 @@ __metadata:
     "@polkadot/ts": ^0.4.12
     "@types/bn.js": ^4.11.6
     "@types/chart.js": ^2.9.34
+    "@types/echarts": ^4.9.12
     "@types/file-saver": ^2.0.3
     "@types/jest": ^27.0.2
     "@types/react-beautiful-dnd": ^13.1.2
@@ -15817,6 +15834,7 @@ __metadata:
     electron-builder: 22.13.1
     electron-builder-notarize: ^1.2.0
     i18next-scanner: ^3.1.0
+    lodash: ^4.17.21
     react: ^17.0.2
     react-dom: ^17.0.2
     react-is: ^17.0.2

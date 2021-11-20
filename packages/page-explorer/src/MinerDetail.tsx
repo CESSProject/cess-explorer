@@ -9,7 +9,7 @@ interface Props {
   className?: String
 }
 
-const option = {
+const option:any = {
   tooltip: {
     trigger: 'item'
   },
@@ -30,7 +30,6 @@ const option = {
       name: 'Access From',
       type: 'pie',
       radius: ['50%', '70%'],
-      hoverAnimation:false,
       color: ['#5078FE', '#5CD5B4'],
       avoidLabelOverlap: false,
       label: {

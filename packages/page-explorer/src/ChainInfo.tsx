@@ -10,57 +10,6 @@ interface Props{
   className?: string,
 }
 
-const option: any = {
-    tooltip: {
-      trigger: 'item',
-    },
-    legend: {
-      align: 'right',
-      right: '5%',
-      top: 'center',
-      orient: 'vertical',
-      icon: 'roundRect',
-      itemWidth: 8,
-      itemHeight: 61,
-
-      formatter: [
-        '{a|这段文本采用样式a}',
-        '{b|这段文本采用样式b}这段用默认样式{x|这段用样式x}'
-      ].join('\n'),
-      rich: {
-        a: {
-          color: 'red',
-        },
-      },
-    },
-    series: [
-      {
-        name: 'Chain Info',
-        type: 'pie',
-        radius: ['50%', '70%'],
-        color: ['#5078FE', '#5CD5B4'],
-        label: {
-          show: false,
-          position: 'center',
-        },
-        emphasis: {
-          label: {
-            show: true,
-            fontSize: '18',
-            fontWeight: 'bold'
-          }
-        },
-        labelLine: {
-          show: false
-        },
-        data: [
-          {name: 'aaa', value: '222'},
-          {name: 'ffff', value: '333'}
-        ]
-      }
-    ]
-  };
-
 function ChainInfo({className}: Props): React.ReactElement<Props>{
   const chainInfoRef = useRef<any>()
   const { t } = useTranslation();
@@ -71,6 +20,13 @@ function ChainInfo({className}: Props): React.ReactElement<Props>{
   useEffect(() =>{
     let myChart = chainInfoRef.current = echarts.init(document.getElementById("chain-info-bar-box") as HTMLDivElement);
     (async (): Promise<void> =>{
+      api.registerTypes({
+        "StorageInfo": {
+          "used_storage": "u128",
+          "available_storage": "u128",
+          "time": "BlockNumber"
+        }
+      });
       const storageInfo = await api.query.sminer.storageInfoValue();
       console.log(storageInfo, '1111111111111111111')
       let barData = [
@@ -78,72 +34,63 @@ function ChainInfo({className}: Props): React.ReactElement<Props>{
         { value: _.get(storageInfo , 'available_storage.words.0' ), name: 'available storage'},
       ];
       setBarData(barData);
-      // const option: any = {
-      //   tooltip: {
-      //     trigger: 'item',
-      //   },
-      //   legend: {
-      //     align: 'right',
-      //     right: '5%',
-      //     top: 'center',
-      //     orient: 'vertical',
-      //     icon: 'roundRect',
-      //     itemWidth: 8,
-      //     itemHeight: 61,
-      //
-      //     formatter: [
-      //       '{a|这段文本采用样式a}',
-      //       '{b|这段文本采用样式b}这段用默认样式{x|这段用样式x}'
-      //     ].join('\n'),
-      //     rich: {
-      //       a: {
-      //         color: 'red',
-      //       },
-      //     },
-      //   },
-      //   series: [
-      //     {
-      //       name: 'Chain Info',
-      //       type: 'pie',
-      //       radius: ['50%', '70%'],
-      //       color: ['#5078FE', '#5CD5B4'],
-      //       label: {
-      //         show: false,
-      //         position: 'center',
-      //       },
-      //       emphasis: {
-      //         label: {
-      //           show: true,
-      //           fontSize: '18',
-      //           fontWeight: 'bold'
-      //         }
-      //       },
-      //       labelLine: {
-      //         show: false
-      //       },
-      //       data: barData
-      //     }
-      //   ]
-      // };
-      option.legend ={
-        align: 'right',
+      const option: any = {
+        tooltip: {
+          trigger: 'item',
+        },
+        legend: {
+          align: 'right',
           right: '5%',
           top: 'center',
           orient: 'vertical',
           icon: 'roundRect',
           itemWidth: 8,
           itemHeight: 61,
-
-          formatter: [
-          '{a|这段文本采用样式a}',
-          '{b|这段文本采用样式b}这段用默认样式{x|这段用样式x}'
-        ].join('\n'),
-          rich: {
-          a: {
-            color: 'red',
+          formatter: name =>{
+            let value = _.get(_.find(barData, v=> v.name === name),'value');
+            return ['{a|' + name + '}', '{b|' + value + '}'].join('\n');
+          },
+          textStyle:{
+            rich: {
+              a: {
+                color: '#858585',
+                fontSize: 14,
+                verticalAlign: 'middle'
+              },
+              b:{
+                align: 'right',
+                lineHeight: 40,
+                fontSize: 18,
+                color: '#464646',
+                verticalAlign: 'middle'
+              }
+            },
           },
         },
-      }
+        series: [
+          {
+            name: 'Chain Info',
+            type: 'pie',
+            radius: ['50%', '70%'],
+            color: ['#5078FE', '#5CD5B4'],
+            label: {
+              show: false,
+              position: 'center',
+            },
+            emphasis: {
+              label: {
+                show: true,
+                fontSize: '18',
+                fontWeight: 'bold'
+              }
+            },
+            labelLine: {
+              show: false
+            },
+            data: barData
+          }
+        ]
+      };
       myChart.setOption(option);
     })().catch(console.error);
     window.addEventListener("resize", () =>{

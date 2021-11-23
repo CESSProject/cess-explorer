@@ -1,11 +1,14 @@
+import _ from "lodash"
 import RcTable from "@polkadot/react-components/RcTable"
-import React, {Fragment, useState} from "react"
+import React, {Fragment, useEffect, useState} from "react"
 import styled from "styled-components"
 import {Button} from "@polkadot/react-components";
 import Icon from "@polkadot/react-components/Icon";
 import IdentityIcon from "@polkadot/react-components/IdentityIcon";
 import ReactTooltip from 'react-tooltip';
 import {useApi} from "@polkadot/react-hooks";
+import {hexToString, hexToU8a} from "@polkadot/util";
+import {balance} from "@polkadot/test-support/utils/balance";
 
 interface Props{
   className? :String
@@ -36,6 +39,31 @@ function AccoutDetail({className}: Props) :React.ReactElement<Props>{
       {ExtrinsicID: 'whatev2er', Block: 'you want', Call: 'staking(guarantee)'},
     ]
   })
+  const [accountInfo, setAccountInfo] = useState({});
+
+  // const hexToString = (str) =>{
+  //   var val="";
+  //   var arr = str.split(",");
+  //   for(let i = 0; i < arr.length/2; i++){
+  //     var tmp = "0x" + arr[i*2] + arr[i*2+1]
+  //     var charValue = String.fromCharCode(tmp)
+  //     val += charValue;
+  //   }
+  //   return val;
+  // }
+
+  useEffect(()=>{
+    (async (): Promise<void> =>{
+      const result = await api.query.system.account("5HbW1vWRgUbkxqEYRiNVdd6Kx57yuETbZNE1THG5Dk8oSYhP");
+      let info = result.toJSON();
+      let info2 = result.toHuman();
+      let free = _.get(info, 'data.free');
+      let free2 = _.get(info2, 'data.free');
+      console.log(info2)
+      console.log(result.toJSON(), 'deeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',result.toHuman(), 'ffggg',api.consts.balances,  balance(free2).toJSON())
+      setAccountInfo(info.data || {});
+    })().catch(console.error);
+  }, [])
 
   const columns = React.useMemo(()=> [
     {Header: 'Extrinsic ID', accessor: 'ExtrinsicID'},
@@ -76,9 +104,7 @@ function AccoutDetail({className}: Props) :React.ReactElement<Props>{
     []
   )
 
-  const changeTableFilter = () =>{
-
-  }
+  const changeTableFilter = () =>{}
 
   return (
     <div className={`${className} "accout-detail"`}>
@@ -107,7 +133,7 @@ function AccoutDetail({className}: Props) :React.ReactElement<Props>{
             </div>
             <div className={"accout-info-left-tr"}>
               <span className={"accout-info-left-td"}>Available transfers</span>
-              <span className={"accout-info-left-td"}><span className={"accout-info-left-td-value"}>8.1234 </span><span>tCESS</span></span>
+              <span className={"accout-info-left-td"}><span className={"accout-info-left-td-value"}>{accountInfo && accountInfo["free"]} </span></span>
             </div>
           </div>
           <div className={"accout-info-center"}>

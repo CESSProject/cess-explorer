@@ -1,8 +1,10 @@
-import React, {Fragment, useState} from "react"
+import React, {Fragment, useEffect, useState} from "react"
 import styled from "styled-components"
 import RcTable from "@polkadot/react-components/RcTable";
 import ChainInfo from "./ChainInfo";
 import Icon from "@polkadot/react-components/Icon";
+import { api } from "@polkadot/react-api";
+import { AccountId } from '@polkadot/types/interfaces/runtime';
 
 interface Props{
   className?: string
@@ -31,6 +33,37 @@ function Miners({className}: Props): React.ReactElement<Props>{
       {ExtrinsicID: 'whatev2er', Block: 'you want', Call: 'staking(guarantee)'},
     ]
   })
+
+  useEffect(()=>{
+    (async (): Promise<void> =>{
+      api.registerTypes({
+        "Mr": {
+          "peerid": "u64",
+          "beneficiary": "AccountId",
+          "ip": "u32",
+          "collaterals": "Balance",
+          "earnings": "Balance",
+          "locked": "Balance",
+          "segment_index": "u64",
+          "power": "u128",
+          "space": "u128"
+        }
+      });
+      api.registerTypes({
+        "SegmentInfo": {
+          "segment_index": "u64",
+          "power": "u128",
+          "space": "u128"
+        }
+      })
+      const MinerKeys = await api.query.sminer.minerItems.keys();
+      // const entries = await api.query.sminer.minerItems.entries();
+      // console.log(entries, 'entriesentriesentriesentriesentriesentriesentriesentries')
+      const unsub = await api.query.sminer.minerItems.multi(MinerKeys, (miners) => {
+        console.log(`The nonce and free miners are: ${miners.toLocaleString()}`);
+      });
+    })().catch(console.error);
+  }, [])
 
   const columns = React.useMemo(()=> [
     {Header: 'Extrinsic ID', accessor: 'ExtrinsicID'},

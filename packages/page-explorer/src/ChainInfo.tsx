@@ -3,7 +3,8 @@ import styled from "styled-components";
 import * as echarts from "echarts"
 import {useApi} from "@polkadot/react-hooks";
 import { useTranslation } from './translate';
-import {  BlockAuthorsContext, TimeNow } from '@polkadot/react-query';
+import {  BlockAuthorsContext, BlockToTime, TimeNow } from '@polkadot/react-query';
+import { BN_ONE } from '@polkadot/util';
 import _ from "lodash"
 
 interface Props{
@@ -15,7 +16,8 @@ function ChainInfo({className}: Props): React.ReactElement<Props>{
   const { t } = useTranslation();
   const { api } = useApi();
   const { lastHeaders } = useContext(BlockAuthorsContext);
-  const [barData, setBarData] = useState<any>([])
+  const [barData, setBarData] = useState<any>([]);
+  const [utilization, setUtilization] = useState(0)
 
   useEffect(() =>{
     let myChart = chainInfoRef.current = echarts.init(document.getElementById("chain-info-bar-box") as HTMLDivElement);
@@ -27,11 +29,12 @@ function ChainInfo({className}: Props): React.ReactElement<Props>{
           "time": "BlockNumber"
         }
       });
-      const storageInfo = await api.query.sminer.storageInfoValue();
-      console.log(storageInfo, '1111111111111111111')
+      let storageInfoValue = await api.query.sminer.storageInfoValue();
+      let storageInfo = storageInfoValue.toJSON();
+      drawUtilization({used_storage: _.toNumber(_.get(storageInfo , 'used_storage' )), available_storage: _.toNumber(_.get(storageInfo , 'available_storage' ))});
       let barData = [
-        { value: _.get(storageInfo , 'used_storage.words.0' ), name: 'used storage'},
-        { value: _.get(storageInfo , 'available_storage.words.0' ), name: 'available storage'},
+        { value: _.get(storageInfo , 'used_storage' ), name: 'used storage'},
+        { value: _.get(storageInfo , 'available_storage' ), name: 'available storage'},
       ];
       setBarData(barData);
       const option: any = {
@@ -98,31 +101,54 @@ function ChainInfo({className}: Props): React.ReactElement<Props>{
     });
   }, [])
 
+  const getCoordinate = (x0, y0, r, angle) =>{
+    let percentX = x0 + r * Math.cos(angle * Math.PI/180)
+    let percentY = y0 + r * Math.sin(angle * Math.PI/180)
+    return {percentX, percentY}
+  }
 
-  useEffect(() =>{
+  const drawUtilization = ({used_storage, available_storage}) =>{
+    let usedPercent: number = used_storage / (used_storage + available_storage);
+    console.log(used_storage, available_storage, 'yyyyyyyyyyyyyyyyyy',used_storage / (used_storage + available_storage))
+    setUtilization(_.ceil(usedPercent,2)*100);
+    let percentPI: number = 0;
+    let coordinate: any;
     let canvas = document.getElementById("chain-info-percent-canvas") as HTMLCanvasElement;
     let ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
     //1、画未使用的容量弧线描边
     ctx?.beginPath();
-    ctx?.arc(150,150,100,0.5*Math.PI,1.5* Math.PI, false);
+    ctx?.arc(150,150,100,0.5*Math.PI, 2.5 * Math.PI, false);
     ctx.lineWidth=3;
     ctx.strokeStyle="#8FBFFF";
     ctx?.stroke();
     ctx?.save();
     //2、画已使用的容量弧线描边
     ctx?.beginPath();
-    ctx?.arc(150,150,100, 0.5*Math.PI,1.5* Math.PI, true);
+    if(usedPercent < 0.25){
+      percentPI = 0.5 - 0.5 * usedPercent/0.25;
+      coordinate = getCoordinate(150,150,100, 90 - usedPercent/0.25 * 90)
+    } else if(usedPercent >= 0.25 && usedPercent <0.5){
+      percentPI = 2 - 0.5*(usedPercent - 0.25) / 0.25;
+      coordinate = getCoordinate(150,150,100, 360 - (usedPercent - 0.25)/0.25 * 90)
+    }else if (usedPercent >= 0.5 && usedPercent <0.75){
+      percentPI = 1.5 - 0.5 * (usedPercent - 0.5) / 0.25;
+      coordinate = getCoordinate(150,150,100, 270 - (usedPercent - 0.5)/0.25 * 90)
+    } else {
+      percentPI = 1 - 0.5 *(usedPercent - 0.75)/ 0.25 === 0.5 ? 0.51 : 1 - 0.5 *(usedPercent - 0.75)/ 0.25; //如果逆时针绘制 0.5PI到 0.5PI，canvas不会绘制，改为 0.5PI到 0.51PI
+      coordinate = getCoordinate(150,150,100, 180 - (usedPercent - 0.75)/0.25 * 90)
+    }
+    ctx?.arc(150,150,100, 0.5*Math.PI,percentPI * Math.PI, true);
     ctx.strokeStyle="#FF9C07";
     ctx.lineWidth=6;
     ctx?.stroke();
     ctx?.save();
     //3、画交汇圆点
     ctx?.beginPath();
-    ctx?.arc(150,50,16,0,2* Math.PI);
+    ctx?.arc(coordinate.percentX,coordinate.percentY,16,0,2* Math.PI);
     ctx.fillStyle = "#FF9C07";
     ctx?.fill();
     ctx?.closePath();
-  },[])
+  }
 
   return (
     <div className={`${className}`}>
@@ -139,7 +165,7 @@ function ChainInfo({className}: Props): React.ReactElement<Props>{
           </div>
           <div className={"chain-info-details-block middle-block"}>
             <span className={"chain-info-details-block-item label"}>avg block time</span>
-            <span className={"chain-info-details-block-item"}>4.8 <span className={"unit"}>s</span></span>
+            <span className={"chain-info-details-block-item"}><BlockToTime value={BN_ONE} /></span>
           </div>
           <div className={"chain-info-details-block middle-block"}>
             <span className={"chain-info-details-block-item label"}>block reward</span>
@@ -164,7 +190,7 @@ function ChainInfo({className}: Props): React.ReactElement<Props>{
           <div className={"chain-info-percent-detail"}>
             <div className={"chain-info-percent-detail-left"}>
               <p>utilization</p>
-              <p>33.3 %</p>
+              <p>{utilization} %</p>
             </div>
             <div className={"chain-info-percent-detail-right"} />
           </div>

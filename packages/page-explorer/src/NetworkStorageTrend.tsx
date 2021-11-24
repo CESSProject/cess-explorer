@@ -23,22 +23,23 @@ const option:any ={
     bottom: '3%',
     containLabel: true
   },
-  xAxis: [
-    {
-      type: 'category',
-      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun','Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun','Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun','Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-    }
-  ],
+  xAxis: {
+    type: 'category',
+    data: [],
+  },
   yAxis: [
     {
-      type: 'value'
+      type: 'value',
+      axisLabel:{
+        formatter: value => Math.abs(value)
+      },
     }
   ],
   series: [
     {
       name: 'used storage',
       type: 'bar',
-      stack: 'Ad',
+      stack: 'used storage',
       emphasis: {
         focus: 'series'
       },
@@ -49,7 +50,7 @@ const option:any ={
     {
       name: 'available storage',
       type: 'bar',
-      stack: 'Ad',
+      stack: 'used storage',
       emphasis: {
         focus: 'series'
       },
@@ -76,7 +77,7 @@ function NetworkStorageTrend({className}: Props): React.ReactElement<Props>{
     _.map(list, v=>{
       xAxisData.push(moment(v.time).format("YYYY-MM-DD"));
       usedStorageData.push(v.used_storage);
-      availableStorageData.push(v.available_storage);
+      availableStorageData.push(~v.available_storage);
     })
     return {xAxisData, usedStorageData, availableStorageData}
   }
@@ -86,9 +87,16 @@ function NetworkStorageTrend({className}: Props): React.ReactElement<Props>{
       let list = await api.query.sminer.storageInfoVec();
       let {xAxisData, usedStorageData, availableStorageData} = cleanData(list.toJSON());
       console.log(xAxisData, usedStorageData, availableStorageData);
-      option.xAxis[0].data = xAxisData;
+      option.xAxis.data = xAxisData;
       option.series[0].data = usedStorageData;
       option.series[1].data = availableStorageData;
+      option.tooltip.formatter = list => {
+        let res = list[0].name;
+        for(let i=0;i<list.length;i++){
+          res += "<br/>" + list[i].marker + list[i].seriesName + "<span style=\"margin-left:20px;text-align: right;font-weight: bold;\">" + Math.abs(list[i].value) + "</span>"
+         }
+        return res;
+      };
       let myChart = networkStorageTrendRef.current = echarts.init(document.getElementById("network-storage-trend-box") as HTMLDivElement);
       myChart.setOption(option);
       window.addEventListener("resize", () =>{

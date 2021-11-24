@@ -7,6 +7,9 @@ import Icon from "@polkadot/react-components/Icon";
 import {useApi} from "@polkadot/react-hooks";
 
 const option:any ={
+  title: {
+    subtext: "unit(MB)"
+  },
   tooltip: {
     trigger: 'axis',
     axisPointer: {
@@ -19,19 +22,22 @@ const option:any ={
   },
   grid: {
     left: '0',
-    right: '4%',
+    right: '0',
     bottom: '3%',
     containLabel: true
   },
   xAxis: {
     type: 'category',
     data: [],
+    splitLine:{
+      show: true
+    },
   },
   yAxis: [
     {
       type: 'value',
       axisLabel:{
-        formatter: value => Math.abs(value)
+        formatter: value => Math.abs(value) + "MB"
       },
     }
   ],

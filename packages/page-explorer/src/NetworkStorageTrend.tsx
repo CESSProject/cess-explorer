@@ -1,9 +1,12 @@
-import React, {useEffect, useRef} from "react";
+import React, {useEffect, useRef, useState} from "react";
+import _ from "lodash"
+import moment from "moment"
 import styled from "styled-components";
 import * as echarts from "echarts";
 import Icon from "@polkadot/react-components/Icon";
+import {useApi} from "@polkadot/react-hooks";
 
-const option ={
+const option:any ={
   tooltip: {
     trigger: 'axis',
     axisPointer: {
@@ -33,7 +36,7 @@ const option ={
   ],
   series: [
     {
-      name: 'Email',
+      name: 'used storage',
       type: 'bar',
       stack: 'Ad',
       emphasis: {
@@ -44,7 +47,7 @@ const option ={
       data: [120, 132, 101, 134, 90, 230, 210,120, -132, 101, 134, 90, 230, 210,120, 132, 101, 134, 90, 230, 210,120, 132, 101, 134, 90, 230, 210]
     },
     {
-      name: 'Union Ads',
+      name: 'available storage',
       type: 'bar',
       stack: 'Ad',
       emphasis: {
@@ -62,14 +65,36 @@ interface Props{
 }
 
 function NetworkStorageTrend({className}: Props): React.ReactElement<Props>{
+  const { api } = useApi();
   const networkStorageTrendRef = useRef<any>();
+  // const [xAxisData , setXAxisData] = useState<string[]>([]);
+  // const [usedStorageData, setUsedStorageData] = useState<number[]>([]);
+  // const [availableStorageData, setAvailableStorage] = useState<number[]>([]);
+
+  const cleanData = list =>{
+    let xAxisData: Array<string> = [], usedStorageData: Array<number> = [], availableStorageData: Array<number> = [];
+    _.map(list, v=>{
+      xAxisData.push(moment(v.time).format("YYYY-MM-DD"));
+      usedStorageData.push(v.used_storage);
+      availableStorageData.push(v.available_storage);
+    })
+    return {xAxisData, usedStorageData, availableStorageData}
+  }
 
   useEffect(() =>{
-    let myChart = networkStorageTrendRef.current = echarts.init(document.getElementById("network-storage-trend-box") as HTMLDivElement);
-    myChart.setOption(option);
-    window.addEventListener("resize", () =>{
-      networkStorageTrendRef.current.resize();
-    });
+    (async (): Promise<void> =>{
+      let list = await api.query.sminer.storageInfoVec();
+      let {xAxisData, usedStorageData, availableStorageData} = cleanData(list.toJSON());
+      console.log(xAxisData, usedStorageData, availableStorageData);
+      option.xAxis[0].data = xAxisData;
+      option.series[0].data = usedStorageData;
+      option.series[1].data = availableStorageData;
+      let myChart = networkStorageTrendRef.current = echarts.init(document.getElementById("network-storage-trend-box") as HTMLDivElement);
+      myChart.setOption(option);
+      window.addEventListener("resize", () =>{
+        networkStorageTrendRef.current.resize();
+      });
+    })()
   }, [])
 
   return (

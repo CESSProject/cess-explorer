@@ -26,7 +26,7 @@ function ChainInfo({className}: Props): React.ReactElement<Props>{
         "StorageInfo": {
           "used_storage": "u128",
           "available_storage": "u128",
-          "time": "BlockNumber"
+          "time": "u128"
         }
       });
       let storageInfoValue = await api.query.sminer.storageInfoValue();

@@ -16,7 +16,7 @@ interface Props{
 
 function AccoutDetail({className}: Props) :React.ReactElement<Props>{
   const { api } = useApi();
-
+  const [size, setSize] = useState<number>(0);
   const [state, setState] = useState({
     data: [
       {ExtrinsicID: 'Hello', Block: 'World', Call: 'staking(guarantee)'},
@@ -56,14 +56,20 @@ function AccoutDetail({className}: Props) :React.ReactElement<Props>{
     (async (): Promise<void> =>{
       const result = await api.query.system.account("5HbW1vWRgUbkxqEYRiNVdd6Kx57yuETbZNE1THG5Dk8oSYhP");
       let info = result.toJSON();
-      let info2 = result.toHuman();
       let free = _.get(info, 'data.free');
-      let free2 = _.get(info2, 'data.free');
-      console.log(info2)
-      console.log(result.toJSON(), 'deeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',result.toHuman(), 'ffggg',api.consts.balances,  balance(free2).toJSON())
       setAccountInfo(info.data || {});
     })().catch(console.error);
   }, [])
+
+  useEffect(()=>{
+    (async ():Promise<void> =>{
+      let res:any = await api.query.fileBank.userFileSize("5HbW1vWRgUbkxqEYRiNVdd6Kx57yuETbZNE1THG5Dk8oSYhP");
+      if(res){
+        let size = res.toJSON() || 0;
+        setSize(size);
+      }
+    })()
+  },[])
 
   const columns = React.useMemo(()=> [
     {Header: 'Extrinsic ID', accessor: 'ExtrinsicID'},
@@ -141,7 +147,7 @@ function AccoutDetail({className}: Props) :React.ReactElement<Props>{
           </div>
           <div className={"accout-info-right"}>
             <span>Data</span>
-            <span>123.14</span>
+            <span>{size}</span>
             <span>MB</span>
           </div>
         </div>

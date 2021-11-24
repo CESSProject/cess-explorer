@@ -18,11 +18,11 @@ const option:any ={
   },
   legend: {
     icon: 'circle',
-    right: '4%'
+    right: '1%'
   },
   grid: {
     left: '0',
-    right: '0',
+    right: '1%',
     bottom: '3%',
     containLabel: true
   },
@@ -60,6 +60,7 @@ const option:any ={
       emphasis: {
         focus: 'series'
       },
+      barWidth: '10',
       color: '#5CD5B4',
       data: [220, 182, 191, 234, 290, 330, 310,220, 182, 191, 234, 290, -330, 310,220, 182, 191, 234, 290, 330, 310,220, 182, 191, 234, 290, 330, 310]
     },
@@ -99,7 +100,7 @@ function NetworkStorageTrend({className}: Props): React.ReactElement<Props>{
       option.tooltip.formatter = list => {
         let res = list[0].name;
         for(let i=0;i<list.length;i++){
-          res += "<br/>" + list[i].marker + list[i].seriesName + "<span style=\"margin-left:20px;text-align: right;font-weight: bold;\">" + Math.abs(list[i].value) + "</span>"
+          res += "<br/>" + list[i].marker + list[i].seriesName + "<span style=\"margin-left:20px;text-align: right;font-weight: bold;\">" + Math.abs(list[i].value) + "MB</span>"
          }
         return res;
       };

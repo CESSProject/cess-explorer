@@ -48,7 +48,7 @@ function Tab ({ basePath, className = '', count, hasParams, index, isExact, isRo
       to={to}
     >
       <div className='tabLinkText'>
-        {icon && <img src={require(`./../../../../assets/icons/explore/${isSelected ? `${text}Active`: text}.png`)} alt={""} className={"tabLinkIcon"}/>}
+        {icon && <img src={require(`./../../../../assets/icons/${isSelected ? `${text}Active`: text}.png`)} alt={""} className={"tabLinkIcon"}/>}
         {text}
       </div>
       {!!count && (

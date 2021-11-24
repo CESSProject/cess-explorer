@@ -28,16 +28,18 @@ function SettingsApp ({ basePath, onStatusChange }: Props): React.ReactElement<P
     {
       isRoot: true,
       name: 'general',
-      text: t<string>('General')
+      text: t<string>('General'),
+      icon: true,
     },
     {
       count: numExtensions,
       name: 'metadata',
-      text: t<string>('Metadata')
+      text: t<string>('Metadata'),
+      icon: true,
     },
     {
       name: 'developer',
-      text: t<string>('Developer')
+      text: t<string>('Developer'),
     },
     // {
     //   name: 'i18n',

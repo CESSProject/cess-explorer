@@ -19,11 +19,13 @@ function ExtrinsicsApp ({ basePath }: Props): React.ReactElement<Props> {
     {
       isRoot: true,
       name: 'create',
-      text: t<string>('Submission')
+      text: t<string>('Submission'),
+      icon: true
     },
     {
       name: 'decode',
-      text: t<string>('Decode')
+      text: t<string>('Decode'),
+      icon: true
     }
   ]);
 

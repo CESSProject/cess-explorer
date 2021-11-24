@@ -55,7 +55,7 @@ function AccoutDetail({className}: Props) :React.ReactElement<Props>{
   useEffect(()=>{
     (async (): Promise<void> =>{
       const result = await api.query.system.account("5HbW1vWRgUbkxqEYRiNVdd6Kx57yuETbZNE1THG5Dk8oSYhP");
-      let info = result.toJSON();
+      let info = result.toHuman();
       let free = _.get(info, 'data.free');
       setAccountInfo(info.data || {});
     })().catch(console.error);

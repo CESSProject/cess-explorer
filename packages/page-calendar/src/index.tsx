@@ -32,7 +32,8 @@ function CalendarApp ({ basePath, className }: Props): React.ReactElement<Props>
   const itemsRef = useRef([{
     isRoot: true,
     name: 'view',
-    text: t<string>('Upcoming events')
+    text: t<string>('Upcoming events'),
+    icon: true
   }]);
 
   useEffect((): () => void => {

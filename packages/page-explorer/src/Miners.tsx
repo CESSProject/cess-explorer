@@ -4,6 +4,8 @@ import RcTable from "@polkadot/react-components/RcTable";
 import ChainInfo from "./ChainInfo";
 import Icon from "@polkadot/react-components/Icon";
 import { api } from "@polkadot/react-api";
+import {BlockToTime, TimeNow} from "@polkadot/react-query";
+import {BN_ONE} from "@polkadot/util";
 
 interface Props{
   className?: string
@@ -40,57 +42,95 @@ function Miners({className}: Props): React.ReactElement<Props>{
     {Header: 'Status', accessor: 'status'},
   ], [])
 
-  const renderRowSubComponent = React.useCallback(
-    ({ row }) => (
-      <div className={"expand-group"}>
-        <div>
-          <p>AccountId32</p>
-          <p>
-            <span>Account name</span>
-            <span>5DJPrZNBXD9vn6KgUBBvAFWGLJuD_</span>
-          </p>
-        </div>
-        <div>
-          <p>AccountId32</p>
-          <p>
-            <span>Account name</span>
-            <span>5DJPrZNBXD9vn6KgUBBvAFWGLJuD_</span>
-          </p>
-        </div>
-      </div>
-    ),
-    []
-  )
-
   return (
     <div className={`${className} miners`}>
-      <ChainInfo />
-      <div className={"miners-title"}>
-        <Icon className='highlight--color' icon='dot-circle'/>
-        <span>Miners</span>
+      <div className={"miners-info"}>
+        <div className={"miners-info-details"}>
+          <div className={"miners-info-details-block"}>
+            <span className={"miners-info-details-block-item label"}>tipset height</span>
+            <span className={"miners-info-details-block-item"}>{'dd'}</span>
+          </div>
+          <div className={"miners-info-details-block"}>
+            <span className={"miners-info-details-block-item label"}>latest block</span>
+            <span className={"miners-info-details-block-item"}> <TimeNow /> <span className={"unit"} /></span>
+          </div>
+          <div className={"miners-info-details-block middle-block"}>
+            <span className={"miners-info-details-block-item label"}>avg block time</span>
+            <span className={"miners-info-details-block-item"}><BlockToTime value={BN_ONE} /></span>
+          </div>
+          <div className={"miners-info-details-block middle-block"}>
+            <span className={"miners-info-details-block-item label"}>block reward</span>
+            <span className={"miners-info-details-block-item"}>124.2345 <span className={"unit"}>tCESS</span></span>
+          </div>
+          <div className={"miners-info-details-block"}>
+            <span className={"miners-info-details-block-item label"}>24h average block reward</span>
+            <span className={"miners-info-details-block-item"}>1.2234 <span className={"unit"}>tCESS/TB</span></span>
+          </div>
+          <div className={"miners-info-details-block"}>
+            <span className={"miners-info-details-block-item label"}>active miners</span>
+            <span className={"miners-info-details-block-item"}>121</span>
+          </div>
+        </div>
       </div>
-      <RcTable columns={columns} data={minerList} renderRowSubComponent={renderRowSubComponent}/>
+      <div className={"miners-table"}>
+        <div className={"miners-title"}>
+          <Icon className='highlight--color' icon='dot-circle'/>
+          <span>Miners</span>
+        </div>
+        <RcTable columns={columns} data={minerList}/>
+      </div>
+
     </div>
   )
 }
 
 export default React.memo(styled(Miners)`
-  margin-top: 20px;
-  background: white;
-  width: 90% !important;
-  height: 100%;
-  padding: 24px 1.5rem !important;
-  box-sizing: border-box;
-  border-radius: 6px;
-  .miners-title{
-    margin-bottom: 18px;
-    >span{
-      font-size: 24px;
-      color: #464646;
-      margin-left: 5px;
-      vertical-align: middle;
-      display: inline-block;
-      margin-top: -3px;
+  .miners-info{
+    background: white;
+    padding: 15px 1.5rem !important;
+    box-sizing: border-box;
+    &-details{
+      width: 33%;
+      display: flex;
+      flex-wrap: wrap;
+      &-block{
+        display: flex;
+        flex-direction: column;
+        width: 50%;
+        .label{
+          font-size: 14px;
+          font-weight: 400;
+          line-height: 22px;
+          color: #858585;
+        }
+        &-item{
+          font-size: 28px;
+          font-weight: 300;
+          color: #464646;
+          .unit{
+            font-size: 18px;
+          }
+        }
+      }
+      .middle-block{
+        margin: 50px 0;
+      }
+    }
+  }
+  .miners-table{
+    background: white;
+    padding: 15px 1.5rem !important;
+    box-sizing: border-box;
+    .miners-title{
+      margin-bottom: 18px;
+      >span{
+        font-size: 24px;
+        color: #464646;
+        margin-left: 5px;
+        vertical-align: middle;
+        display: inline-block;
+        margin-top: -3px;
+      }
     }
   }
 `)

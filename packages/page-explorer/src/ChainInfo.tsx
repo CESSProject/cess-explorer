@@ -22,19 +22,12 @@ function ChainInfo({className}: Props): React.ReactElement<Props>{
   useEffect(() =>{
     let myChart = chainInfoRef.current = echarts.init(document.getElementById("chain-info-bar-box") as HTMLDivElement);
     (async (): Promise<void> =>{
-      api.registerTypes({
-        "StorageInfo": {
-          "used_storage": "u128",
-          "available_storage": "u128",
-          "time": "u128"
-        }
-      });
       let storageInfoValue = await api.query.sminer.storageInfoValue();
       let storageInfo = storageInfoValue.toJSON();
-      drawUtilization({used_storage: _.toNumber(_.get(storageInfo , 'used_storage' )), available_storage: _.toNumber(_.get(storageInfo , 'available_storage' ))});
+      drawUtilization({used_storage: _.toNumber(_.get(storageInfo , 'usedStorage' )), available_storage: _.toNumber(_.get(storageInfo , 'availableStorage' ))});
       let barData = [
-        { value: _.get(storageInfo , 'used_storage' ), name: 'used storage'},
-        { value: _.get(storageInfo , 'available_storage' ), name: 'available storage'},
+        { value: _.get(storageInfo , 'usedStorage' ), name: 'used storage'},
+        { value: _.get(storageInfo , 'availableStorage' ), name: 'available storage'},
       ];
       setBarData(barData);
       const option: any = {

@@ -83,7 +83,6 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
       <NetworkStorageTrend />
       <AccoutDetail />
       <MinerDetail />
-      <ExtrinsicDetail />
       <Switch>
         <Route path={`${basePath}/forks`}><Forks /></Route>
         <Route path={`${basePath}/query/:value`}><BlockInfo /></Route>

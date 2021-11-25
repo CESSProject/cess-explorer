@@ -83,8 +83,8 @@ function NetworkStorageTrend({className}: Props): React.ReactElement<Props>{
     let xAxisData: Array<string> = [], usedStorageData: Array<number> = [], availableStorageData: Array<number> = [];
     _.map(list, v=>{
       xAxisData.push(moment(v.time).format("YYYY-MM-DD"));
-      usedStorageData.push(v.used_storage);
-      availableStorageData.push(~v.available_storage);
+      usedStorageData.push(v.usedStorage);
+      availableStorageData.push(~v.availableStorage);
     })
     return {xAxisData, usedStorageData, availableStorageData}
   }

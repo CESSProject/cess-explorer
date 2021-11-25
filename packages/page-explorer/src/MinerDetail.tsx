@@ -4,58 +4,17 @@ import * as echarts from "echarts";
 import {Button, Icon} from "@polkadot/react-components";
 import RcTable from "@polkadot/react-components/RcTable";
 import ReactTooltip from "react-tooltip";
+import {useApi} from "@polkadot/react-hooks";
+import _ from "lodash"
 
 interface Props {
   className?: String
 }
 
-const option:any = {
-  tooltip: {
-    trigger: 'item'
-  },
-  legend: {
-    align: 'right',
-    right: '5%',
-    top: 'center',
-    orient: 'vertical',
-    icon: 'roundRect',
-    itemWidth: 8,
-    itemHeight: 61,
-    formatter: (value ,ee) =>{
-      return value;
-    }
-  },
-  series: [
-    {
-      name: 'Access From',
-      type: 'pie',
-      radius: ['50%', '70%'],
-      color: ['#5078FE', '#5CD5B4'],
-      avoidLabelOverlap: false,
-      label: {
-        show: false,
-        position: 'center'
-      },
-      emphasis: {
-        label: {
-          show: true,
-          fontSize: '18',
-          fontWeight: 'bold'
-        }
-      },
-      labelLine: {
-        show: false
-      },
-      data: [
-        {value: 1048, name: 'Search Engine'},
-        {value: 735, name: 'Direct'},
-      ]
-    }
-  ]
-};
-
 function MinerDetail({className}: Props): React.ReactElement<Props> {
+  const { api } = useApi();
   const minerInfoRef = useRef<any>()
+  const [minerDetail, setMinerDetail] = useState<any>({})
   const [state, setState] = useState({
     data: [
       {ExtrinsicID: 'Hello', Block: 'World', Call: 'staking(guarantee)'},
@@ -80,28 +39,89 @@ function MinerDetail({className}: Props): React.ReactElement<Props> {
   })
 
   useEffect(() => {
-    let myChart = minerInfoRef.current = echarts.init(document.getElementById("miner-info-box") as HTMLDivElement);
-    myChart.setOption(option);
-    window.addEventListener("resize", () =>{
-      minerInfoRef.current.resize();
-    });
+    (async ():Promise<void> =>{
+      let res:any = await api.query.sminer.minerDetails(1);
+      let resJson = res.toJSON()
+      if(res){
+        setMinerDetail(resJson)
+        let barData = [
+          { value: resJson.space, name: 'used storage'},
+          { value: resJson.power - resJson.space, name: 'available storage'},
+        ];
+        const option: any = {
+          tooltip: {
+            trigger: 'item',
+          },
+          legend: {
+            align: 'right',
+            right: '5%',
+            top: 'center',
+            orient: 'vertical',
+            icon: 'roundRect',
+            itemWidth: 8,
+            itemHeight: 61,
+            formatter: name =>{
+              let value = _.get(_.find(barData, v=> v.name === name),'value');
+              return ['{a|' + name + '}', '{b|' + value + '}'].join('\n');
+            },
+            textStyle:{
+              rich: {
+                a: {
+                  color: '#858585',
+                  fontSize: 14,
+                  verticalAlign: 'middle'
+                },
+                b:{
+                  align: 'right',
+                  lineHeight: 40,
+                  fontSize: 18,
+                  color: '#464646',
+                  verticalAlign: 'middle'
+                }
+              },
+            },
+          },
+          series: [
+            {
+              name: 'Chain Info',
+              type: 'pie',
+              radius: ['50%', '70%'],
+              color: ['#5078FE', '#5CD5B4'],
+              label: {
+                show: false,
+                position: 'center',
+              },
+              emphasis: {
+                label: {
+                  show: true,
+                  fontSize: '18',
+                  fontWeight: 'bold'
+                }
+              },
+              labelLine: {
+                show: false
+              },
+              data: barData
+            }
+          ]
+        };
+        let myChart = minerInfoRef.current = echarts.init(document.getElementById("miner-info-box") as HTMLDivElement);
+        myChart.setOption(option);
+        window.addEventListener("resize", () =>{
+          minerInfoRef.current.resize();
+        });
+      }
+    })()
   }, [])
 
   const columns = React.useMemo(()=> [
-    {Header: 'Extrinsic ID', accessor: 'ExtrinsicID'},
-    {Header: 'Block', accessor: 'Block'},
-    {Header: 'Extrinsic Hash', accessor: 'ExtrinsicHash'},
-    {Header: 'Time', accessor: 'Time'},
-    {
-      Header: 'Result', accessor: 'Result', id: 'result',
-      Cell: ({row}) => (
-        <div>
-          <Icon color='#EB3434'  icon='times-circle' />
-          <Icon color='#5CD5B4'  icon='check-circle'/>
-          <Icon color='#FF9C07'  icon='clock'/>
-        </div>
-      ),
-    },
+    {Header: 'Miner ID', accessor: 'Miner ID'},
+    {Header: 'Address1', accessor: 'address'},
+    {Header: 'Address2', accessor: 'beneficiary'},
+    {Header: 'Total Storage', accessor: 'totalStorage'},
+    {Header: 'Average Daily Data Traffic (In)', accessor: 'averageDailyDataTrafficIn'},
+    {Header: 'Average Daily Data Traffic (Out)', accessor: 'averageDailyDataTrafficOut'},
+    {Header: 'Mining Reward', accessor: 'miningReward'},
     {
       Header: 'Call', accessor: 'Call', id: 'expander', // It needs an ID
       Cell: ({row}) => (
@@ -135,9 +155,7 @@ function MinerDetail({className}: Props): React.ReactElement<Props> {
     []
   )
 
-  const changeTableFilter = () =>{
-
-  }
+  const changeTableFilter = () =>{}
 
   return (
     <div className={`${className} miner-detail`}>
@@ -150,22 +168,24 @@ function MinerDetail({className}: Props): React.ReactElement<Props> {
             <div className={"miner-info-left-tr label"}>Account</div>
             <div className={"miner-info-left-tr"}>
               <span className={"miner-info-left-td"}>Account name</span>
-              <span className={"miner-info-left-td"}>0x08cd_y6g6s</span>
+              <span className={"miner-info-left-td"}>{minerDetail && minerDetail.address && minerDetail.address.substr(0,5)}</span>
             </div>
             <div className={"miner-info-left-tr"}>
               <span className={"miner-info-left-td"}>Account1</span>
               <span className={"miner-info-left-td ellipsis"} data-effect={"solid"} data-tip={"cTHDK35f4i7ujFS3K6jPiEQZ22mXpjasf3Jzorqf32EEhup1J"}>
-                cTHDK35f4i7ujFS3K6jPiEQZ22mXpjasf3Jzorqf32EEhup1J
+                {minerDetail && minerDetail.address}
               </span>
               <ReactTooltip effect="solid" delayUpdate={500} delayHide={2000}/>
             </div>
             <div className={"miner-info-left-tr"}>
               <span className={"miner-info-left-td"}>Account2 name</span>
-              <span className={"miner-info-left-td"}>0x08cd_y6g6s</span>
+              <span className={"miner-info-left-td"}> {minerDetail && minerDetail.beneficiary && minerDetail.beneficiary.substr(0,5) }</span>
             </div>
             <div className={"miner-info-left-tr"}>
               <span className={"miner-info-left-td"}>Account2</span>
-              <span className={"miner-info-left-td ellipsis"} data-effect={"solid"} data-tip={"cTHDK35f4i7ujFS3K6jPiEQZ22mXpjasf3Jzorqf32EEhup1J"}>cTHDK35f4i7ujFS3K6jPiEQZ22mXpjasf3Jzorqf32EEhup1J</span>
+              <span className={"miner-info-left-td ellipsis"} data-effect={"solid"} data-tip={"cTHDK35f4i7ujFS3K6jPiEQZ22mXpjasf3Jzorqf32EEhup1J"}>
+                {minerDetail && minerDetail.beneficiary}
+              </span>
               <ReactTooltip effect="solid" delayUpdate={500} delayHide={2000}/>
             </div>
           </div>
@@ -180,36 +200,36 @@ function MinerDetail({className}: Props): React.ReactElement<Props> {
           <div className={"miner-info-left"}>
             <div className={"miner-info-left-tr label"}>Balance</div>
             <div className={"miner-info-left-tr"}>
-              <span className={"miner-info-left-td"}>Account name</span>
+              <span className={"miner-info-left-td"}>total</span>
               <span className={"miner-info-left-td"}><span
-                className={"miner-info-left-td-value"}>8.1234 </span><span>tCESS</span></span>
+                className={"miner-info-left-td-value"}>{ minerDetail.totalReward } </span><span>tCESS</span></span>
             </div>
             <div className={"miner-info-left-tr"}>
-              <span className={"miner-info-left-td"}>Account</span>
+              <span className={"miner-info-left-td"}>available transfers</span>
               <span className={"miner-info-left-td"}><span
-                className={"miner-info-left-td-value"}>8.1234 </span><span>tCESS</span></span>
+                className={"miner-info-left-td-value"}>{ minerDetail.totalRewardsCurrentlyAvailable} </span><span>tCESS</span></span>
             </div>
             <div className={"miner-info-left-tr"}>
-              <span className={"miner-info-left-td"}>Total</span>
+              <span className={"miner-info-left-td"}>locked</span>
               <span className={"miner-info-left-td"}><span
-                className={"miner-info-left-td-value"}>12.1234 </span><span>tCESS</span></span>
+                className={"miner-info-left-td-value"}>{minerDetail.totaldNotReceive} </span><span>tCESS</span></span>
             </div>
             <div className={"miner-info-left-tr"}>
-              <span className={"miner-info-left-td"}>Available transfers</span>
+              <span className={"miner-info-left-td"}>remaining staking</span>
               <span className={"miner-info-left-td"}><span
-                className={"miner-info-left-td-value"}>8.1234 </span><span>tCESS</span></span>
+                className={"miner-info-left-td-value"}>{minerDetail.collaterals}</span><span>tCESS</span></span>
             </div>
           </div>
         </div>
       </div>
-      <div className={"miner-content"}>
-        <div className={"accout-table"}>
-          <div className={"btn-actions"}>
-            <Button isSelected label={"Extrinsics (2)"} onClick={changeTableFilter}/>
-          </div>
-          <RcTable isShowPagination={false} columns={columns} data={state.data} renderRowSubComponent={renderRowSubComponent}/>
-        </div>
-      </div>
+      {/*<div className={"miner-content"}>*/}
+      {/*  <div className={"accout-table"}>*/}
+      {/*    <div className={"btn-actions"}>*/}
+      {/*      <Button isSelected label={"Extrinsics (2)"} onClick={changeTableFilter}/>*/}
+      {/*    </div>*/}
+      {/*    <RcTable isShowPagination={false} columns={columns} data={state.data} renderRowSubComponent={renderRowSubComponent}/>*/}
+      {/*  </div>*/}
+      {/*</div>*/}
     </div>
   )
 }

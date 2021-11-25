@@ -4,81 +4,40 @@ import RcTable from "@polkadot/react-components/RcTable";
 import ChainInfo from "./ChainInfo";
 import Icon from "@polkadot/react-components/Icon";
 import { api } from "@polkadot/react-api";
-import { AccountId } from '@polkadot/types/interfaces/runtime';
 
 interface Props{
   className?: string
 }
 
 function Miners({className}: Props): React.ReactElement<Props>{
+  const [minerList, setMinerList] = useState<any[]>([]);
   const [state, setState] = useState({
-    data: [
-      {ExtrinsicID: 'Hello', Block: 'World', Call: 'staking(guarantee)'},
-      {ExtrinsicID: 'react-table', Block: 'rocks', Call: 'balances(transfer_keep_alive)'},
-      {ExtrinsicID: 'whatever', Block: 'you want', Call: 'staking(guarantee)'},
-      {ExtrinsicID: 'Hello', Block: 'World', Call: 'staking(guarantee)'},
-      {ExtrinsicID: 'react-table', Block: 'rocks', Call: 'balances(transfer_keep_alive)'},
-      {ExtrinsicID: 'whatever', Block: 'you want', Call: 'staking(guarantee)'},
-      {ExtrinsicID: 'Hello', Block: 'World', Call: 'staking(guarantee)'},
-      {ExtrinsicID: 'react-table', Block: 'rocks', Call: 'balances(transfer_keep_alive)'},
-      {ExtrinsicID: 'whatever', Block: 'you want', Call: 'staking(guarantee)'},
-      {ExtrinsicID: 'Hello', Block: 'World', Call: 'staking(guarantee)'},
-      {ExtrinsicID: 'react-table', Block: 'rocks', Call: 'balances(transfer_keep_alive)'},
-      {ExtrinsicID: 'whatever', Block: 'you want', Call: 'staking(guarantee)'},
-      {ExtrinsicID: 'Hello1', Block: 'World', Call: 'staking(guarantee)'},
-      {ExtrinsicID: 'react-table2', Block: 'rocks', Call: 'balances(transfer_keep_alive)'},
-      {ExtrinsicID: 'whatever2', Block: 'you want', Call: 'staking(guarantee)'},
-      {ExtrinsicID: 'Hell2o', Block: 'World', Call: 'staking(guarantee)'},
-      {ExtrinsicID: 'react-tabl2e', Block: 'rocks', Call: 'balances(transfer_keep_alive)'},
-      {ExtrinsicID: 'whatev2er', Block: 'you want', Call: 'staking(guarantee)'},
-    ]
+    data: []
   })
 
   useEffect(()=>{
     (async (): Promise<void> =>{
-      api.registerTypes({
-        "Mr": {
-          "peerid": "u64",
-          "beneficiary": "AccountId",
-          "ip": "u32",
-          "collaterals": "Balance",
-          "earnings": "Balance",
-          "locked": "Balance",
-          "segment_index": "u64",
-          "power": "u128",
-          "space": "u128"
-        }
+      const MinerKeys = await api.query.sminer.minerTable.keys();
+      const entries = await api.query.sminer.minerTable.entries();
+      let list:any[]= [];
+      entries.forEach(([key, entry]) => {
+        console.log('key arguments:', key.args.map((k) => k.toHuman()));
+        console.log('     exposure:', entry.toHuman());
+        list.push(entry.toHuman());
       });
-      api.registerTypes({
-        "SegmentInfo": {
-          "segment_index": "u64",
-          "power": "u128",
-          "space": "u128"
-        }
-      })
-      const MinerKeys = await api.query.sminer.minerItems.keys();
-      // const entries = await api.query.sminer.minerItems.entries();
-      // console.log(entries, 'entriesentriesentriesentriesentriesentriesentriesentries')
-      const unsub = await api.query.sminer.minerItems.multi(MinerKeys, (miners) => {
-        console.log(`The nonce and free miners are: ${miners.toLocaleString()}`);
-      });
+      setMinerList(list);
     })().catch(console.error);
   }, [])
 
   const columns = React.useMemo(()=> [
-    {Header: 'Extrinsic ID', accessor: 'ExtrinsicID'},
-    {Header: 'Block', accessor: 'Block'},
-    {Header: 'Extrinsic Hash', accessor: 'ExtrinsicHash'},
-    {Header: 'Time', accessor: 'Time'},
-    {Header: 'Result', accessor: 'Result'},
-    {
-      Header: 'Call', accessor: 'Call', id: 'expander', // It needs an ID
-      Cell: ({row}) => (
-        <span {...row.getToggleRowExpandedProps()}>
-          {row.isExpanded ? row.values.expander + '👇' :  row.values.expander +'👉'}
-        </span>
-      ),
-    },
+    {Header: 'Miner ID', accessor: 'Miner ID'},
+    {Header: 'Address1', accessor: 'address'},
+    {Header: 'Address2', accessor: 'beneficiary'},
+    {Header: 'Total Storage', accessor: 'totalStorage'},
+    {Header: 'Average Daily Data Traffic (In)', accessor: 'averageDailyDataTrafficIn'},
+    {Header: 'Average Daily Data Traffic (Out)', accessor: 'averageDailyDataTrafficOut'},
+    {Header: 'Mining Reward', accessor: 'miningReward'},
+    {Header: 'Status', accessor: 'status'},
   ], [])
 
   const renderRowSubComponent = React.useCallback(
@@ -110,7 +69,7 @@ function Miners({className}: Props): React.ReactElement<Props>{
         <Icon className='highlight--color' icon='dot-circle'/>
         <span>Miners</span>
       </div>
-      <RcTable columns={columns} data={state.data} renderRowSubComponent={renderRowSubComponent}/>
+      <RcTable columns={columns} data={minerList} renderRowSubComponent={renderRowSubComponent}/>
     </div>
   )
 }

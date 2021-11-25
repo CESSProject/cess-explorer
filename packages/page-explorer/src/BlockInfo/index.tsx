@@ -6,10 +6,27 @@ import { useParams } from 'react-router-dom';
 
 import { useBestNumber } from '@polkadot/react-hooks';
 import { isHex } from '@polkadot/util';
-
+import _ from "lodash"
 import Query from '../Query';
 import BlockByHash from './ByHash';
 import BlockByNumber from './ByNumber';
+
+/**
+ * get query params type
+ * @param param
+ */
+function getSearchType(param){
+  param = _.trim();
+  let type = 0;   // 0 blockhash  1 Extrinsic ID  2 address  3 miner ID
+  if(param.length === 66){
+    type = 0
+  } else if(param.length === 48){
+    type = 2
+  } else if(param.length>0 && param.length < 5){
+    type = 3
+  }
+  return type;
+}
 
 function Entry (): React.ReactElement | null {
   const bestNumber = useBestNumber();

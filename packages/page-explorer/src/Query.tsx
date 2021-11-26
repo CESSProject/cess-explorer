@@ -35,13 +35,22 @@ function Query ({ className = '', value: propsValue }: Props): React.ReactElemen
     []
   );
 
+  // const _onQuery = useCallback(
+  //   (): void => {
+  //     if (isValid && value.length !== 0) {
+  //       window.location.hash = `/explorer/query/${value}`;
+  //     }
+  //   },
+  //   [isValid, value]
+  // );
+
   const _onQuery = useCallback(
     (): void => {
-      if (isValid && value.length !== 0) {
+      if (value.length !== 0) {
         window.location.hash = `/explorer/query/${value}`;
       }
     },
-    [isValid, value]
+    [value]
   );
 
   return (

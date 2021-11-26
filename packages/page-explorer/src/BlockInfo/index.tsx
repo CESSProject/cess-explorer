@@ -10,13 +10,15 @@ import _ from "lodash"
 import Query from '../Query';
 import BlockByHash from './ByHash';
 import BlockByNumber from './ByNumber';
+import AccoutDetail from '../AccoutDetail';
+import MinerDetail from '../MinerDetail';
 
 /**
  * get query params type
  * @param param
  */
 function getSearchType(param){
-  param = _.trim();
+  param = _.trim(param);
   let type = 0;   // 0 blockhash  1 Extrinsic ID  2 address  3 miner ID
   if(param.length === 66){
     type = 0
@@ -47,17 +49,14 @@ function Entry (): React.ReactElement | null {
     return null;
   }
 
-  const Component = isHex(stateValue)
-    ? BlockByHash
-    : BlockByNumber;
+  let queryType = getSearchType(value);
+
+  const Component = isHex(stateValue) ? BlockByHash : BlockByNumber;
 
   return (
     <>
       <Query />
-      <Component
-        key={stateValue}
-        value={stateValue}
-      />
+      { queryType === 2 ? <AccoutDetail /> : queryType === 3 ? <MinerDetail /> : <Component key={stateValue} value={stateValue}/>}
     </>
   );
 }

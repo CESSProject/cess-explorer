@@ -18,11 +18,6 @@ import { useTranslation } from './translate';
 import styled from "styled-components";
 import Miners from './Miners';
 import Summary from "@polkadot/app-explorer/Summary";
-import ChainInfo from "@polkadot/app-explorer/ChainInfo";
-import NetworkStorageTrend from "@polkadot/app-explorer/NetworkStorageTrend";
-import AccoutDetail from "@polkadot/app-explorer/AccoutDetail";
-import MinerDetail from "./MinerDetail";
-import ExtrinsicDetail from "@polkadot/app-explorer/ExtrinsicDetail";
 
 interface Props {
   basePath: string;
@@ -79,10 +74,6 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
         className={'explorer-app'}
       />
       <Summary eventCount={eventCount} />
-      <ChainInfo />
-      <NetworkStorageTrend />
-      <AccoutDetail />
-      <MinerDetail />
       <Switch>
         <Route path={`${basePath}/forks`}><Forks /></Route>
         <Route path={`${basePath}/query/:value`}><BlockInfo /></Route>

@@ -1,12 +1,13 @@
 import _ from "lodash"
 import RcTable from "@polkadot/react-components/RcTable"
-import React, {useEffect, useState} from "react"
+import React, {Fragment, useEffect, useState} from "react"
 import styled from "styled-components"
 import {Button} from "@polkadot/react-components";
 import IdentityIcon from "@polkadot/react-components/IdentityIcon";
 import ReactTooltip from 'react-tooltip';
 import {useApi} from "@polkadot/react-hooks";
 import { formatterSize } from "./utils";
+import Empty from "./components/Empty";
 
 interface Props{
   className? :string,
@@ -100,53 +101,54 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
   const changeTableFilter = () =>{}
 
   return (
-    <div className={`${className} "accout-detail"`}>
-      <div className={"accout-title"}>
-        Account Detail
-      </div>
-      <div className={"accout-content"}>
-        <div className={"accout-info"}>
-          <div className={"accout-info-left"}>
-            <div className={"accout-info-left-tr"}>Account</div>
-            <div className={"accout-info-left-tr"}>
-              <span className={"accout-info-left-td"}>Account name</span>
-              <span className={"accout-info-left-td account-name"}>
-                <IdentityIcon value={value} />
-                <span>{value?.substr(0, 5)}</span>
-              </span>
+    <Fragment>
+      <div className={`${className} "accout-detail"`}>
+        <div className={"accout-title"}>Account Detail</div>
+        <div className={"accout-content"}>
+          <div className={"accout-info"}>
+            <div className={"accout-info-left"}>
+              <div className={"accout-info-left-tr"}>Account</div>
+              <div className={"accout-info-left-tr"}>
+                <span className={"accout-info-left-td"}>Account name</span>
+                <span className={"accout-info-left-td account-name"}>
+                  <IdentityIcon value={value} />
+                  <span>{value?.substr(0, 5)}</span>
+                </span>
+              </div>
+              <div className={"accout-info-left-tr"}>
+                <span className={"accout-info-left-td"}>Account</span>
+                <span className={"accout-info-left-td ellipsis"} data-effect={"solid"} data-tip={value}>{value}</span>
+                <ReactTooltip effect="solid" delayUpdate={500} delayHide={2000}/>
+              </div>
+              <div className={"accout-info-left-tr"}>
+                <span className={"accout-info-left-td"}>Total</span>
+                <span className={"accout-info-left-td"}><span className={"accout-info-left-td-value"}>{accountInfo && accountInfo["reserved"]} </span><span>tCESS</span></span>
+              </div>
+              <div className={"accout-info-left-tr"}>
+                <span className={"accout-info-left-td"}>Available transfers</span>
+                <span className={"accout-info-left-td"}><span className={"accout-info-left-td-value"}>{accountInfo && accountInfo["reserved"]} </span></span>
+              </div>
             </div>
-            <div className={"accout-info-left-tr"}>
-              <span className={"accout-info-left-td"}>Account</span>
-              <span className={"accout-info-left-td ellipsis"} data-effect={"solid"} data-tip={value}>{value}</span>
-              <ReactTooltip effect="solid" delayUpdate={500} delayHide={2000}/>
+            <div className={"accout-info-center"}>
+              <img src={require("./../../../assets/images/accoutAvailableLogo.png")} alt=""/>
             </div>
-            <div className={"accout-info-left-tr"}>
-              <span className={"accout-info-left-td"}>Total</span>
-              <span className={"accout-info-left-td"}><span className={"accout-info-left-td-value"}>{accountInfo && accountInfo["reserved"]} </span><span>tCESS</span></span>
-            </div>
-            <div className={"accout-info-left-tr"}>
-              <span className={"accout-info-left-td"}>Available transfers</span>
-              <span className={"accout-info-left-td"}><span className={"accout-info-left-td-value"}>{accountInfo && accountInfo["reserved"]} </span></span>
+            <div className={"accout-info-right"}>
+              <span>Data</span>
+              <span>{size}</span>
+              <span>MB</span>
             </div>
           </div>
-          <div className={"accout-info-center"}>
-            <img src={require("./../../../assets/images/accoutAvailableLogo.png")} alt=""/>
-          </div>
-          <div className={"accout-info-right"}>
-            <span>Data</span>
-            <span>{size}</span>
-            <span>MB</span>
+          <div className={"accout-table"}>
+            <div className={"btn-actions"}>
+              {/*<Button isSelected label={"Extrinsics (2)"} onClick={changeTableFilter}/>*/}
+              <Button isSelected label={"Data (10)"} onClick={changeTableFilter} className={"select-btn"}/>
+            </div>
+            <RcTable columns={columns} data={data}/>
           </div>
         </div>
-        <div className={"accout-table"}>
-          <div className={"btn-actions"}>
-            {/*<Button isSelected label={"Extrinsics (2)"} onClick={changeTableFilter}/>*/}
-            <Button isSelected label={"Data (10)"} onClick={changeTableFilter} className={"select-btn"}/>
-          </div>
-          <RcTable columns={columns} data={data}/>
-        </div>
       </div>
-    </div>
+    </Fragment>
+
   )
 }
 

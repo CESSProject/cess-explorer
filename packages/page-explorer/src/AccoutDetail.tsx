@@ -9,10 +9,11 @@ import {useApi} from "@polkadot/react-hooks";
 import { formatterSize } from "./utils";
 
 interface Props{
-  className? :String
+  className? :string,
+  value?: string
 }
 
-function AccoutDetail({className}: Props) :React.ReactElement<Props>{
+function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
   const { api } = useApi();
   const [size, setSize] = useState<number>(0);
   const [data, setData] = useState<any[]>([]);
@@ -110,13 +111,13 @@ function AccoutDetail({className}: Props) :React.ReactElement<Props>{
             <div className={"accout-info-left-tr"}>
               <span className={"accout-info-left-td"}>Account name</span>
               <span className={"accout-info-left-td account-name"}>
-                <IdentityIcon value={api.genesisHash} />
-                <span>0x08cd_y6g6s</span>
+                <IdentityIcon value={value} />
+                <span>{value?.substr(0, 5)}</span>
               </span>
             </div>
             <div className={"accout-info-left-tr"}>
               <span className={"accout-info-left-td"}>Account</span>
-              <span className={"accout-info-left-td ellipsis"} data-effect={"solid"} data-tip={"cTHDK35f4i7ujFS3K6jPiEQZ22mXpjasf3Jzorqf32EEhup1J"}>cTHDK35f4i7ujFS3K6jPiEQZ22mXpjasf3Jzorqf32EEhup1J</span>
+              <span className={"accout-info-left-td ellipsis"} data-effect={"solid"} data-tip={value}>{value}</span>
               <ReactTooltip effect="solid" delayUpdate={500} delayHide={2000}/>
             </div>
             <div className={"accout-info-left-tr"}>

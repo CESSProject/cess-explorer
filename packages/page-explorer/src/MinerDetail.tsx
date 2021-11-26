@@ -8,10 +8,11 @@ import {useApi} from "@polkadot/react-hooks";
 import _ from "lodash"
 
 interface Props {
-  className?: String
+  className?: string,
+  value?: number
 }
 
-function MinerDetail({className}: Props): React.ReactElement<Props> {
+function MinerDetail({className, value}: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const minerInfoRef = useRef<any>()
   const [minerDetail, setMinerDetail] = useState<any>({})

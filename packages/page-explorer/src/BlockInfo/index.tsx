@@ -56,7 +56,7 @@ function Entry (): React.ReactElement | null {
   return (
     <>
       <Query />
-      { queryType === 2 ? <AccoutDetail /> : queryType === 3 ? <MinerDetail /> : <Component key={stateValue} value={stateValue}/>}
+      { queryType === 2 ? <AccoutDetail value={value}/> : queryType === 3 ? <MinerDetail value={_.toNumber(value)}/> : <Component key={stateValue} value={stateValue}/>}
     </>
   );
 }

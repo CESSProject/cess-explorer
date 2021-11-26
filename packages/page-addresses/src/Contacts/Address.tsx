@@ -177,7 +177,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
           />
         </td>
         <td className='address'>
-          <AddressSmall value={address} onClickName={() =>{onClickName(address)}}/>
+          <AddressSmall value={address} onClickName={() =>{onClickName(address)}} isNav={true}/>
           {address && current && (
             <>
               {isForgetOpen && (

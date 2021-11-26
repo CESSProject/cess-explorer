@@ -12,6 +12,7 @@ import ParentAccount from './ParentAccount';
 import { toShortAddress } from './util';
 
 interface Props {
+  isNav?: boolean
   children?: React.ReactNode;
   className?: string;
   defaultName?: string;
@@ -24,7 +25,7 @@ interface Props {
   value?: string | Address | AccountId | null | Uint8Array;
 }
 
-function AddressSmall ({ children, className = '', defaultName, onClickName, overrideName, parentAddress, toggle, value, withShortAddress = false, withSidebar = true }: Props): React.ReactElement<Props> {
+function AddressSmall ({ isNav = false,children, className = '', defaultName, onClickName, overrideName, parentAddress, toggle, value, withShortAddress = false, withSidebar = true }: Props): React.ReactElement<Props> {
   const displayAsGrid = parentAddress || withShortAddress;
 
   return (
@@ -39,6 +40,7 @@ function AddressSmall ({ children, className = '', defaultName, onClickName, ove
           </div>
         )}
         <AccountName
+          isNav={isNav}
           className={`accountName ${withSidebar ? 'withSidebar' : ''}`}
           defaultName={defaultName}
           onClick={onClickName}

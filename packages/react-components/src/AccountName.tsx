@@ -17,6 +17,7 @@ import Badge from './Badge';
 import { getAddressName } from './util';
 
 interface Props {
+  isNav?:boolean,
   children?: React.ReactNode;
   className?: string;
   defaultName?: string;
@@ -130,7 +131,7 @@ function extractIdentity (address: string, identity: DeriveAccountRegistration):
   return elem;
 }
 
-function AccountName ({ children, className = '', defaultName, label, onClick, override, toggle, value, withSidebar }: Props): React.ReactElement<Props> {
+function AccountName ({ isNav = false, children, className = '', defaultName, label, onClick, override, toggle, value, withSidebar }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const info = useCall<DeriveAccountInfo>(api.derive.accounts.info, [value]);
   const [name, setName] = useState<React.ReactNode>(() => extractName((value || '').toString(), undefined, defaultName));
@@ -172,11 +173,7 @@ function AccountName ({ children, className = '', defaultName, label, onClick, o
     <div
       className={`ui--AccountName${withSidebar ? ' withSidebar' : ''} ${className}`}
       data-testid='account-name'
-      onClick={
-        withSidebar
-          ? _onToggleSidebar
-          : onClick
-      }
+      onClick={ isNav ? onClick : withSidebar ? _onToggleSidebar : onClick}
     >
       {label || ''}{override || name}{children}
     </div>

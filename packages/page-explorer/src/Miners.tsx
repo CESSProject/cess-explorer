@@ -1,12 +1,10 @@
 import React, {Fragment, useEffect, useState} from "react"
 import styled from "styled-components"
 import RcTable from "@polkadot/react-components/RcTable";
-import ChainInfo from "./ChainInfo";
 import Icon from "@polkadot/react-components/Icon";
 import { api } from "@polkadot/react-api";
-import {BlockToTime, TimeNow} from "@polkadot/react-query";
-import {BN_ONE} from "@polkadot/util";
 import StorageGroup from "./components/StorageGroup";
+import _ from "lodash"
 
 interface Props{
   className?: string
@@ -32,18 +30,26 @@ function Miners({className}: Props): React.ReactElement<Props>{
       const entries = await api.query.sminer.minerTable.entries();
       let list:any[]= [];
       entries.forEach(([key, entry]) => {
-        console.log('key arguments:', key.args.map((k) => k.toHuman()));
-        console.log('     exposure:', entry.toHuman());
-        list.push(entry.toHuman());
+        // console.log('key arguments:', key.args.map((k) => k.toHuman()));
+        // console.log('     exposure:', entry.toHuman());
+        let minerId = key.args.map((k) => k.toHuman());
+        let humanObj = entry.toHuman();
+        list.push(_.assign(humanObj), { minerId });
       });
       setMinerList(list);
     })().catch(console.error);
   }, [])
 
   const columns = React.useMemo(()=> [
-    {Header: 'Miner ID', accessor: 'Miner ID'},
-    {Header: 'Address1', accessor: 'address'},
-    {Header: 'Address2', accessor: 'beneficiary'},
+    {Header: 'Miner ID', accessor: 'Miner ID',Cell: ({row}) => (
+      <a href={`/explorer/query/${row.values.minerId}`} >{row.values.minerId}</a>
+    )},
+    {Header: 'Address1', accessor: 'address',Cell: ({row}) => (
+       <a href={`/explorer/query/${row.values.address}`} >{row.values.address}</a>
+     )},
+    {Header: 'Address2', accessor: 'beneficiary',Cell: ({row}) => (
+       <a href={`/explorer/query/${row.values.address}`} >{row.values.beneficiary}</a>
+    )},
     {Header: 'Total Storage', accessor: 'totalStorage'},
     {Header: 'Average Daily Data Traffic (In)', accessor: 'averageDailyDataTrafficIn'},
     {Header: 'Average Daily Data Traffic (Out)', accessor: 'averageDailyDataTrafficOut'},

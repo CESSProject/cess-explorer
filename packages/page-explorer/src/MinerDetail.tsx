@@ -203,22 +203,25 @@ function MinerDetail({className, value}: Props): React.ReactElement<Props> {
             <div className={"miner-info-left-tr"}>
               <span className={"miner-info-left-td"}>total</span>
               <span className={"miner-info-left-td"}><span
-                className={"miner-info-left-td-value"}>{ minerDetail && minerDetail.totalReward } </span><span>tCESS</span></span>
+                className={"miner-info-left-td-value"}>{ minerDetail && _.round(minerDetail.totalReward, 4) } </span><span>tCESS</span></span>
             </div>
             <div className={"miner-info-left-tr"}>
               <span className={"miner-info-left-td"}>available transfers</span>
               <span className={"miner-info-left-td"}><span
-                className={"miner-info-left-td-value"}>{ minerDetail && minerDetail.totalRewardsCurrentlyAvailable} </span><span>tCESS</span></span>
+                className={"miner-info-left-td-value"}>{ minerDetail && _.round(minerDetail.totalRewardsCurrentlyAvailable, 4)} </span><span>tCESS</span></span>
             </div>
             <div className={"miner-info-left-tr"}>
               <span className={"miner-info-left-td"}>locked</span>
-              <span className={"miner-info-left-td"}><span
-                className={"miner-info-left-td-value"}>{ minerDetail && minerDetail.totaldNotReceive } </span><span>tCESS</span></span>
+              <span className={"miner-info-left-td"}>
+                <span className={"miner-info-left-td-value"}>{minerDetail && _.round(minerDetail.totaldNotReceive, 4) }</span><span>tCESS</span>
+                <img className={"ellipsis"} src={require("./../../../assets/images/hoverInfo.png")} alt="" data-place={"right"} data-effect={"solid"}  data-tip={"Binding through harvest"}/>
+                <ReactTooltip place={"right"} effect="solid" delayUpdate={500} delayHide={2000}/>
+              </span>
             </div>
             <div className={"miner-info-left-tr"}>
               <span className={"miner-info-left-td"}>remaining staking</span>
               <span className={"miner-info-left-td"}><span
-                className={"miner-info-left-td-value"}>{ minerDetail && minerDetail.collaterals }</span><span>tCESS</span></span>
+                className={"miner-info-left-td-value"}>{ minerDetail && _.round(minerDetail.collaterals, 4) }</span><span>tCESS</span></span>
             </div>
           </div>
         </div>
@@ -279,6 +282,10 @@ export default React.memo(styled(MinerDetail)`
             font-size: 28px;
             color: #5078FE;
             margin-right: 20px;
+          }
+          >img{
+            vertical-align: baseline;
+            margin-left: 20px;
           }
         }
       }

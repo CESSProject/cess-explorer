@@ -6,6 +6,7 @@ import Icon from "@polkadot/react-components/Icon";
 import { api } from "@polkadot/react-api";
 import {BlockToTime, TimeNow} from "@polkadot/react-query";
 import {BN_ONE} from "@polkadot/util";
+import StorageGroup from "./components/StorageGroup";
 
 interface Props{
   className?: string
@@ -47,23 +48,23 @@ function Miners({className}: Props): React.ReactElement<Props>{
       <div className={"miners-info"}>
         <div className={"miners-info-details"}>
           <div className={"miners-info-details-block"}>
-            <span className={"miners-info-details-block-item label"}>tipset height</span>
+            <span className={"miners-info-details-block-item label"}>total miners</span>
             <span className={"miners-info-details-block-item"}>{'dd'}</span>
           </div>
           <div className={"miners-info-details-block"}>
-            <span className={"miners-info-details-block-item label"}>latest block</span>
+            <span className={"miners-info-details-block-item label"}>active miners</span>
             <span className={"miners-info-details-block-item"}> <TimeNow /> <span className={"unit"} /></span>
           </div>
           <div className={"miners-info-details-block middle-block"}>
-            <span className={"miners-info-details-block-item label"}>avg block time</span>
+            <span className={"miners-info-details-block-item label"}>staking</span>
             <span className={"miners-info-details-block-item"}><BlockToTime value={BN_ONE} /></span>
           </div>
           <div className={"miners-info-details-block middle-block"}>
-            <span className={"miners-info-details-block-item label"}>block reward</span>
+            <span className={"miners-info-details-block-item label"}>mining reward</span>
             <span className={"miners-info-details-block-item"}>124.2345 <span className={"unit"}>tCESS</span></span>
           </div>
           <div className={"miners-info-details-block"}>
-            <span className={"miners-info-details-block-item label"}>24h average block reward</span>
+            <span className={"miners-info-details-block-item label"}>total number of files</span>
             <span className={"miners-info-details-block-item"}>1.2234 <span className={"unit"}>tCESS/TB</span></span>
           </div>
           <div className={"miners-info-details-block"}>
@@ -71,6 +72,7 @@ function Miners({className}: Props): React.ReactElement<Props>{
             <span className={"miners-info-details-block-item"}>121</span>
           </div>
         </div>
+        <StorageGroup />
       </div>
       <div className={"miners-table"}>
         <div className={"miners-title"}>
@@ -85,10 +87,14 @@ function Miners({className}: Props): React.ReactElement<Props>{
 }
 
 export default React.memo(styled(Miners)`
+  height: 100%;
   .miners-info{
+    display: flex;
     background: white;
     padding: 15px 1.5rem !important;
     box-sizing: border-box;
+    width: 100%;
+    height: 100%;
     &-details{
       width: 33%;
       display: flex;

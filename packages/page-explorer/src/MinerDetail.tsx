@@ -202,22 +202,22 @@ function MinerDetail({className}: Props): React.ReactElement<Props> {
             <div className={"miner-info-left-tr"}>
               <span className={"miner-info-left-td"}>total</span>
               <span className={"miner-info-left-td"}><span
-                className={"miner-info-left-td-value"}>{ minerDetail.totalReward } </span><span>tCESS</span></span>
+                className={"miner-info-left-td-value"}>{ minerDetail && minerDetail.totalReward } </span><span>tCESS</span></span>
             </div>
             <div className={"miner-info-left-tr"}>
               <span className={"miner-info-left-td"}>available transfers</span>
               <span className={"miner-info-left-td"}><span
-                className={"miner-info-left-td-value"}>{ minerDetail.totalRewardsCurrentlyAvailable} </span><span>tCESS</span></span>
+                className={"miner-info-left-td-value"}>{ minerDetail && minerDetail.totalRewardsCurrentlyAvailable} </span><span>tCESS</span></span>
             </div>
             <div className={"miner-info-left-tr"}>
               <span className={"miner-info-left-td"}>locked</span>
               <span className={"miner-info-left-td"}><span
-                className={"miner-info-left-td-value"}>{minerDetail.totaldNotReceive} </span><span>tCESS</span></span>
+                className={"miner-info-left-td-value"}>{ minerDetail && minerDetail.totaldNotReceive } </span><span>tCESS</span></span>
             </div>
             <div className={"miner-info-left-tr"}>
               <span className={"miner-info-left-td"}>remaining staking</span>
               <span className={"miner-info-left-td"}><span
-                className={"miner-info-left-td-value"}>{minerDetail.collaterals}</span><span>tCESS</span></span>
+                className={"miner-info-left-td-value"}>{ minerDetail && minerDetail.collaterals }</span><span>tCESS</span></span>
             </div>
           </div>
         </div>

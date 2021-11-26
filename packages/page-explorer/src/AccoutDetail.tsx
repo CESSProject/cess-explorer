@@ -121,11 +121,11 @@ function AccoutDetail({className}: Props) :React.ReactElement<Props>{
             </div>
             <div className={"accout-info-left-tr"}>
               <span className={"accout-info-left-td"}>Total</span>
-              <span className={"accout-info-left-td"}><span className={"accout-info-left-td-value"}>12.1234 </span><span>tCESS</span></span>
+              <span className={"accout-info-left-td"}><span className={"accout-info-left-td-value"}>{accountInfo && accountInfo["reserved"]} </span><span>tCESS</span></span>
             </div>
             <div className={"accout-info-left-tr"}>
               <span className={"accout-info-left-td"}>Available transfers</span>
-              <span className={"accout-info-left-td"}><span className={"accout-info-left-td-value"}>{accountInfo && accountInfo["free"]} </span></span>
+              <span className={"accout-info-left-td"}><span className={"accout-info-left-td-value"}>{accountInfo && accountInfo["reserved"]} </span></span>
             </div>
           </div>
           <div className={"accout-info-center"}>

@@ -3,12 +3,9 @@ import RcTable from "@polkadot/react-components/RcTable"
 import React, {useEffect, useState} from "react"
 import styled from "styled-components"
 import {Button} from "@polkadot/react-components";
-import Icon from "@polkadot/react-components/Icon";
 import IdentityIcon from "@polkadot/react-components/IdentityIcon";
 import ReactTooltip from 'react-tooltip';
 import {useApi} from "@polkadot/react-hooks";
-import {hexToString, hexToU8a} from "@polkadot/util";
-import {balance} from "@polkadot/test-support/utils/balance";
 
 interface Props{
   className? :String
@@ -44,31 +41,51 @@ function AccoutDetail({className}: Props) :React.ReactElement<Props>{
       let entries:any = await api.query.fileBank.file.entries();
       let list:any[]= [];
       entries.forEach(([key, entry]) => {
-        let item = {};
         let fileid:string = key.args.map((k) => k.toHuman());
         // console.log('key arguments:', key.args.map((k) => k.toHuman()));
-        // console.log('account data--->', entry.toHuman());
-        list.push(_.assign(entry.toHuman(),{fileid}));
+        console.log('account data--->', entry.toHuman());
+        let humanObj = entry.toJSON();
+        humanObj.filesize = formatterSize(humanObj.filesize);
+        list.push(_.assign(humanObj,{fileid}));
       });
       setData(list);
     })()
   },[])
 
+  const formatterSize = (bytes) =>{
+    if(_.isString(bytes)){
+      bytes = _.toNumber(bytes);
+    }
+    if (bytes == 0) return '0 B';
+    let k = 1024; //设定基础容量大小
+    let sizeStr = ['B','KB','MB','GB','TB','PB','EB','ZB','YB']; //容量单位
+    let i = 0; //单位下标和次幂
+    for(let l=0;l<8;l++){
+      if(bytes / Math.pow(k, l) < 1){
+        break;
+      }
+      i = l;
+    }
+    return (bytes / Math.pow(k, i)).toFixed(3) + ' ' + sizeStr[i];  //循环结束 或 条件成立 返回字符
+  }
+
   const columns = React.useMemo(()=> [
     {Header: 'File Name', accessor: 'filename',id:'filename', width: 300},
     {Header: 'Data ID', accessor: 'fileid',id:'fileid', width: 300,Cell: ({row}) => (
-        <a href={`http://121.46.19.38:54558/fileDetail?fileId=${row.values.fileid}`} target="_blank">
-          {row.values.fileid}
-        </a>
+        <a href={`http://121.46.19.38:54558/fileDetail?fileId=${row.values.fileid}`} target="_blank">{row.values.fileid}</a>
     )},
     {Header: 'PoE', accessor: 'filehash',id:'filehash', width: 300},
     {Header: 'Characteristic', accessor: 'similarityhash',id:'similarityhash', width: 300,Cell: ({row}) => (
-        <a href={`http://121.46.19.38:54558/fileDetail?fileId=${row.values.similarityhash}`}  target="_blank">
-          {row.values.similarityhash}
-        </a>
+        <a href={`http://121.46.19.38:54558/fileDetail?fileId=${row.values.fileid}`}  target="_blank">{row.values.similarityhash}</a>
     )},
-    {Header: 'Size', accessor: 'filesize',id:'filesize', width: 300},
-    {Header: 'Is The File Public?', accessor: 'ispublic',id:'ispublic', width: 300},
+    {Header: 'Size', accessor: 'filesize',id:'filesize', width: 300,Cell: ({row}) => (
+        <span >
+          {row.values.filesize}
+        </span>
+    )},
+    {Header: 'Is The File Public?', accessor: 'ispublic',id:'ispublic', width: 300,Cell: ({row}) => (
+        <span >{row.values.ispublic == 1 ? "yes" : "no"}</span>
+    )},
     {Header: 'Storage Validity Period To',id:'deadline', accessor: 'deadline', width: 300},
     {Header: 'Charge', accessor: 'downloadfee',id:'downloadfee', width: 300},
   ], [])

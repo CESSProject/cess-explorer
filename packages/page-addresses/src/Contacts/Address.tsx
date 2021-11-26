@@ -141,6 +141,10 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
     return null;
   }
 
+  const onClickName = address =>{
+    window.location.hash = `/explorer/query/${address}`;
+  }
+
   const PopupDropdown = (
     <Menu>
       <Menu.Item
@@ -173,7 +177,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
           />
         </td>
         <td className='address'>
-          <AddressSmall value={address} />
+          <AddressSmall value={address} onClickName={() =>{onClickName(address)}}/>
           {address && current && (
             <>
               {isForgetOpen && (

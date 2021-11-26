@@ -48,6 +48,10 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
     );
   }, [allAddresses, favorites]);
 
+  const navToDetail = address =>{
+    console.log(address, 'addressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddress')
+  }
+
   return (
     <div className={className}>
       {isCreateOpen && (

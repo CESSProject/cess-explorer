@@ -13,10 +13,18 @@ interface Props{
 }
 
 function Miners({className}: Props): React.ReactElement<Props>{
+  const [minerData, setMinerData] = useState<any>({})
   const [minerList, setMinerList] = useState<any[]>([]);
-  const [state, setState] = useState({
-    data: []
-  })
+
+  useEffect(()=>{
+    (async (): Promise<void> =>{
+      const res = await api.query.sminer.minerStatValue();
+      if(res){
+        let info = res.toJSON();
+        setMinerData(info);
+      }
+    })().catch(console.error);
+  }, [])
 
   useEffect(()=>{
     (async (): Promise<void> =>{
@@ -49,27 +57,23 @@ function Miners({className}: Props): React.ReactElement<Props>{
         <div className={"miners-info-details"}>
           <div className={"miners-info-details-block"}>
             <span className={"miners-info-details-block-item label"}>total miners</span>
-            <span className={"miners-info-details-block-item"}>{'dd'}</span>
+            <span className={"miners-info-details-block-item"}>{minerData && minerData.totalMiners}</span>
           </div>
           <div className={"miners-info-details-block"}>
             <span className={"miners-info-details-block-item label"}>active miners</span>
-            <span className={"miners-info-details-block-item"}> <TimeNow /> <span className={"unit"} /></span>
+            <span className={"miners-info-details-block-item"}> {minerData && minerData.activeMiners}</span>
           </div>
           <div className={"miners-info-details-block middle-block"}>
             <span className={"miners-info-details-block-item label"}>staking</span>
-            <span className={"miners-info-details-block-item"}><BlockToTime value={BN_ONE} /></span>
+            <span className={"miners-info-details-block-item"}>{minerData && minerData.staking}</span>
           </div>
           <div className={"miners-info-details-block middle-block"}>
             <span className={"miners-info-details-block-item label"}>mining reward</span>
-            <span className={"miners-info-details-block-item"}>124.2345 <span className={"unit"}>tCESS</span></span>
+            <span className={"miners-info-details-block-item"}>{minerData && minerData.minerReward} <span className={"unit"}>tCESS</span></span>
           </div>
           <div className={"miners-info-details-block"}>
             <span className={"miners-info-details-block-item label"}>total number of files</span>
-            <span className={"miners-info-details-block-item"}>1.2234 <span className={"unit"}>tCESS/TB</span></span>
-          </div>
-          <div className={"miners-info-details-block"}>
-            <span className={"miners-info-details-block-item label"}>active miners</span>
-            <span className={"miners-info-details-block-item"}>121</span>
+            <span className={"miners-info-details-block-item"}>{minerData && minerData.sumFiles} <span className={"unit"}>tCESS/TB</span></span>
           </div>
         </div>
         <StorageGroup />

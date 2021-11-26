@@ -63,13 +63,12 @@ function StorageGroup({className}: Props): React.ReactElement<Props>{
           },
         },
         grid:{
-          left: "0"
+          left: 0,
         },
         series: [
           {
             name: 'Chain Info',
             type: 'pie',
-            left: "0",
             radius: ['50%', '70%'],
             color: ['#5078FE', '#5CD5B4'],
             label: {
@@ -79,6 +78,7 @@ function StorageGroup({className}: Props): React.ReactElement<Props>{
             emphasis: {
               label: {
                 show: true,
+                position: 'center',
                 fontSize: '18',
                 fontWeight: 'bold'
               }
@@ -175,7 +175,7 @@ export default React.memo(styled(StorageGroup)`
     height: 100%;
     &-box{
       width: 100%;
-      height: 100%;
+      //height: 100%;
       min-height: 300px;
     }
   }

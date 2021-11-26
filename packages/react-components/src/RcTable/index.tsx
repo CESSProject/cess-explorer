@@ -1,6 +1,6 @@
-import React from 'react'
+import React, {Fragment} from 'react'
 import styled from 'styled-components'
-import { useTable, useExpanded,usePagination } from 'react-table'
+import { useTable, useExpanded,usePagination, useResizeColumns, useFlexLayout, useBlockLayout } from 'react-table'
 
 interface Props{
   className?: string,
@@ -33,57 +33,67 @@ function RcTable({ columns: userColumns, data, renderRowSubComponent, className,
     columns: userColumns,
     data,
   },
+    // useResizeColumns,
+    // useFlexLayout,
+    // useBlockLayout,
     useExpanded,
     usePagination
   )
   return (
-    <>
-      <table {...getTableProps()} className={`${className} normal-styles`}>
-        <thead>
-        {headerGroups.map((headerGroup: any) => (
-          <tr {...headerGroup.getHeaderGroupProps()}>
-            {headerGroup.headers.map((column:any) => (
-              <th {...column.getHeaderProps()}>{column.render('Header')}</th>
-            ))}
-          </tr>
-        ))}
-        </thead>
-        <tbody {...getTableBodyProps()}>
-        {page.map((row: any, i: any) => {
-          prepareRow(row)
-          return (
-            <React.Fragment {...row.getRowProps()} key={i}>
-              <tr>
-                {row.cells.map((cell: any) => {
-                  return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-                })}
-              </tr>
-              {row.isExpanded ? (
+    <Fragment>
+      <div className={`${className} fragment-box`} {...getTableProps()}>
+        <table className={`normal-styles`}>
+          <thead>
+          {headerGroups.map((headerGroup: any) => (
+            <tr {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map((column:any) => (
+                <th {...column.getHeaderProps()}>{column.render('Header')}</th>
+              ))}
+            </tr>
+          ))}
+          </thead>
+          <tbody {...getTableBodyProps()}>
+          {page.map((row: any, i: any) => {
+            prepareRow(row)
+            return (
+              <React.Fragment {...row.getRowProps()} key={i}>
                 <tr>
-                  <td colSpan={visibleColumns.length}>
-                    { renderRowSubComponent && renderRowSubComponent({ row })}
-                  </td>
+                  {row.cells.map((cell: any) => {
+                    return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                  })}
                 </tr>
-              ) : null}
-            </React.Fragment>
-          )
-        })}
-        </tbody>
-      </table>
+                {row.isExpanded ? (
+                  <tr>
+                    <td colSpan={visibleColumns.length}>
+                      { renderRowSubComponent && renderRowSubComponent({ row })}
+                    </td>
+                  </tr>
+                ) : null}
+              </React.Fragment>
+            )
+          })}
+          </tbody>
+        </table>
+      </div>
       {
-        isShowPagination &&   <div className={`${className} pagination`} >
+        isShowPagination &&
+        <div className={`${className} pagination`}>
           <button className={"pagination-btn"} onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
             {'<<'}
-          </button>{' '}
+          </button>
+          {' '}
           <button className={"pagination-btn"} onClick={() => previousPage()} disabled={!canPreviousPage}>
             {'<'}
-          </button>{' '}
+          </button>
+          {' '}
           <button className={"pagination-btn"} onClick={() => nextPage()} disabled={!canNextPage}>
             {'>'}
-          </button>{' '}
+          </button>
+          {' '}
           <button className={"pagination-btn"} onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
             {'>>'}
-          </button>{' '}
+          </button>
+          {' '}
           <span>
           Page{' '}
             <strong>
@@ -99,7 +109,7 @@ function RcTable({ columns: userColumns, data, renderRowSubComponent, className,
                 const page = e.target.value ? Number(e.target.value) - 1 : 0
                 gotoPage(page)
               }}
-              style={{ width: '100px' }}
+              style={{width: '100px'}}
             />
         </span>{' '}
           <select
@@ -116,16 +126,33 @@ function RcTable({ columns: userColumns, data, renderRowSubComponent, className,
           </select>
         </div>
       }
-    </>
+    </Fragment>
+
   )
 }
 
 export default styled(RcTable)`
-  width: 100%;
-  border-spacing: 0;
-  border: 1.5px solid #5078FE;
-  border-radius: 6px;
-  color: #858585;
+  display: block;
+  overflow: auto;
+  table{
+    width: 100%;
+    border: 1.5px solid #5078FE;
+    border-radius: 6px;
+    overflow-x: auto;
+    thead {
+    ${'' /* These styles are required for a scrollable body to align with the header properly */}
+      overflow-y: hidden;
+      overflow-x: auto;
+      width: 100%;
+    }
+    tbody {
+    ${'' /* These styles are required for a scrollable table body */}
+      overflow-y: hidden;
+      overflow-x: auto;
+      //height: 250px;
+      width: 100%;
+    }
+  }
 
   tr {
     :last-child {
@@ -134,7 +161,6 @@ export default styled(RcTable)`
       }
     }
   }
-
   th,
   td {
     margin: 0;
@@ -148,6 +174,9 @@ export default styled(RcTable)`
     }
   }
   &.pagination {
+    ::-webkit-scrollbar-track{
+      background: transparent;
+    }
     text-align: right;
     border: 0;
     margin-top: 20px;

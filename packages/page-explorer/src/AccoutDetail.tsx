@@ -1,6 +1,6 @@
 import _ from "lodash"
 import RcTable from "@polkadot/react-components/RcTable"
-import React, {Fragment, useEffect, useState} from "react"
+import React, {useEffect, useState} from "react"
 import styled from "styled-components"
 import {Button} from "@polkadot/react-components";
 import Icon from "@polkadot/react-components/Icon";
@@ -17,40 +17,8 @@ interface Props{
 function AccoutDetail({className}: Props) :React.ReactElement<Props>{
   const { api } = useApi();
   const [size, setSize] = useState<number>(0);
-  const [state, setState] = useState({
-    data: [
-      {ExtrinsicID: 'Hello', Block: 'World', Call: 'staking(guarantee)'},
-      {ExtrinsicID: 'react-table', Block: 'rocks', Call: 'balances(transfer_keep_alive)'},
-      {ExtrinsicID: 'whatever', Block: 'you want', Call: 'staking(guarantee)'},
-      {ExtrinsicID: 'Hello', Block: 'World', Call: 'staking(guarantee)'},
-      {ExtrinsicID: 'react-table', Block: 'rocks', Call: 'balances(transfer_keep_alive)'},
-      {ExtrinsicID: 'whatever', Block: 'you want', Call: 'staking(guarantee)'},
-      {ExtrinsicID: 'Hello', Block: 'World', Call: 'staking(guarantee)'},
-      {ExtrinsicID: 'react-table', Block: 'rocks', Call: 'balances(transfer_keep_alive)'},
-      {ExtrinsicID: 'whatever', Block: 'you want', Call: 'staking(guarantee)'},
-      {ExtrinsicID: 'Hello', Block: 'World', Call: 'staking(guarantee)'},
-      {ExtrinsicID: 'react-table', Block: 'rocks', Call: 'balances(transfer_keep_alive)'},
-      {ExtrinsicID: 'whatever', Block: 'you want', Call: 'staking(guarantee)'},
-      {ExtrinsicID: 'Hello1', Block: 'World', Call: 'staking(guarantee)'},
-      {ExtrinsicID: 'react-table2', Block: 'rocks', Call: 'balances(transfer_keep_alive)'},
-      {ExtrinsicID: 'whatever2', Block: 'you want', Call: 'staking(guarantee)'},
-      {ExtrinsicID: 'Hell2o', Block: 'World', Call: 'staking(guarantee)'},
-      {ExtrinsicID: 'react-tabl2e', Block: 'rocks', Call: 'balances(transfer_keep_alive)'},
-      {ExtrinsicID: 'whatev2er', Block: 'you want', Call: 'staking(guarantee)'},
-    ]
-  })
+  const [data, setData] = useState<any[]>([]);
   const [accountInfo, setAccountInfo] = useState({});
-
-  // const hexToString = (str) =>{
-  //   var val="";
-  //   var arr = str.split(",");
-  //   for(let i = 0; i < arr.length/2; i++){
-  //     var tmp = "0x" + arr[i*2] + arr[i*2+1]
-  //     var charValue = String.fromCharCode(tmp)
-  //     val += charValue;
-  //   }
-  //   return val;
-  // }
 
   useEffect(()=>{
     (async (): Promise<void> =>{
@@ -71,21 +39,38 @@ function AccoutDetail({className}: Props) :React.ReactElement<Props>{
     })()
   },[])
 
+  useEffect(()=>{
+    (async ():Promise<void> =>{
+      let entries:any = await api.query.fileBank.file.entries();
+      let list:any[]= [];
+      entries.forEach(([key, entry]) => {
+        let item = {};
+        let fileid:string = key.args.map((k) => k.toHuman());
+        // console.log('key arguments:', key.args.map((k) => k.toHuman()));
+        // console.log('account data--->', entry.toHuman());
+        list.push(_.assign(entry.toHuman(),{fileid}));
+      });
+      setData(list);
+    })()
+  },[])
+
   const columns = React.useMemo(()=> [
-    {Header: 'Extrinsic ID', accessor: 'ExtrinsicID'},
-    {Header: 'Block', accessor: 'Block'},
-    {Header: 'Extrinsic Hash', accessor: 'ExtrinsicHash'},
-    {Header: 'Time', accessor: 'Time'},
-    {Header: 'Result', accessor: 'Result'},
-    {
-      Header: 'Call', accessor: 'Call', id: 'expander', // It needs an ID
-      Cell: ({row}) => (
-        <span {...row.getToggleRowExpandedProps()}>
-          {row.values.expander}
-          <Icon icon={row.isExpanded ? 'caret-up' : 'caret-down'}/>
-        </span>
-      ),
-    },
+    {Header: 'File Name', accessor: 'filename',id:'filename', width: 300},
+    {Header: 'Data ID', accessor: 'fileid',id:'fileid', width: 300,Cell: ({row}) => (
+        <a href={`http://121.46.19.38:54558/fileDetail?fileId=${row.values.fileid}`} target="_blank">
+          {row.values.fileid}
+        </a>
+    )},
+    {Header: 'PoE', accessor: 'filehash',id:'filehash', width: 300},
+    {Header: 'Characteristic', accessor: 'similarityhash',id:'similarityhash', width: 300,Cell: ({row}) => (
+        <a href={`http://121.46.19.38:54558/fileDetail?fileId=${row.values.similarityhash}`}  target="_blank">
+          {row.values.similarityhash}
+        </a>
+    )},
+    {Header: 'Size', accessor: 'filesize',id:'filesize', width: 300},
+    {Header: 'Is The File Public?', accessor: 'ispublic',id:'ispublic', width: 300},
+    {Header: 'Storage Validity Period To',id:'deadline', accessor: 'deadline', width: 300},
+    {Header: 'Charge', accessor: 'downloadfee',id:'downloadfee', width: 300},
   ], [])
 
   const renderRowSubComponent = React.useCallback(
@@ -153,10 +138,10 @@ function AccoutDetail({className}: Props) :React.ReactElement<Props>{
         </div>
         <div className={"accout-table"}>
           <div className={"btn-actions"}>
-            <Button isSelected label={"Extrinsics (2)"} onClick={changeTableFilter}/>
-            <Button label={"Data (10)"} onClick={changeTableFilter} className={"select-btn"}/>
+            {/*<Button isSelected label={"Extrinsics (2)"} onClick={changeTableFilter}/>*/}
+            <Button isSelected label={"Data (10)"} onClick={changeTableFilter} className={"select-btn"}/>
           </div>
-          <RcTable columns={columns} data={state.data} renderRowSubComponent={renderRowSubComponent}/>
+          <RcTable columns={columns} data={data}/>
         </div>
       </div>
     </div>
@@ -228,8 +213,8 @@ export default React.memo(styled(AccoutDetail)`
       .btn-actions{
         margin-bottom: 20px;
         .select-btn{
-          margin-left: 20px;
-          background: #DBDBDB;
+          margin-right: 20px;
+          //background: #DBDBDB;
         }
       }
 

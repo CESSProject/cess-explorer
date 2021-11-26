@@ -5,6 +5,8 @@ import * as echarts from "echarts"
 import {useTranslation} from "@polkadot/app-explorer/translate";
 import {useApi} from "@polkadot/react-hooks";
 import {BlockAuthorsContext} from "@polkadot/react-query";
+import { formatterSize } from '../utils';
+
 
 interface Props{
   className?: string
@@ -32,6 +34,11 @@ function StorageGroup({className}: Props): React.ReactElement<Props>{
       const option: any = {
         tooltip: {
           trigger: 'item',
+          formatter: list => {
+            let res = list.name;
+            res += "<br/>" + list.marker + list.seriesName + "<span style=\"margin-left:20px;text-align: right;font-weight: bold;\">" + formatterSize(Math.abs(list.value)) + "</span>"
+            return res;
+          }
         },
         legend: {
           align: 'right',
@@ -43,7 +50,7 @@ function StorageGroup({className}: Props): React.ReactElement<Props>{
           itemHeight: 61,
           formatter: name =>{
             let value = _.get(_.find(barData, v=> v.name === name),'value');
-            return ['{a|' + name + '}', '{b|' + value + '}'].join('\n');
+            return ['{a|' + name + '}', '{b|' + formatterSize(value) + '}'].join('\n');
           },
           textStyle:{
             rich: {
@@ -62,9 +69,6 @@ function StorageGroup({className}: Props): React.ReactElement<Props>{
             },
           },
         },
-        grid:{
-          left: 0,
-        },
         series: [
           {
             name: 'Chain Info',
@@ -78,7 +82,6 @@ function StorageGroup({className}: Props): React.ReactElement<Props>{
             emphasis: {
               label: {
                 show: true,
-                position: 'center',
                 fontSize: '18',
                 fontWeight: 'bold'
               }

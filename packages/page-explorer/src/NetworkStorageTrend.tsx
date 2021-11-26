@@ -5,6 +5,7 @@ import styled from "styled-components";
 import * as echarts from "echarts";
 import Icon from "@polkadot/react-components/Icon";
 import {useApi} from "@polkadot/react-hooks";
+import { formatterSize } from './utils';
 
 const option:any ={
   title: {
@@ -100,7 +101,7 @@ function NetworkStorageTrend({className}: Props): React.ReactElement<Props>{
       option.tooltip.formatter = list => {
         let res = list[0].name;
         for(let i=0;i<list.length;i++){
-          res += "<br/>" + list[i].marker + list[i].seriesName + "<span style=\"margin-left:20px;text-align: right;font-weight: bold;\">" + Math.abs(list[i].value) + "MB</span>"
+          res += "<br/>" + list[i].marker + list[i].seriesName + "<span style=\"margin-left:20px;text-align: right;font-weight: bold;\">" + formatterSize(Math.abs(list[i].value)) + "</span>"
          }
         return res;
       };

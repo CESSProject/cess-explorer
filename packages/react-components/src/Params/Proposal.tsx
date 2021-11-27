@@ -14,7 +14,7 @@ function ProposalDisplay ({ className = '', isDisabled, isError, label, onChange
 
   const _onChange = useCallback(
     ({ isValid, value }: RawParam): void => {
-      let proposal = null;
+      let proposal:any = null;
 
       if (isValid && value) {
         proposal = api.createType('Proposal', value);

@@ -15,7 +15,7 @@ function OpaqueCall ({ className = '', isDisabled, isError, label, onChange, onE
 
   const _onChange = useCallback(
     ({ isValid, value }: RawParam): void => {
-      let callData = null;
+      let callData: string|null = null;
 
       if (isValid && value) {
         callData = (value as SubmittableExtrinsic<'promise'>).method.toHex();

@@ -18,9 +18,10 @@ export function getJudgements (identity: DeriveAccountRegistration | undefined):
   const result = [];
 
   for (const name in judgements) {
-    const judgementName = name as DisplayedJudgement;
+    let judgementName = name as DisplayedJudgement;
 
     if (judgements[judgementName].length !== 0) {
+      // @ts-ignore
       result.push({ judgementName, registrarsIndexes: extractIndexes(judgements[judgementName]) });
     }
   }

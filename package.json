@@ -55,6 +55,12 @@
     "test:one": "polkadot-dev-run-test",
     "test:skipped": "echo 'tests skipped'"
   },
+  "dependencies": {
+    "echarts": "^5.2.2",
+    "lodash": "^4.17.21",
+    "react-table": "^7.2.0",
+    "react-tooltip": "^4.2.21"
+  },
   "devDependencies": {
     "@babel/core": "^7.15.8",
     "@babel/register": "^7.15.3",
@@ -107,11 +113,5 @@
     "babel-core": "^7.0.0-bridge.0",
     "styled-components": "^5.3.1",
     "typescript": "^4.4.4"
-  },
-  "dependencies": {
-    "echarts": "^5.2.2",
-    "lodash": "^4.17.21",
-    "react-table": "^7.2.0",
-    "react-tooltip": "^4.2.21"
   }
 }

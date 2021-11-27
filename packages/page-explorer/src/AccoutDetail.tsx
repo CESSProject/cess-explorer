@@ -63,11 +63,11 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
   const columns = React.useMemo(()=> [
     {Header: 'File Name', accessor: 'filename',id:'filename', width: 300},
     {Header: 'Data ID', accessor: 'fileid',id:'fileid', width: 300,Cell: ({row}) => (
-        <a href={`http://121.46.19.38:54558/fileDetail?fileId=${row.values.fileid}`} target="_blank">{row.values.fileid}</a>
+        <a href={`http://121.46.19.38:54558/fileDetail?fid=${row.values.fileid}`} target="_blank">{row.values.fileid}</a>
     )},
     {Header: 'PoE', accessor: 'filehash',id:'filehash', width: 300},
     {Header: 'Characteristic', accessor: 'similarityhash',id:'similarityhash', width: 300,Cell: ({row}) => (
-        <a href={`http://121.46.19.38:54558/fileDetail?fileId=${row.values.fileid}`}  target="_blank">{row.values.similarityhash}</a>
+        <a href={`http://121.46.19.38:54558/fileDetail?fid=${row.values.fileid}`}  target="_blank">{row.values.similarityhash}</a>
     )},
     {Header: 'Size', accessor: 'filesize',id:'filesize', width: 300,Cell: ({row}) => (
         <span >

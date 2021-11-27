@@ -88,21 +88,25 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
     {
       alias: 'returns',
       name: 'targets',
-      text: t<string>('Targets')
+      text: t<string>('Targets'),
+      icon: true
     },
     {
       name: 'waiting',
-      text: t<string>('Waiting')
+      text: t<string>('Waiting'),
+      icon: true
     },
     {
       count: slashes.reduce((count, [, unapplied]) => count + unapplied.length, 0),
       name: 'slashes',
-      text: t<string>('Slashes')
+      text: t<string>('Slashes'),
+      icon: true
     },
     {
       hasParams: true,
       name: 'query',
-      text: t<string>('Validator stats')
+      text: t<string>('Validator stats'),
+      icon: true
     }
   ].filter((q): q is { name: string; text: string } => !!q), [api, hasAccounts, ownStashes, slashes, t]);
 

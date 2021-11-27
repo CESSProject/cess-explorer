@@ -51,7 +51,7 @@ function ChainInfo({className}: Props): React.ReactElement<Props>{
           </div>
           <div className={"chain-info-details-block"}>
             <span className={"chain-info-details-block-item label"}>active miners</span>
-            <span className={"chain-info-details-block-item"}>{minerData && minerData.activeMiners}</span>
+            <span className={"chain-info-details-block-item"}>{(minerData && minerData.activeMiners) || 0}</span>
           </div>
         </div>
         <StorageGroup />

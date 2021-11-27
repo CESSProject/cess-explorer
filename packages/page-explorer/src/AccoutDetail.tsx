@@ -51,7 +51,7 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
       entries.forEach(([key, entry]) => {
         let fileid:string = key.args.map((k) => k.toHuman());
         // console.log('key arguments:', key.args.map((k) => k.toHuman()));
-        console.log('account data--->', entry.toHuman());
+        // console.log('account data--->', entry.toHuman());
         let humanObj = entry.toJSON();
         humanObj.filesize = formatterSize(humanObj.filesize);
         list.push(_.assign(humanObj,{fileid}));
@@ -61,24 +61,24 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
   },[])
 
   const columns = React.useMemo(()=> [
-    {Header: 'File Name', accessor: 'filename',id:'filename', width: 300},
-    {Header: 'Data ID', accessor: 'fileid',id:'fileid', width: 300,Cell: ({row}) => (
+    {Header: 'File Name', accessor: 'filename',id:'filename', width: '12.5%'},
+    {Header: 'Data ID', accessor: 'fileid',id:'fileid',width: '12.5%',Cell: ({row}) => (
         <a href={`http://121.46.19.38:54558/fileDetail?fid=${row.values.fileid}`} target="_blank">{row.values.fileid}</a>
     )},
-    {Header: 'PoE', accessor: 'filehash',id:'filehash', width: 300},
-    {Header: 'Characteristic', accessor: 'similarityhash',id:'similarityhash', width: 300,Cell: ({row}) => (
+    {Header: 'PoE', accessor: 'filehash',id:'filehash', width: '12.5%'},
+    {Header: 'Characteristic', accessor: 'similarityhash',id:'similarityhash', width: '12.5%',Cell: ({row}) => (
         <a href={`http://121.46.19.38:54558/fileDetail?fid=${row.values.fileid}`}  target="_blank">{row.values.similarityhash}</a>
     )},
-    {Header: 'Size', accessor: 'filesize',id:'filesize', width: 300,Cell: ({row}) => (
+    {Header: 'Size', accessor: 'filesize',id:'filesize', width: '12.5%',Cell: ({row}) => (
         <span >
           {row.values.filesize}
         </span>
     )},
-    {Header: 'Is The File Public?', accessor: 'ispublic',id:'ispublic', width: 300,Cell: ({row}) => (
+    {Header: 'Is The File Public?', accessor: 'ispublic',id:'ispublic', width: '12.5%',Cell: ({row}) => (
         <span >{row.values.ispublic == 1 ? "yes" : "no"}</span>
     )},
-    {Header: 'Storage Validity Period To',id:'deadline', accessor: 'deadline', width: 300},
-    {Header: 'Charge', accessor: 'downloadfee',id:'downloadfee', width: 300},
+    {Header: 'Storage Validity Period To',id:'deadline', accessor: 'deadline', width: '12.5%'},
+    {Header: 'Charge', accessor: 'downloadfee',id:'downloadfee', width: '12.5%'},
   ], [])
 
   const renderRowSubComponent = React.useCallback(

@@ -65,20 +65,20 @@ function RcTable({ columns: userColumns, data, renderRowSubComponent, className,
           {page.map((row: any, i: any) => {
             prepareRow(row)
             return (
-              <React.Fragment {...row.getRowProps()} key={i}>
-                <tr>
+              <Fragment key={i}>
+                <tr {...row.getRowProps()}>
                   {row.cells.map((cell: any) => {
                     return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
                   })}
                 </tr>
                 {row.isExpanded ? (
-                  <tr>
+                  <tr {...row.getRowProps()}>
                     <td colSpan={visibleColumns.length}>
                       { renderRowSubComponent && renderRowSubComponent({ row })}
                     </td>
                   </tr>
                 ) : null}
-              </React.Fragment>
+              </Fragment>
             )
           })}
           </tbody>
@@ -141,12 +141,13 @@ function RcTable({ columns: userColumns, data, renderRowSubComponent, className,
 }
 
 export default styled(RcTable)`
-  display: block;
+  //display: block;
   overflow: auto;
   table{
-    width: 100%;
+    //width: 100%;
     border: 1.5px solid #5078FE;
     border-radius: 6px;
+    max-width: 900px;
     overflow-x: auto;
     thead {
     ${'' /* These styles are required for a scrollable body to align with the header properly */}
@@ -177,6 +178,7 @@ export default styled(RcTable)`
     border-bottom: 1px solid #DBDBDB;
     border-right: 1px solid #DBDBDB;
     text-align: center;
+    //width: 1% !important;
 
     :last-child {
       border-right: 0;

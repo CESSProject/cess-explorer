@@ -36,7 +36,7 @@ function RcTable({ columns: userColumns, data, renderRowSubComponent, className,
     // useResizeColumns,
     // useFlexLayout,
     // useBlockLayout,
-    useAbsoluteLayout,
+    // useAbsoluteLayout,
     useExpanded,
     usePagination
   )

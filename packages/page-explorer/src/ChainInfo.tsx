@@ -4,16 +4,24 @@ import {  BlockAuthorsContext, BlockToTime, TimeNow } from '@polkadot/react-quer
 import { BN_ONE } from '@polkadot/util';
 import _ from "lodash"
 import StorageGroup from './components/StorageGroup';
+import {api} from "@polkadot/react-api";
 
 interface Props{
   className?: string,
 }
 
 function ChainInfo({className}: Props): React.ReactElement<Props>{
+  const [minerData, setMinerData] = useState<any>({})
   const { lastHeaders } = useContext(BlockAuthorsContext);
 
-  useEffect(() =>{
-
+  useEffect(()=>{
+    (async (): Promise<void> =>{
+      const res = await api.query.sminer.minerStatValue();
+      if(res){
+        let info = res.toJSON();
+        setMinerData(info);
+      }
+    })().catch(console.error);
   }, [])
 
   return (
@@ -35,15 +43,15 @@ function ChainInfo({className}: Props): React.ReactElement<Props>{
           </div>
           <div className={"chain-info-details-block middle-block"}>
             <span className={"chain-info-details-block-item label"}>block reward</span>
-            <span className={"chain-info-details-block-item"}>124.2345 <span className={"unit"}>tCESS</span></span>
+            <span className={"chain-info-details-block-item"}>0 <span className={"unit"}>tCESS</span></span>
           </div>
           <div className={"chain-info-details-block"}>
             <span className={"chain-info-details-block-item label"}>24h average block reward</span>
-            <span className={"chain-info-details-block-item"}>1.2234 <span className={"unit"}>tCESS/TB</span></span>
+            <span className={"chain-info-details-block-item"}>0 <span className={"unit"}>tCESS/TB</span></span>
           </div>
           <div className={"chain-info-details-block"}>
             <span className={"chain-info-details-block-item label"}>active miners</span>
-            <span className={"chain-info-details-block-item"}>121</span>
+            <span className={"chain-info-details-block-item"}>{minerData && minerData.activeMiners}</span>
           </div>
         </div>
         <StorageGroup />

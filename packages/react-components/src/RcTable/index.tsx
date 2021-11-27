@@ -1,6 +1,6 @@
 import React, {Fragment} from 'react'
 import styled from 'styled-components'
-import { useTable, useExpanded,usePagination, useResizeColumns, useFlexLayout, useBlockLayout } from 'react-table'
+import { useTable, useExpanded,usePagination, useResizeColumns, useFlexLayout, useBlockLayout, useAbsoluteLayout } from 'react-table'
 
 interface Props{
   className?: string,
@@ -36,6 +36,7 @@ function RcTable({ columns: userColumns, data, renderRowSubComponent, className,
     // useResizeColumns,
     // useFlexLayout,
     // useBlockLayout,
+    useAbsoluteLayout,
     useExpanded,
     usePagination
   )

@@ -22,18 +22,23 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
 
   useEffect(()=>{
     (async (): Promise<void> =>{
-      const result = await api.query.system.account("5HbW1vWRgUbkxqEYRiNVdd6Kx57yuETbZNE1THG5Dk8oSYhP");
-      let info = result.toHuman();
-      let free = _.get(info, 'data.free');
-      setAccountInfo(info.data || {});
+      // const result = await api.query.system.account("5HbW1vWRgUbkxqEYRiNVdd6Kx57yuETbZNE1THG5Dk8oSYhP");
+      const result:any = await api.query.system.account(value);
+      if(result){
+        let info = result.toHuman();
+        let free = _.get(info, 'data.free');
+        setAccountInfo(info.data || {});
+      }
     })().catch(console.error);
   }, [])
 
   useEffect(()=>{
     (async ():Promise<void> =>{
-      let res:any = await api.query.fileBank.userFileSize("5HbW1vWRgUbkxqEYRiNVdd6Kx57yuETbZNE1THG5Dk8oSYhP");
+      // let res:any = await api.query.fileBank.userFileSize("5HbW1vWRgUbkxqEYRiNVdd6Kx57yuETbZNE1THG5Dk8oSYhP");
+      let res:any = await api.query.fileBank.userFileSize(value);
       if(res){
         let size = res.toJSON() || 0;
+        size = formatterSize(size);
         setSize(size);
       }
     })()
@@ -135,7 +140,7 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
             <div className={"accout-info-right"}>
               <span>Data</span>
               <span>{size}</span>
-              <span>MB</span>
+              {/*<span>MB</span>*/}
             </div>
           </div>
           <div className={"accout-table"}>

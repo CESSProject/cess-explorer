@@ -188,6 +188,7 @@ export default React.memo(styled(AccoutDetail)`
             }
             >span{
               margin-left: 5px;
+              vertical-align: middle;
             }
           }
           &.ellipsis{
@@ -198,6 +199,7 @@ export default React.memo(styled(AccoutDetail)`
             font-size: 28px;
             color: #5078FE;
             margin-right: 20px;
+            vertical-align: middle;
           }
         }
       }

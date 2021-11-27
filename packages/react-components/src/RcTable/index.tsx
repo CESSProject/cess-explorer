@@ -13,6 +13,13 @@ interface Props{
 
 function RcTable({ columns: userColumns, data, renderRowSubComponent, className, paginationClassName,isShowPagination = true }:Props) : React.ReactElement<Props>{
 
+  const defaultColumn = React.useMemo(
+    () => ({
+      width: 150,
+    }),
+    []
+  )
+
   const {
     getTableProps,
     getTableBodyProps,
@@ -32,6 +39,7 @@ function RcTable({ columns: userColumns, data, renderRowSubComponent, className,
   }: any = useTable({
     columns: userColumns,
     data,
+    defaultColumn,
   },
     // useResizeColumns,
     // useFlexLayout,

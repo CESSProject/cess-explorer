@@ -144,6 +144,7 @@ export default styled(RcTable)`
   display: block;
   overflow-x: auto;
   table{
+    border-collapse: collapse;
     width: 100%;
     border: 1.5px solid #5078FE;
     border-radius: 6px;
@@ -173,7 +174,7 @@ export default styled(RcTable)`
   th,
   td {
     margin: 0;
-    padding: 0.5rem;
+    //padding: 0.5rem;
     border-bottom: 1px solid #DBDBDB;
     border-right: 1px solid #DBDBDB;
     text-align: center;

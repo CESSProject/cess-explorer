@@ -1,4 +1,10 @@
 import _ from "lodash"
+import {number} from "echarts";
+
+type Currency ={
+  money: string,
+  suffix: string
+}
 
 /**
  * formatter file size
@@ -25,11 +31,24 @@ const formatterSize = (bytes) =>{
  * formatter coin
  * @param coin
  */
-const formatterCoin = coin =>{
-
+const formatterCurrency = (coin:number): Currency =>{
+  if(_.isString(coin)){
+    coin = _.toNumber(coin);
+  }
+  if (coin == 0) return {money: '0', suffix: 'TCESS'};
+  let k = 1000; //设定基础货币换算比例
+  let currencyStr = ['pico','nano','micro','milli','TCESS','kilo','Mill','Bill']; //容量单位
+  let i = 0; //单位下标和次幂
+  for(let l=0;l<8;l++){
+    if(coin / Math.pow(k, l) < 1){
+      break;
+    }
+    i = l;
+  }
+  return { money: (coin / Math.pow(k, i)).toFixed(3), suffix:currencyStr[i]};
 }
 
 export {
   formatterSize,
-  formatterCoin
+  formatterCurrency
 }

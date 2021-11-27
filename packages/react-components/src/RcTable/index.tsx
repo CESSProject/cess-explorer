@@ -141,23 +141,22 @@ function RcTable({ columns: userColumns, data, renderRowSubComponent, className,
 }
 
 export default styled(RcTable)`
-  //display: block;
-  overflow: auto;
+  display: block;
+  overflow-x: auto;
   table{
-    //width: 100%;
+    width: 100%;
     border: 1.5px solid #5078FE;
     border-radius: 6px;
-    max-width: 900px;
     overflow-x: auto;
     thead {
     ${'' /* These styles are required for a scrollable body to align with the header properly */}
-      overflow-y: hidden;
+      //overflow-y: hidden;
       overflow-x: auto;
       width: 100%;
     }
     tbody {
     ${'' /* These styles are required for a scrollable table body */}
-      overflow-y: hidden;
+      //overflow-y: hidden;
       overflow-x: auto;
       //height: 250px;
       width: 100%;
@@ -178,7 +177,6 @@ export default styled(RcTable)`
     border-bottom: 1px solid #DBDBDB;
     border-right: 1px solid #DBDBDB;
     text-align: center;
-    //width: 1% !important;
 
     :last-child {
       border-right: 0;

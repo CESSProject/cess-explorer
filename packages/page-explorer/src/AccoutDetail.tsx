@@ -8,17 +8,24 @@ import ReactTooltip from 'react-tooltip';
 import {useApi} from "@polkadot/react-hooks";
 import {formatterCurrency, formatterCurrencyStr, formatterSize} from "./utils";
 import Empty from "./components/Empty";
+import Icon from "@polkadot/react-components/Icon";
+import {number} from "echarts";
 
 interface Props{
   className? :string,
   value?: string
 }
 
+type Currency ={
+  money: string,
+  suffix: string
+}
+
 function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
   const { api } = useApi();
   const [size, setSize] = useState<number>(0);
   const [data, setData] = useState<any[]>([]);
-  const [accountInfo, setAccountInfo] = useState({});
+  const [accountInfo, setAccountInfo] = useState<any>({});
 
   useEffect(()=>{
     if(value){
@@ -27,7 +34,14 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
         const result:any = await api.query.system.account(value);
         if(result){
           let info = result.toJSON();
-          setAccountInfo(info.data || {});
+          let otherInfo = result.toHuman();
+          let freeStr: string = otherInfo.data.free;
+          let freeInt: number = _.toNumber(freeStr.replace(/,/g,''));
+          let total: number = info.data.feeFrozen + info.data.miscFrozen + info.data.reserved + freeInt;
+          let totalObj: Currency = formatterCurrency(total);
+          let reservedObj: Currency = formatterCurrency(info.data.reserved);
+          let obj:any = { totalObj, reservedObj }
+          setAccountInfo(obj);
         }
       })().catch(console.error);
     }
@@ -115,7 +129,10 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
   return (
     <Fragment>
       <div className={`${className} "accout-detail"`}>
-        <div className={"accout-title"}>Account Detail</div>
+        <div className={"accout-title"}>
+          <Icon className='highlight--color' icon='dot-circle'/>
+          <span className={"accout-title-text"}>Account Detail</span>
+        </div>
         <div className={"accout-content"}>
           <div className={"accout-info"}>
             <div className={"accout-info-left"}>
@@ -124,7 +141,7 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
                 <span className={"accout-info-left-td"}>Account name</span>
                 <span className={"accout-info-left-td account-name"}>
                   <IdentityIcon value={value} />
-                  <span>{value?.substr(0, 5)}</span>
+                  <span>{value?.substr(0, 5) + '...' + value?.substr(value?.length - 5, value?.length)}</span>
                 </span>
               </div>
               <div className={"accout-info-left-tr"}>
@@ -134,11 +151,11 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
               </div>
               <div className={"accout-info-left-tr"}>
                 <span className={"accout-info-left-td"}>Total</span>
-                <span className={"accout-info-left-td"}><span className={"accout-info-left-td-value"}>{accountInfo && formatterCurrency(accountInfo["reserved"]).money} </span><span>{accountInfo && formatterCurrency(accountInfo["reserved"]).suffix}</span></span>
+                <span className={"accout-info-left-td"}><span className={"accout-info-left-td-value"}>{accountInfo && accountInfo.totalObj &&  accountInfo.totalObj.money} </span><span>{accountInfo && accountInfo.totalObj &&  accountInfo.totalObj.suffix}</span></span>
               </div>
               <div className={"accout-info-left-tr"}>
                 <span className={"accout-info-left-td"}>Available transfers</span>
-                <span className={"accout-info-left-td"}><span className={"accout-info-left-td-value"}>{accountInfo && formatterCurrency(accountInfo["reserved"]).money} </span><span>{accountInfo && formatterCurrency(accountInfo["reserved"]).suffix}</span></span>
+                <span className={"accout-info-left-td"}><span className={"accout-info-left-td-value"}>{accountInfo && accountInfo.reservedObj &&  accountInfo.reservedObj.money} </span><span>{accountInfo && accountInfo.reservedObj &&  accountInfo.reservedObj.suffix}</span></span>
               </div>
             </div>
             <div className={"accout-info-center"}>
@@ -167,12 +184,15 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
 }
 
 export default React.memo(styled(AccoutDetail)`
-  margin: 20px 0;
+  margin: -50px 0 20px 0;
   font-size: 16px;
   .accout-title, .accout-content{
-    padding: 35px 1.5rem !important;
+    padding: 26px 1.5rem !important;
     background: white;
     border-radius: 6px;
+    .accout-title-text{
+      margin-left: 5px;
+    }
   }
   .accout-content{
     margin-top: 4px;

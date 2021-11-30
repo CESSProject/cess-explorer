@@ -150,7 +150,8 @@ function MinerDetail({className, value}: Props): React.ReactElement<Props> {
   return (
     <div className={`${className} miner-detail`}>
       <div className={"miner-title"}>
-        Miner Detail
+        <Icon className='highlight--color' icon='dot-circle'/>
+        <span className={"miner-title-text"}>Miner Detail</span>
       </div>
       <div className={"miner-content"}>
         <div className={"miner-info"}>
@@ -235,6 +236,9 @@ export default React.memo(styled(MinerDetail)`
     padding: 26px 1.5rem !important;
     background: white;
     border-radius: 6px;
+    .accout-title-text{
+      margin-left: 5px;
+    }
   }
 
   .miner-content {

@@ -25,7 +25,6 @@ function StorageGroup({className}: Props): React.ReactElement<Props>{
     (async (): Promise<void> =>{
       let storageInfoValue = await api.query.sminer.storageInfoValue();
       let storageInfo = storageInfoValue.toJSON();
-      console.log(storageInfo, 'storageInfostorageInfostorageInfostorageInfostorageInfo')
       drawUtilization({used_storage: _.toNumber(_.get(storageInfo , 'usedStorage' )), available_storage: _.toNumber(_.get(storageInfo , 'availableStorage' ))});
       let barData = [
         { value: _.get(storageInfo , 'usedStorage' ), name: 'used storage'},
@@ -70,10 +69,14 @@ function StorageGroup({className}: Props): React.ReactElement<Props>{
             },
           },
         },
-        series: [
+        grid:{
+          left: '2%',
+        },
+        series:
           {
             name: 'Chain Info',
             type: 'pie',
+            right: '40%',
             radius: ['50%', '70%'],
             color: ['#5078FE', '#5CD5B4'],
             label: {
@@ -92,7 +95,7 @@ function StorageGroup({className}: Props): React.ReactElement<Props>{
             },
             data: barData
           }
-        ]
+
       };
       myChart.setOption(option);
     })().catch(console.error);
@@ -109,7 +112,6 @@ function StorageGroup({className}: Props): React.ReactElement<Props>{
 
   const drawUtilization = ({used_storage, available_storage}) =>{
     let usedPercent: number = used_storage / (used_storage + available_storage);
-    console.log(used_storage, available_storage, 'yyyyyyyyyyyyyyyyyy',used_storage / (used_storage + available_storage))
     setUtilization(_.ceil(usedPercent,2)*100);
     let percentPI: number = 0;
     let coordinate: any;
@@ -204,7 +206,7 @@ export default React.memo(styled(StorageGroup)`
       &-right{
         width: 8px;
         height: 61px;
-        border-radius: 6px;
+        border-radius: 2px;
         background: #FF9C07;
         margin-left: 12px;
       }

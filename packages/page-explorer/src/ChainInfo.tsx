@@ -5,6 +5,7 @@ import { BN_ONE } from '@polkadot/util';
 import _ from "lodash"
 import StorageGroup from './components/StorageGroup';
 import {api} from "@polkadot/react-api";
+import RcTable from '@polkadot/react-components/RcTable/RcTable';
 
 interface Props{
   className?: string,
@@ -59,6 +60,7 @@ function ChainInfo({className}: Props): React.ReactElement<Props>{
         </div>
         <StorageGroup />
       </div>
+      {/*<RcTable />*/}
     </div>
   )
 }

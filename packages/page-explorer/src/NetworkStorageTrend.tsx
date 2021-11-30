@@ -94,7 +94,6 @@ function NetworkStorageTrend({className}: Props): React.ReactElement<Props>{
     (async (): Promise<void> =>{
       let list = await api.query.sminer.storageInfoVec();
       let {xAxisData, usedStorageData, availableStorageData} = cleanData(list.toJSON());
-      console.log(xAxisData, usedStorageData, availableStorageData);
       option.xAxis.data = xAxisData;
       option.series[0].data = usedStorageData;
       option.series[1].data = availableStorageData;

@@ -34,6 +34,7 @@ function AccountsApp ({ basePath, onStatusChange }: Props): React.ReactElement<P
     {
       name: 'vanity',
       text: t<string>('Vanity generator'),
+      icon: true
     }
   ]);
 

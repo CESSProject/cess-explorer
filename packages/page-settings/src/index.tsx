@@ -40,6 +40,7 @@ function SettingsApp ({ basePath, onStatusChange }: Props): React.ReactElement<P
     {
       name: 'developer',
       text: t<string>('Developer'),
+      icon: true,
     },
     // {
     //   name: 'i18n',

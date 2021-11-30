@@ -75,11 +75,13 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
     {
       isRoot: true,
       name: 'overview',
-      text: t<string>('Overview')
+      text: t<string>('Overview'),
+      icon: true
     },
     {
       name: 'actions',
-      text: t<string>('Account actions')
+      text: t<string>('Account actions'),
+      icon: true
     },
     isFunction(api.query.staking.activeEra) && hasAccounts && ownStashes && (ownStashes.length !== 0) && {
       name: 'payout',

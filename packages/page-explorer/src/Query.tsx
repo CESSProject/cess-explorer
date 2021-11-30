@@ -66,7 +66,8 @@ function Query ({ className = '', value: propsValue }: Props): React.ReactElemen
         withLabel={false}
       >
         <Button
-          icon='play'
+          isSelected
+          icon='search'
           onClick={_onQuery}
         />
       </Input>

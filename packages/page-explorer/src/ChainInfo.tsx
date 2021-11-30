@@ -14,6 +14,9 @@ function ChainInfo({className}: Props): React.ReactElement<Props>{
   const [minerData, setMinerData] = useState<any>({})
   const { lastHeaders } = useContext(BlockAuthorsContext);
 
+  let json = lastHeaders && lastHeaders[0] && lastHeaders[0].toJSON();
+  let num = json ? json?.number : 0;
+
   useEffect(()=>{
     (async (): Promise<void> =>{
       const res = await api.query.sminer.minerStatValue();
@@ -31,7 +34,7 @@ function ChainInfo({className}: Props): React.ReactElement<Props>{
         <div className={"chain-info-details"}>
           <div className={"chain-info-details-block"}>
             <span className={"chain-info-details-block-item label"}>tipset height</span>
-            <span className={"chain-info-details-block-item"}>{lastHeaders.length}</span>
+            <span className={"chain-info-details-block-item"}>{num}</span>
           </div>
           <div className={"chain-info-details-block"}>
             <span className={"chain-info-details-block-item label"}>latest block</span>

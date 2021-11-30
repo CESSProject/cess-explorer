@@ -6,6 +6,7 @@ import RcTable from "@polkadot/react-components/RcTable";
 import ReactTooltip from "react-tooltip";
 import {useApi} from "@polkadot/react-hooks";
 import _ from "lodash"
+import {formatterCurrency} from "@polkadot/app-explorer/utils";
 
 interface Props {
   className?: string,
@@ -16,34 +17,16 @@ function MinerDetail({className, value}: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const minerInfoRef = useRef<any>()
   const [minerDetail, setMinerDetail] = useState<any>({})
-  const [state, setState] = useState({
-    data: [
-      {ExtrinsicID: 'Hello', Block: 'World', Call: 'staking(guarantee)'},
-      {ExtrinsicID: 'react-table', Block: 'rocks', Call: 'balances(transfer_keep_alive)'},
-      {ExtrinsicID: 'whatever', Block: 'you want', Call: 'staking(guarantee)'},
-      {ExtrinsicID: 'Hello', Block: 'World', Call: 'staking(guarantee)'},
-      {ExtrinsicID: 'react-table', Block: 'rocks', Call: 'balances(transfer_keep_alive)'},
-      {ExtrinsicID: 'whatever', Block: 'you want', Call: 'staking(guarantee)'},
-      {ExtrinsicID: 'Hello', Block: 'World', Call: 'staking(guarantee)'},
-      {ExtrinsicID: 'react-table', Block: 'rocks', Call: 'balances(transfer_keep_alive)'},
-      {ExtrinsicID: 'whatever', Block: 'you want', Call: 'staking(guarantee)'},
-      {ExtrinsicID: 'Hello', Block: 'World', Call: 'staking(guarantee)'},
-      {ExtrinsicID: 'react-table', Block: 'rocks', Call: 'balances(transfer_keep_alive)'},
-      {ExtrinsicID: 'whatever', Block: 'you want', Call: 'staking(guarantee)'},
-      {ExtrinsicID: 'Hello1', Block: 'World', Call: 'staking(guarantee)'},
-      {ExtrinsicID: 'react-table2', Block: 'rocks', Call: 'balances(transfer_keep_alive)'},
-      {ExtrinsicID: 'whatever2', Block: 'you want', Call: 'staking(guarantee)'},
-      {ExtrinsicID: 'Hell2o', Block: 'World', Call: 'staking(guarantee)'},
-      {ExtrinsicID: 'react-tabl2e', Block: 'rocks', Call: 'balances(transfer_keep_alive)'},
-      {ExtrinsicID: 'whatev2er', Block: 'you want', Call: 'staking(guarantee)'},
-    ]
-  })
 
   useEffect(() => {
     (async ():Promise<void> =>{
       // let res:any = await api.query.sminer.minerDetails(1);
       let res:any = await api.query.sminer.minerDetails(value);
-      let resJson = res.toJSON()
+      let resJson: any = res.toJSON();
+      resJson.totalRewardObj = formatterCurrency(resJson.totalReward);
+      resJson.totalRewardsCurrentlyAvailableObj = formatterCurrency(resJson.totalRewardsCurrentlyAvailable);
+      resJson.totaldNotReceiveObj = formatterCurrency(resJson.totaldNotReceive);
+      resJson.collateralsObj = formatterCurrency(resJson.collaterals);
       if(res){
         setMinerDetail(resJson)
         let barData = [
@@ -114,7 +97,7 @@ function MinerDetail({className, value}: Props): React.ReactElement<Props> {
         });
       }
     })()
-  }, [])
+  }, [value])
 
   const columns = React.useMemo(()=> [
     {Header: 'Miner ID', accessor: 'Miner ID'},
@@ -174,7 +157,7 @@ function MinerDetail({className, value}: Props): React.ReactElement<Props> {
             </div>
             <div className={"miner-info-left-tr"}>
               <span className={"miner-info-left-td"}>Account1</span>
-              <span className={"miner-info-left-td ellipsis"} data-effect={"solid"} data-tip={"cTHDK35f4i7ujFS3K6jPiEQZ22mXpjasf3Jzorqf32EEhup1J"}>
+              <span className={"miner-info-left-td ellipsis"} data-effect={"solid"} data-tip={minerDetail && minerDetail.address}>
                 {minerDetail && minerDetail.address}
               </span>
               <ReactTooltip effect="solid" delayUpdate={500} delayHide={2000}/>
@@ -185,7 +168,7 @@ function MinerDetail({className, value}: Props): React.ReactElement<Props> {
             </div>
             <div className={"miner-info-left-tr"}>
               <span className={"miner-info-left-td"}>Account2</span>
-              <span className={"miner-info-left-td ellipsis"} data-effect={"solid"} data-tip={"cTHDK35f4i7ujFS3K6jPiEQZ22mXpjasf3Jzorqf32EEhup1J"}>
+              <span className={"miner-info-left-td ellipsis"} data-effect={"solid"} data-tip={minerDetail && minerDetail.beneficiary}>
                 {minerDetail && minerDetail.beneficiary}
               </span>
               <ReactTooltip effect="solid" delayUpdate={500} delayHide={2000}/>
@@ -204,17 +187,17 @@ function MinerDetail({className, value}: Props): React.ReactElement<Props> {
             <div className={"miner-info-left-tr"}>
               <span className={"miner-info-left-td"}>total</span>
               <span className={"miner-info-left-td"}><span
-                className={"miner-info-left-td-value"}>{ minerDetail && _.round(minerDetail.totalReward, 4) } </span><span>TCESS</span></span>
+                className={"miner-info-left-td-value"}>{ minerDetail && minerDetail.totalRewardObj && minerDetail.totalRewardObj.money } </span><span>{ minerDetail && minerDetail.totalRewardObj && minerDetail.totalRewardObj.suffix }</span></span>
             </div>
             <div className={"miner-info-left-tr"}>
               <span className={"miner-info-left-td"}>available transfers</span>
               <span className={"miner-info-left-td"}><span
-                className={"miner-info-left-td-value"}>{ minerDetail && _.round(minerDetail.totalRewardsCurrentlyAvailable, 4)} </span><span>TCESS</span></span>
+                className={"miner-info-left-td-value"}>{ minerDetail && minerDetail.totalRewardsCurrentlyAvailableObj && minerDetail.totalRewardsCurrentlyAvailableObj.money} </span><span>{ minerDetail && minerDetail.totalRewardsCurrentlyAvailableObj && minerDetail.totalRewardsCurrentlyAvailableObj.suffix }</span></span>
             </div>
             <div className={"miner-info-left-tr"}>
               <span className={"miner-info-left-td"}>locked</span>
               <span className={"miner-info-left-td"}>
-                <span className={"miner-info-left-td-value"}>{minerDetail && _.round(minerDetail.totaldNotReceive, 4) }</span><span>TCESS</span>
+                <span className={"miner-info-left-td-value"}>{minerDetail && minerDetail.totaldNotReceiveObj && minerDetail.totaldNotReceiveObj.money }</span><span>{minerDetail && minerDetail.totaldNotReceiveObj && minerDetail.totaldNotReceiveObj.suffix }</span>
                 <img className={"ellipsis"} src={require("./../../../assets/images/hoverInfo.png")} alt="" data-place={"right"} data-effect={"solid"}  data-tip={"Binding through harvest"}/>
                 <ReactTooltip place={"right"} effect="solid" delayUpdate={500} delayHide={2000}/>
               </span>
@@ -222,7 +205,7 @@ function MinerDetail({className, value}: Props): React.ReactElement<Props> {
             <div className={"miner-info-left-tr"}>
               <span className={"miner-info-left-td"}>remaining staking</span>
               <span className={"miner-info-left-td"}><span
-                className={"miner-info-left-td-value"}>{ minerDetail && _.round(minerDetail.collaterals, 4) }</span><span>TCESS</span></span>
+                className={"miner-info-left-td-value"}>{ minerDetail && minerDetail.collateralsObj && minerDetail.collateralsObj.money }</span><span>{ minerDetail && minerDetail.collateralsObj && minerDetail.collateralsObj.suffix }</span></span>
             </div>
           </div>
         </div>
@@ -283,6 +266,7 @@ export default React.memo(styled(MinerDetail)`
             font-size: 28px;
             color: #5078FE;
             margin-right: 20px;
+            vertical-align: middle;
           }
           >img{
             vertical-align: baseline;

@@ -58,7 +58,7 @@ const formatterCurrency = (coin:number): Currency =>{
   }
   if (coin == 0) return {money: '0', suffix: 'TCESS'};
   let k = 1000; //设定基础货币换算比例
-  let currencyStr = ['pico','nano','micro','milli','TCESS','kilo','Mill','Bill']; //容量单位
+  let currencyStr = ['PICO','NANO','MICRO','MILLI','TCESS','KILO','MILL','BILL']; //容量单位
   let i = 0; //单位下标和次幂
   for(let l=0;l<8;l++){
     if(coin / Math.pow(k, l) < 1){
@@ -79,7 +79,7 @@ const formatterCurrencyStr = (coin:number): string =>{
   }
   if (coin == 0) return "0 TCESS";
   let k = 1000; //设定基础货币换算比例
-  let currencyStr = ['pico','nano','micro','milli','TCESS','kilo','Mill','Bill']; //容量单位
+    let currencyStr = ['PICO','NANO','MICRO','MILLI','TCESS','KILO','MILL','BILL']; //容量单位
   let i = 0; //单位下标和次幂
   for(let l=0;l<8;l++){
     if(coin / Math.pow(k, l) < 1){

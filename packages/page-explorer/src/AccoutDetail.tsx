@@ -6,7 +6,7 @@ import {Button} from "@polkadot/react-components";
 import IdentityIcon from "@polkadot/react-components/IdentityIcon";
 import ReactTooltip from 'react-tooltip';
 import {useApi} from "@polkadot/react-hooks";
-import { formatterSize } from "./utils";
+import {formatterCurrencyStr, formatterSize} from "./utils";
 import Empty from "./components/Empty";
 
 interface Props{
@@ -51,10 +51,12 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
       entries.forEach(([key, entry]) => {
         let fileid:string = key.args.map((k) => k.toHuman());
         // console.log('key arguments:', key.args.map((k) => k.toHuman()));
-        // console.log('account data--->', entry.toHuman());
+        // console.log('account data--->', entry.toHuman(), 'toJSON ---->', entry.toJSON());
         let humanObj = entry.toJSON();
-        humanObj.filesize = formatterSize(humanObj.filesize);
-        list.push(_.assign(humanObj,{fileid}));
+        if(humanObj.owner == value){
+          humanObj.filesize = formatterSize(humanObj.filesize);
+          list.push(_.assign(humanObj,{fileid}));
+        }
       });
       setData(list);
     })()
@@ -78,7 +80,9 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
         <span >{row.values.ispublic == 1 ? "yes" : "no"}</span>
     )},
     {Header: 'Storage Validity Period To',id:'deadline', accessor: 'deadline', width: '12.5%'},
-    {Header: 'Charge', accessor: 'downloadfee',id:'downloadfee', width: '12.5%'},
+    {Header: 'Charge', accessor: 'downloadfee',id:'downloadfee', width: '12.5%',Cell: ({row}) => (
+        <span >{ formatterCurrencyStr(row.values.downloadfee) }</span>
+    )},
   ], [])
 
   const renderRowSubComponent = React.useCallback(

@@ -5,7 +5,7 @@ import * as echarts from "echarts"
 import {useTranslation} from "@polkadot/app-explorer/translate";
 import {useApi} from "@polkadot/react-hooks";
 import {BlockAuthorsContext} from "@polkadot/react-query";
-import { formatterSize } from '../utils';
+import { formatterSizeFromMB} from '../utils';
 
 
 interface Props{
@@ -25,6 +25,7 @@ function StorageGroup({className}: Props): React.ReactElement<Props>{
     (async (): Promise<void> =>{
       let storageInfoValue = await api.query.sminer.storageInfoValue();
       let storageInfo = storageInfoValue.toJSON();
+      console.log(storageInfo, 'storageInfostorageInfostorageInfostorageInfostorageInfo')
       drawUtilization({used_storage: _.toNumber(_.get(storageInfo , 'usedStorage' )), available_storage: _.toNumber(_.get(storageInfo , 'availableStorage' ))});
       let barData = [
         { value: _.get(storageInfo , 'usedStorage' ), name: 'used storage'},
@@ -36,7 +37,7 @@ function StorageGroup({className}: Props): React.ReactElement<Props>{
           trigger: 'item',
           formatter: list => {
             let res = list.name;
-            res += "<br/>" + list.marker + list.seriesName + "<span style=\"margin-left:20px;text-align: right;font-weight: bold;\">" + formatterSize(Math.abs(list.value)) + "</span>"
+            res += "<br/>" + list.marker + list.seriesName + "<span style=\"margin-left:20px;text-align: right;font-weight: bold;\">" + formatterSizeFromMB(Math.abs(list.value)) + "</span>"
             return res;
           }
         },
@@ -50,7 +51,7 @@ function StorageGroup({className}: Props): React.ReactElement<Props>{
           itemHeight: 61,
           formatter: name =>{
             let value = _.get(_.find(barData, v=> v.name === name),'value');
-            return ['{a|' + name + '}', '{b|' + formatterSize(value) + '}'].join('\n');
+            return ['{a|' + name + '}', '{b|' + formatterSizeFromMB(value) + '}'].join('\n');
           },
           textStyle:{
             rich: {

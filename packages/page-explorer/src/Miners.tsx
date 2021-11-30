@@ -5,6 +5,7 @@ import Icon from "@polkadot/react-components/Icon";
 import { api } from "@polkadot/react-api";
 import StorageGroup from "./components/StorageGroup";
 import _ from "lodash"
+import {formatterCurrency} from "@polkadot/app-explorer/utils";
 
 interface Props{
   className?: string
@@ -18,7 +19,13 @@ function Miners({className}: Props): React.ReactElement<Props>{
     (async (): Promise<void> =>{
       const res = await api.query.sminer.minerStatValue();
       if(res){
-        let info = res.toJSON();
+        let info:any = res.toJSON();
+        let stakingObj = formatterCurrency(info.staking);
+        info.stakingMoney = stakingObj.money;
+        info.stakingSuffix = stakingObj.suffix;
+        let minerRewardObj = formatterCurrency(info.minerReward);
+        info.minerRewardMoney = minerRewardObj.money;
+        info.minerRewardSuffix = minerRewardObj.suffix;
         setMinerData(info);
       }
     })().catch(console.error);
@@ -30,18 +37,18 @@ function Miners({className}: Props): React.ReactElement<Props>{
       const entries = await api.query.sminer.minerTable.entries();
       let list:any[]= [];
       entries.forEach(([key, entry]) => {
-        // console.log('key arguments:', key.args.map((k) => k.toHuman()));
+        // console.log(key.args,'key arguments:', key.args.map((k) => k.toHuman()),'rrrrrrrrr',key);
         // console.log('     exposure:', entry.toHuman());
-        let minerId = key.args.map((k) => k.toHuman());
+        let minerId = _.get(key.args.map((k) => k.toHuman()), `0`);
         let humanObj = entry.toHuman();
-        list.push(_.assign(humanObj), { minerId });
+        list.push(_.assign(humanObj, { minerId }));
       });
       setMinerList(list);
     })().catch(console.error);
   }, [])
 
   const columns = React.useMemo(()=> [
-    {Header: 'Miner ID', accessor: 'Miner ID',Cell: ({row}) => (
+    {Header: 'Miner ID', accessor: 'minerId',Cell: ({row}) => (
       <a href={`/explorer/query/${row.values.minerId}`} >{row.values.minerId}</a>
     )},
     {Header: 'Address1', accessor: 'address',Cell: ({row}) => (
@@ -51,10 +58,10 @@ function Miners({className}: Props): React.ReactElement<Props>{
        <a href={`/explorer/query/${row.values.address}`} >{row.values.beneficiary}</a>
     )},
     {Header: 'Total Storage', accessor: 'totalStorage'},
-    {Header: 'Average Daily Data Traffic (In)', accessor: 'averageDailyDataTrafficIn'},
-    {Header: 'Average Daily Data Traffic (Out)', accessor: 'averageDailyDataTrafficOut'},
+    // {Header: 'Average Daily Data Traffic (In)', accessor: 'averageDailyDataTrafficIn'},
+    // {Header: 'Average Daily Data Traffic (Out)', accessor: 'averageDailyDataTrafficOut'},
     {Header: 'Mining Reward', accessor: 'miningReward'},
-    {Header: 'Status', accessor: 'status'},
+    // {Header: 'Status', accessor: 'status'},
   ], [])
 
   return (
@@ -71,15 +78,15 @@ function Miners({className}: Props): React.ReactElement<Props>{
           </div>
           <div className={"miners-info-details-block middle-block"}>
             <span className={"miners-info-details-block-item label"}>staking</span>
-            <span className={"miners-info-details-block-item"}>{minerData && minerData.staking}</span>
+            <span className={"miners-info-details-block-item"}>{ minerData && minerData.stakingMoney } <span className={"unit"}>{minerData && minerData.stakingSuffix}</span></span>
           </div>
           <div className={"miners-info-details-block middle-block"}>
             <span className={"miners-info-details-block-item label"}>mining reward</span>
-            <span className={"miners-info-details-block-item"}>{minerData && minerData.minerReward} <span className={"unit"}>tCESS</span></span>
+            <span className={"miners-info-details-block-item"}>{minerData && minerData.minerRewardMoney} <span className={"unit"}>{ minerData && minerData.minerRewardSuffix}</span></span>
           </div>
           <div className={"miners-info-details-block"}>
             <span className={"miners-info-details-block-item label"}>total number of files</span>
-            <span className={"miners-info-details-block-item"}>{minerData && minerData.sumFiles} <span className={"unit"}>tCESS/TB</span></span>
+            <span className={"miners-info-details-block-item"}>{minerData && minerData.sumFiles} </span>
           </div>
         </div>
         <StorageGroup />

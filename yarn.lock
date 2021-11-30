@@ -1396,6 +1396,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/runtime@npm:^7.10.1":
+  version: 7.16.3
+  resolution: "@babel/runtime@npm:7.16.3"
+  dependencies:
+    regenerator-runtime: ^0.13.4
+  checksum: ab8ac887096d76185ddbf291d28fb976cd32473696dc497ad4905b784acbd5aa462533ad83a5c5104e10ead28c2e0e119840ee28ed8eff90dcdde9d57f916eda
+  languageName: node
+  linkType: hard
+
 "@babel/template@npm:^7.15.4, @babel/template@npm:^7.3.3":
   version: 7.15.4
   resolution: "@babel/template@npm:7.15.4"
@@ -6911,6 +6920,13 @@ __metadata:
   version: 1.1.0
   resolution: "class-is@npm:1.1.0"
   checksum: 49024de3b264fc501a38dd59d8668f1a2b4973fa6fcef6b83d80fe6fe99a2000a8fbea5b50d4607169c65014843c9f6b41a4f8473df806c1b4787b4d47521880
+  languageName: node
+  linkType: hard
+
+"classnames@npm:^2.2.1, classnames@npm:^2.2.5":
+  version: 2.3.1
+  resolution: "classnames@npm:2.3.1"
+  checksum: 14db8889d56c267a591f08b0834989fe542d47fac659af5a539e110cc4266694e8de86e4e3bbd271157dbd831361310a8293e0167141e80b0f03a0f175c80960
   languageName: node
   linkType: hard
 
@@ -15848,6 +15864,7 @@ __metadata:
     electron-builder-notarize: ^1.2.0
     i18next-scanner: ^3.1.0
     lodash: ^4.17.21
+    rc-table: ^7.20.4
     react: ^17.0.2
     react-dom: ^17.0.2
     react-is: ^17.0.2
@@ -16461,6 +16478,51 @@ __metadata:
   languageName: node
   linkType: hard
 
+"rc-resize-observer@npm:^1.0.0":
+  version: 1.1.0
+  resolution: "rc-resize-observer@npm:1.1.0"
+  dependencies:
+    "@babel/runtime": ^7.10.1
+    classnames: ^2.2.1
+    rc-util: ^5.15.0
+    resize-observer-polyfill: ^1.5.1
+  peerDependencies:
+    react: ">=16.9.0"
+    react-dom: ">=16.9.0"
+  checksum: 097700e042305928311506fad7a7b60fbaecace989e3abe2fda51829dd3f06df4659957c87374536a02a0a278d9fdddb720e5a9b0cb8183b1f9f2efc5df76fe4
+  languageName: node
+  linkType: hard
+
+"rc-table@npm:^7.20.4":
+  version: 7.20.4
+  resolution: "rc-table@npm:7.20.4"
+  dependencies:
+    "@babel/runtime": ^7.10.1
+    classnames: ^2.2.5
+    rc-resize-observer: ^1.0.0
+    rc-util: ^5.14.0
+    shallowequal: ^1.1.0
+  peerDependencies:
+    react: ">=16.9.0"
+    react-dom: ">=16.9.0"
+  checksum: c0855a80b6efc39e1a337514259e6fb7174104d2c5ad2a1d6a84b8212abd50c7dee49c0689b396ba85d5e089065e3e0554e91c58a4eab2f37aa4b08942b0c779
+  languageName: node
+  linkType: hard
+
+"rc-util@npm:^5.14.0, rc-util@npm:^5.15.0":
+  version: 5.15.0
+  resolution: "rc-util@npm:5.15.0"
+  dependencies:
+    "@babel/runtime": ^7.12.5
+    react-is: ^16.12.0
+    shallowequal: ^1.1.0
+  peerDependencies:
+    react: ">=16.9.0"
+    react-dom: ">=16.9.0"
+  checksum: b4928a529d0fa0bf351b1f8658ee2f3d67567d047561b08358d58ab7280c23b0272e368e62ed217573f785e7cd8730dabba670a02fb53f934786391a56e98bb5
+  languageName: node
+  linkType: hard
+
 "rc@npm:^1.2.7, rc@npm:^1.2.8":
   version: 1.2.8
   resolution: "rc@npm:1.2.8"
@@ -16558,7 +16620,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-is@npm:^16.13.1, react-is@npm:^16.6.0, react-is@npm:^16.6.3, react-is@npm:^16.7.0, react-is@npm:^16.8.1, react-is@npm:^16.8.6":
+"react-is@npm:^16.12.0, react-is@npm:^16.13.1, react-is@npm:^16.6.0, react-is@npm:^16.6.3, react-is@npm:^16.7.0, react-is@npm:^16.8.1, react-is@npm:^16.8.6":
   version: 16.13.1
   resolution: "react-is@npm:16.13.1"
   checksum: f7a19ac3496de32ca9ae12aa030f00f14a3d45374f1ceca0af707c831b2a6098ef0d6bdae51bd437b0a306d7f01d4677fcc8de7c0d331eb47ad0f46130e53c5f
@@ -17172,6 +17234,13 @@ __metadata:
   version: 4.0.0
   resolution: "reselect@npm:4.0.0"
   checksum: ac7dfc9ef2cdb42b6fc87a856f3ce904c2e4363a2bc1e6fb7eea5f78902a6f506e4388e6509752984877c6dbfe501100c076671d334799eb5a1bfe9936cb2c12
+  languageName: node
+  linkType: hard
+
+"resize-observer-polyfill@npm:^1.5.1":
+  version: 1.5.1
+  resolution: "resize-observer-polyfill@npm:1.5.1"
+  checksum: 57e7f79489867b00ba43c9c051524a5c8f162a61d5547e99333549afc23e15c44fd43f2f318ea0261ea98c0eb3158cca261e6f48d66e1ed1cd1f340a43977094
   languageName: node
   linkType: hard
 

@@ -59,6 +59,7 @@
   "dependencies": {
     "echarts": "^5.2.2",
     "lodash": "^4.17.21",
+    "rc-table": "^7.20.4",
     "react-table": "^7.2.0",
     "react-tooltip": "^4.2.21"
   },

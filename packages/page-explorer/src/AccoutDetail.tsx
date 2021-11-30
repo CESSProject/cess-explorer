@@ -155,7 +155,9 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
               {/*<Button isSelected label={"Extrinsics (2)"} onClick={changeTableFilter}/>*/}
               <Button isSelected label={"Data (10)"} onClick={changeTableFilter} className={"select-btn"}/>
             </div>
-            <RcTable columns={columns} data={data}/>
+            {
+              !_.isEmpty(data) ? <RcTable columns={columns} data={data}/> : <Empty />
+            }
           </div>
         </div>
       </div>

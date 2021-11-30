@@ -6,7 +6,7 @@ import {Button} from "@polkadot/react-components";
 import IdentityIcon from "@polkadot/react-components/IdentityIcon";
 import ReactTooltip from 'react-tooltip';
 import {useApi} from "@polkadot/react-hooks";
-import {formatterCurrencyStr, formatterSize} from "./utils";
+import {formatterCurrency, formatterCurrencyStr, formatterSize} from "./utils";
 import Empty from "./components/Empty";
 
 interface Props{
@@ -26,8 +26,7 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
         // const result = await api.query.system.account("5HbW1vWRgUbkxqEYRiNVdd6Kx57yuETbZNE1THG5Dk8oSYhP");
         const result:any = await api.query.system.account(value);
         if(result){
-          let info = result.toHuman();
-          let free = _.get(info, 'data.free');
+          let info = result.toJSON();
           setAccountInfo(info.data || {});
         }
       })().catch(console.error);
@@ -39,7 +38,6 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
       (async ():Promise<void> =>{
         // let res:any = await api.query.fileBank.userFileSize("5HbW1vWRgUbkxqEYRiNVdd6Kx57yuETbZNE1THG5Dk8oSYhP");
         let res:any = await api.query.fileBank.userFileSize(value);
-        console.log(res, '是否重新执行了查询操作 ~~~~~~~~~~~~~~~')
         if(res){
           let size = res.toJSON() || 0;
           size = formatterSize(size);
@@ -136,11 +134,11 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
               </div>
               <div className={"accout-info-left-tr"}>
                 <span className={"accout-info-left-td"}>Total</span>
-                <span className={"accout-info-left-td"}><span className={"accout-info-left-td-value"}>{accountInfo && accountInfo["reserved"]} </span><span>tCESS</span></span>
+                <span className={"accout-info-left-td"}><span className={"accout-info-left-td-value"}>{accountInfo && formatterCurrency(accountInfo["reserved"]).money} </span><span>{accountInfo && formatterCurrency(accountInfo["reserved"]).suffix}</span></span>
               </div>
               <div className={"accout-info-left-tr"}>
                 <span className={"accout-info-left-td"}>Available transfers</span>
-                <span className={"accout-info-left-td"}><span className={"accout-info-left-td-value"}>{accountInfo && accountInfo["reserved"]} </span></span>
+                <span className={"accout-info-left-td"}><span className={"accout-info-left-td-value"}>{accountInfo && formatterCurrency(accountInfo["reserved"]).money} </span><span>{accountInfo && formatterCurrency(accountInfo["reserved"]).suffix}</span></span>
               </div>
             </div>
             <div className={"accout-info-center"}>

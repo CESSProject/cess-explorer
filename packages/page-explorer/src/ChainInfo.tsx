@@ -35,7 +35,7 @@ function ChainInfo({className}: Props): React.ReactElement<Props>{
           </div>
           <div className={"chain-info-details-block"}>
             <span className={"chain-info-details-block-item label"}>latest block</span>
-            <span className={"chain-info-details-block-item"}> <TimeNow /> <span className={"unit"} /></span>
+            <span className={"chain-info-details-block-item extra-item"}> <TimeNow /> <span className={"unit"}>ago</span></span>
           </div>
           <div className={"chain-info-details-block middle-block"}>
             <span className={"chain-info-details-block-item label"}>avg block time</span>
@@ -89,6 +89,15 @@ export default React.memo(styled(ChainInfo)`
             color: #464646;
             .unit{
               font-size: 18px;
+            }
+          }
+          .extra-item{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            .unit{
+              font-size: 28px;
+              margin-left: 5px;
             }
           }
         }

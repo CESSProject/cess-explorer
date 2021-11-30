@@ -399,6 +399,10 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
     return null;
   }
 
+  const onClickName = address =>{
+    window.location.hash = `/explorer/query/${address}`;
+  }
+
   return (
     <>
       <tr className={`${className}${isExpanded ? ' noBorder' : ''}`}>
@@ -518,6 +522,8 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         </td>
         <td className='address'>
           <AddressSmall
+            onClickName={() =>{onClickName(address)}}
+            isNav={true}
             parentAddress={meta.parentAddress}
             value={address}
             withShortAddress

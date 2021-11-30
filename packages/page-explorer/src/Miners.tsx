@@ -104,8 +104,11 @@ function Miners({className}: Props): React.ReactElement<Props>{
 }
 
 export default React.memo(styled(Miners)`
+  margin-top: -50px;
   height: 100%;
   .miners-info{
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
     display: flex;
     background: white;
     padding: 15px 1.5rem !important;
@@ -141,6 +144,8 @@ export default React.memo(styled(Miners)`
     }
   }
   .miners-table{
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
     background: white;
     padding: 15px 1.5rem !important;
     box-sizing: border-box;

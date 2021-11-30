@@ -6,7 +6,7 @@ import RcTable from "@polkadot/react-components/RcTable";
 import ReactTooltip from "react-tooltip";
 import {useApi} from "@polkadot/react-hooks";
 import _ from "lodash"
-import {formatterCurrency} from "@polkadot/app-explorer/utils";
+import {formatterCurrency, formatterSize, formatterSizeFromMB} from "./utils";
 
 interface Props {
   className?: string,
@@ -36,6 +36,11 @@ function MinerDetail({className, value}: Props): React.ReactElement<Props> {
         const option: any = {
           tooltip: {
             trigger: 'item',
+            formatter: list => {
+              let res = list.name;
+              res += "<br/>" + list.marker + list.seriesName + "<span style=\"margin-left:20px;text-align: right;font-weight: bold;\">" + formatterSizeFromMB(Math.abs(list.value)) + "</span>"
+              return res;
+            }
           },
           legend: {
             align: 'right',
@@ -47,7 +52,7 @@ function MinerDetail({className, value}: Props): React.ReactElement<Props> {
             itemHeight: 61,
             formatter: name =>{
               let value = _.get(_.find(barData, v=> v.name === name),'value');
-              return ['{a|' + name + '}', '{b|' + value + '}'].join('\n');
+              return ['{a|' + name + '}', '{b|' + formatterSizeFromMB(value) + '}'].join('\n');
             },
             textStyle:{
               rich: {
@@ -223,11 +228,11 @@ function MinerDetail({className, value}: Props): React.ReactElement<Props> {
 }
 
 export default React.memo(styled(MinerDetail)`
-  margin: 20px 0;
+  margin: -50px 0 20px 0;
   font-size: 16px;
 
   .miner-title, .miner-content {
-    padding: 35px 1.5rem !important;
+    padding: 26px 1.5rem !important;
     background: white;
     border-radius: 6px;
   }

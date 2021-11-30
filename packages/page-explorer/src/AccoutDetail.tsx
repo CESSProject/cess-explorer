@@ -21,28 +21,33 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
   const [accountInfo, setAccountInfo] = useState({});
 
   useEffect(()=>{
-    (async (): Promise<void> =>{
-      // const result = await api.query.system.account("5HbW1vWRgUbkxqEYRiNVdd6Kx57yuETbZNE1THG5Dk8oSYhP");
-      const result:any = await api.query.system.account(value);
-      if(result){
-        let info = result.toHuman();
-        let free = _.get(info, 'data.free');
-        setAccountInfo(info.data || {});
-      }
-    })().catch(console.error);
-  }, [])
+    if(value){
+      (async (): Promise<void> =>{
+        // const result = await api.query.system.account("5HbW1vWRgUbkxqEYRiNVdd6Kx57yuETbZNE1THG5Dk8oSYhP");
+        const result:any = await api.query.system.account(value);
+        if(result){
+          let info = result.toHuman();
+          let free = _.get(info, 'data.free');
+          setAccountInfo(info.data || {});
+        }
+      })().catch(console.error);
+    }
+  }, [value])
 
   useEffect(()=>{
-    (async ():Promise<void> =>{
-      // let res:any = await api.query.fileBank.userFileSize("5HbW1vWRgUbkxqEYRiNVdd6Kx57yuETbZNE1THG5Dk8oSYhP");
-      let res:any = await api.query.fileBank.userFileSize(value);
-      if(res){
-        let size = res.toJSON() || 0;
-        size = formatterSize(size);
-        setSize(size);
-      }
-    })()
-  },[])
+    if(value){
+      (async ():Promise<void> =>{
+        // let res:any = await api.query.fileBank.userFileSize("5HbW1vWRgUbkxqEYRiNVdd6Kx57yuETbZNE1THG5Dk8oSYhP");
+        let res:any = await api.query.fileBank.userFileSize(value);
+        console.log(res, '是否重新执行了查询操作 ~~~~~~~~~~~~~~~')
+        if(res){
+          let size = res.toJSON() || 0;
+          size = formatterSize(size);
+          setSize(size);
+        }
+      })().catch(console.error);
+    }
+  },[value])
 
   useEffect(()=>{
     (async ():Promise<void> =>{

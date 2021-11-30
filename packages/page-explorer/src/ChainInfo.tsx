@@ -43,11 +43,11 @@ function ChainInfo({className}: Props): React.ReactElement<Props>{
           </div>
           <div className={"chain-info-details-block middle-block"}>
             <span className={"chain-info-details-block-item label"}>block reward</span>
-            <span className={"chain-info-details-block-item"}>0 <span className={"unit"}>tCESS</span></span>
+            <span className={"chain-info-details-block-item"}>0 <span className={"unit"}>TCESS</span></span>
           </div>
           <div className={"chain-info-details-block"}>
             <span className={"chain-info-details-block-item label"}>24h average block reward</span>
-            <span className={"chain-info-details-block-item"}>0 <span className={"unit"}>tCESS/TB</span></span>
+            <span className={"chain-info-details-block-item"}>0 <span className={"unit"}>TCESS/TB</span></span>
           </div>
           <div className={"chain-info-details-block"}>
             <span className={"chain-info-details-block-item label"}>active miners</span>

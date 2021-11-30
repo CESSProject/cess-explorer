@@ -41,7 +41,8 @@ function MinerDetail({className, value}: Props): React.ReactElement<Props> {
 
   useEffect(() => {
     (async ():Promise<void> =>{
-      let res:any = await api.query.sminer.minerDetails(1);
+      // let res:any = await api.query.sminer.minerDetails(1);
+      let res:any = await api.query.sminer.minerDetails(value);
       let resJson = res.toJSON()
       if(res){
         setMinerDetail(resJson)
@@ -203,17 +204,17 @@ function MinerDetail({className, value}: Props): React.ReactElement<Props> {
             <div className={"miner-info-left-tr"}>
               <span className={"miner-info-left-td"}>total</span>
               <span className={"miner-info-left-td"}><span
-                className={"miner-info-left-td-value"}>{ minerDetail && _.round(minerDetail.totalReward, 4) } </span><span>tCESS</span></span>
+                className={"miner-info-left-td-value"}>{ minerDetail && _.round(minerDetail.totalReward, 4) } </span><span>TCESS</span></span>
             </div>
             <div className={"miner-info-left-tr"}>
               <span className={"miner-info-left-td"}>available transfers</span>
               <span className={"miner-info-left-td"}><span
-                className={"miner-info-left-td-value"}>{ minerDetail && _.round(minerDetail.totalRewardsCurrentlyAvailable, 4)} </span><span>tCESS</span></span>
+                className={"miner-info-left-td-value"}>{ minerDetail && _.round(minerDetail.totalRewardsCurrentlyAvailable, 4)} </span><span>TCESS</span></span>
             </div>
             <div className={"miner-info-left-tr"}>
               <span className={"miner-info-left-td"}>locked</span>
               <span className={"miner-info-left-td"}>
-                <span className={"miner-info-left-td-value"}>{minerDetail && _.round(minerDetail.totaldNotReceive, 4) }</span><span>tCESS</span>
+                <span className={"miner-info-left-td-value"}>{minerDetail && _.round(minerDetail.totaldNotReceive, 4) }</span><span>TCESS</span>
                 <img className={"ellipsis"} src={require("./../../../assets/images/hoverInfo.png")} alt="" data-place={"right"} data-effect={"solid"}  data-tip={"Binding through harvest"}/>
                 <ReactTooltip place={"right"} effect="solid" delayUpdate={500} delayHide={2000}/>
               </span>
@@ -221,7 +222,7 @@ function MinerDetail({className, value}: Props): React.ReactElement<Props> {
             <div className={"miner-info-left-tr"}>
               <span className={"miner-info-left-td"}>remaining staking</span>
               <span className={"miner-info-left-td"}><span
-                className={"miner-info-left-td-value"}>{ minerDetail && _.round(minerDetail.collaterals, 4) }</span><span>tCESS</span></span>
+                className={"miner-info-left-td-value"}>{ minerDetail && _.round(minerDetail.collaterals, 4) }</span><span>TCESS</span></span>
             </div>
           </div>
         </div>

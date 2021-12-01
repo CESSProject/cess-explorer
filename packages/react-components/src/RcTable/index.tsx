@@ -174,7 +174,7 @@ export default styled(RcTable)`
   th,
   td {
     margin: 0;
-    //padding: 0.5rem;
+    padding: 0.5rem;
     border-bottom: 1px solid #DBDBDB;
     border-right: 1px solid #DBDBDB;
     text-align: center;

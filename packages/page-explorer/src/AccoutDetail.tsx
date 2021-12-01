@@ -68,24 +68,6 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
     }
   },[value])
 
-  // useEffect(()=>{
-  //   (async ():Promise<void> =>{
-  //     let entries:any = await api.query.fileBank.file.entries();
-  //     let list:any[]= [];
-  //     entries.forEach(([key, entry]) => {
-  //       let fileid:string = key.args.map((k) => k.toHuman());
-  //       // console.log('key arguments:', key.args.map((k) => k.toHuman()));
-  //       // console.log('account data--->', entry.toHuman(), 'toJSON ---->', entry.toJSON());
-  //       let humanObj = entry.toJSON();
-  //       if(humanObj.owner == value){
-  //         humanObj.filesize = formatterSize(humanObj.filesize);
-  //         list.push(_.assign(humanObj,{fileid}));
-  //       }
-  //     });
-  //     setData(list);
-  //   })()
-  // },[])
-
   useEffect(()=>{
     if(value){
       fetchData("extrinsics");
@@ -94,7 +76,7 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
 
   const fetchData = async (tab) =>{
     if(tab === 'extrinsics'){
-      let params = { row: 10, page: 0, address: value };
+      let params = { row: 100, page: 0, address: value };
       const response = await request.post({url:"http://106.15.44.155:4399/api/scan/extrinsics", params});
       let extrinsics = _.get(response, 'data.extrinsics');
       setData(extrinsics);
@@ -127,10 +109,10 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
     {Header: 'Time', accessor: 'block_timestamp',id:'block_timestamp', width: '12.5%'},
     // {Header: 'Result', accessor: 'result',id:'result', width: '12.5%'},
     {
-      Header: 'Call', accessor: 'Call', id: 'expander', // It needs an ID
+      Header: 'Call', accessor: 'call_module', id: 'call_module', // It needs an ID
       Cell: ({row}) => (
         <span {...row.getToggleRowExpandedProps()}>
-          {row.values.expander}
+          {`${row.values.call_module}(${row.original.call_module_function})`}
           <Icon icon={row.isExpanded ? 'caret-up' : 'caret-down'}/>
         </span>
       ),
@@ -159,30 +141,28 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
         <span >{ formatterCurrencyStr(row.values.downloadfee) }</span>
     )},
   ], [])
-
-
-  const renderRowSubComponent = React.useCallback(
-    ({ row }) => (
-      <div className={"expand-group"}>
-        <div>
-          <p>AccountId32</p>
-          <p>
-            <span>Account name</span>
-            <span>5DJPrZNBXD9vn6KgUBBvAFWGLJuD_</span>
-          </p>
+  
+  const renderRowSubComponent = React.useCallback((
+    ({ row }) =>{
+      let params = row.original.params;
+      let rowInfo = JSON.parse(params);
+      return (
+        <div className={"expand-group"}>
+          {
+            rowInfo.map(info=>(
+              <div>
+                <p>{info.type}</p>
+                <p>
+                  <span>{info.name}</span>
+                  <span>{info.value}</span>
+                </p>
+              </div>
+            ))
+          }
         </div>
-        <div>
-          <p>AccountId32</p>
-          <p>
-            <span>Account name</span>
-            <span>5DJPrZNBXD9vn6KgUBBvAFWGLJuD_</span>
-          </p>
-        </div>
-      </div>
-    ),
-    []
-  )
-
+      )
+    }
+  ), [])
 
   return (
     <Fragment>
@@ -231,7 +211,7 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
               <Button isSelected={activeTab === "data"} label={"Data (10)"} onClick={()=>{changeTableFilter("data")}} className={"select-btn"}/>
             </div>
             {
-              !_.isEmpty(data) ? <RcTable columns={ activeTab === "extrinsics" ? extrinsicsColumns : columns} data={data}/> : <Empty />
+              !_.isEmpty(data) ? <RcTable columns={ activeTab === "extrinsics" ? extrinsicsColumns : columns} data={data} renderRowSubComponent={renderRowSubComponent} /> : <Empty />
             }
           </div>
         </div>

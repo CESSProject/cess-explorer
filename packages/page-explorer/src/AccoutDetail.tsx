@@ -10,6 +10,8 @@ import {formatterCurrency, formatterCurrencyStr, formatterSize} from "./utils";
 import Empty from "./components/Empty";
 import Icon from "@polkadot/react-components/Icon";
 import {number} from "echarts";
+import {fetch} from "@polkadot/x-fetch";
+import request from "./utils/reuqest";
 
 interface Props{
   className? :string,
@@ -21,11 +23,17 @@ type Currency ={
   suffix: string
 }
 
+interface DnsResponse {
+  Answer?: { name: string }[];
+  Question: { name: string }[];
+}
+
 function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
   const { api } = useApi();
   const [size, setSize] = useState<number>(0);
   const [data, setData] = useState<any[]>([]);
   const [accountInfo, setAccountInfo] = useState<any>({});
+  const [activeTab, setActiveTab] = useState<string>( 'extrinsics')
 
   useEffect(()=>{
     if(value){
@@ -50,7 +58,6 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
   useEffect(()=>{
     if(value){
       (async ():Promise<void> =>{
-        // let res:any = await api.query.fileBank.userFileSize("5HbW1vWRgUbkxqEYRiNVdd6Kx57yuETbZNE1THG5Dk8oSYhP");
         let res:any = await api.query.fileBank.userFileSize(value);
         if(res){
           let size = res.toJSON() || 0;
@@ -61,8 +68,37 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
     }
   },[value])
 
+  // useEffect(()=>{
+  //   (async ():Promise<void> =>{
+  //     let entries:any = await api.query.fileBank.file.entries();
+  //     let list:any[]= [];
+  //     entries.forEach(([key, entry]) => {
+  //       let fileid:string = key.args.map((k) => k.toHuman());
+  //       // console.log('key arguments:', key.args.map((k) => k.toHuman()));
+  //       // console.log('account data--->', entry.toHuman(), 'toJSON ---->', entry.toJSON());
+  //       let humanObj = entry.toJSON();
+  //       if(humanObj.owner == value){
+  //         humanObj.filesize = formatterSize(humanObj.filesize);
+  //         list.push(_.assign(humanObj,{fileid}));
+  //       }
+  //     });
+  //     setData(list);
+  //   })()
+  // },[])
+
   useEffect(()=>{
-    (async ():Promise<void> =>{
+    if(value){
+      fetchData("extrinsics");
+    }
+  },[value])
+
+  const fetchData = async (tab) =>{
+    if(tab === 'extrinsics'){
+      let params = { row: 10, page: 0, address: value };
+      const response = await request.post({url:"http://106.15.44.155:4399/api/scan/extrinsics", params});
+      let extrinsics = _.get(response, 'data.extrinsics');
+      setData(extrinsics);
+    } else {
       let entries:any = await api.query.fileBank.file.entries();
       let list:any[]= [];
       entries.forEach(([key, entry]) => {
@@ -76,8 +112,30 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
         }
       });
       setData(list);
-    })()
-  },[])
+    }
+  }
+
+  const changeTableFilter = tab => {
+    setActiveTab(tab);
+    fetchData(tab);
+  };
+
+  const extrinsicsColumns = React.useMemo(()=> [
+    {Header: 'Extrinsic ID', accessor: 'extrinsic_index',id:'extrinsic_index', width: '12.5%'},
+    {Header: 'Block', accessor: 'block_num',id:'block_num', width: '12.5%'},
+    {Header: 'Extrinsic Hash', accessor: 'extrinsic_hash',id:'extrinsic_hash', width: '12.5%'},
+    {Header: 'Time', accessor: 'block_timestamp',id:'block_timestamp', width: '12.5%'},
+    // {Header: 'Result', accessor: 'result',id:'result', width: '12.5%'},
+    {
+      Header: 'Call', accessor: 'Call', id: 'expander', // It needs an ID
+      Cell: ({row}) => (
+        <span {...row.getToggleRowExpandedProps()}>
+          {row.values.expander}
+          <Icon icon={row.isExpanded ? 'caret-up' : 'caret-down'}/>
+        </span>
+      ),
+    },
+  ], [])
 
   const columns = React.useMemo(()=> [
     {Header: 'File Name', accessor: 'filename',id:'filename', width: '12.5%'},
@@ -102,6 +160,7 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
     )},
   ], [])
 
+
   const renderRowSubComponent = React.useCallback(
     ({ row }) => (
       <div className={"expand-group"}>
@@ -124,7 +183,6 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
     []
   )
 
-  const changeTableFilter = () =>{}
 
   return (
     <Fragment>
@@ -169,11 +227,11 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
           </div>
           <div className={"accout-table"}>
             <div className={"btn-actions"}>
-              {/*<Button isSelected label={"Extrinsics (2)"} onClick={changeTableFilter}/>*/}
-              <Button isSelected label={"Data (10)"} onClick={changeTableFilter} className={"select-btn"}/>
+              <Button isSelected={activeTab === "extrinsics"} label={"Extrinsics (2)"} onClick={ ()=>{changeTableFilter("extrinsics")}}/>
+              <Button isSelected={activeTab === "data"} label={"Data (10)"} onClick={()=>{changeTableFilter("data")}} className={"select-btn"}/>
             </div>
             {
-              !_.isEmpty(data) ? <RcTable columns={columns} data={data}/> : <Empty />
+              !_.isEmpty(data) ? <RcTable columns={ activeTab === "extrinsics" ? extrinsicsColumns : columns} data={data}/> : <Empty />
             }
           </div>
         </div>
@@ -253,7 +311,7 @@ export default React.memo(styled(AccoutDetail)`
       .btn-actions{
         margin-bottom: 20px;
         .select-btn{
-          margin-right: 20px;
+          margin-left: 20px;
           //background: #DBDBDB;
         }
       }

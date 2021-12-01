@@ -12,16 +12,22 @@ import BlockByHash from './ByHash';
 import BlockByNumber from './ByNumber';
 import AccoutDetail from '../AccoutDetail';
 import MinerDetail from '../MinerDetail';
+import ExtrinsicDetail from '../ExtrinsicDetail';
 
 /**
  * get query params type
  * @param param
+ * @param typeStr
  */
-function getSearchType(param){
+function getSearchType(param, typeStr){
   param = _.trim(param);
   let type = 0;   // 0 blockhash  1 Extrinsic ID  2 address  3 miner ID
   if(param.length === 66){
-    type = 0
+    if(typeStr === "extrinsic"){
+      type = 1;
+    } else {
+      type = 0
+    }
   } else if(param.length === 48){
     type = 2
   } else if(param.length>0 && param.length < 5){
@@ -33,6 +39,7 @@ function getSearchType(param){
 function Entry (): React.ReactElement | null {
   const bestNumber = useBestNumber();
   const { value } = useParams<{ value: string }>();
+  const { type } = useParams<{ type: string }>();
   const [stateValue, setStateValue] = useState<string | undefined>(value);
 
   useEffect((): void => {
@@ -49,14 +56,13 @@ function Entry (): React.ReactElement | null {
     return null;
   }
 
-  let queryType = getSearchType(value);
+  let queryType = getSearchType(value, type);
 
   const Component = isHex(stateValue) ? BlockByHash : BlockByNumber;
 
   return (
     <>
-      {/*<Query />*/}
-      { queryType === 2 ? <AccoutDetail value={value}/> : queryType === 3 ? <MinerDetail value={_.toNumber(value)}/> : <Component key={stateValue} value={stateValue}/>}
+      { queryType === 1 ? <ExtrinsicDetail value={value}/> : queryType === 2 ? <AccoutDetail value={value}/> : queryType === 3 ? <MinerDetail value={_.toNumber(value)}/> : <Component key={stateValue} value={stateValue}/>}
     </>
   );
 }

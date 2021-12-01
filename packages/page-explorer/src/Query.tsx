@@ -6,8 +6,9 @@ import styled from 'styled-components';
 
 import { Button, FilterOverlay, Input } from '@polkadot/react-components';
 import { isHex } from '@polkadot/util';
-
+import _ from "lodash"
 import { useTranslation } from './translate';
+import request from "@polkadot/app-explorer/utils/reuqest";
 
 interface Props {
   className?: string;
@@ -45,9 +46,13 @@ function Query ({ className = '', value: propsValue }: Props): React.ReactElemen
   // );
 
   const _onQuery = useCallback(
-    (): void => {
+    async (): Promise<void> => {
+      let params = {hash: value};
+      let res = await request.post({url:"http://106.15.44.155:4399/api/scan/check_hash", params});
+      let type = _.get(res, 'data.hash_type');
+      console.log(res, 'rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr')
       if (value.length !== 0) {
-        window.location.hash = `/explorer/query/${value}`;
+        window.location.hash = `/explorer/query/${value}/${type}`;
       }
     },
     [value]

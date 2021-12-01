@@ -5,7 +5,7 @@ import Icon from "@polkadot/react-components/Icon";
 import { api } from "@polkadot/react-api";
 import StorageGroup from "./components/StorageGroup";
 import _ from "lodash"
-import {formatterCurrency} from "@polkadot/app-explorer/utils";
+import {formatterCurrency, formatterCurrencyStr, formatterSize} from "@polkadot/app-explorer/utils";
 
 interface Props{
   className?: string
@@ -57,10 +57,14 @@ function Miners({className}: Props): React.ReactElement<Props>{
     {Header: 'Address2', accessor: 'beneficiary',Cell: ({row}) => (
        <a href={`/explorer/query/${row.values.address}`} >{row.values.beneficiary}</a>
     )},
-    {Header: 'Total Storage', accessor: 'totalStorage'},
+    {Header: 'Total Storage', accessor: 'totalStorage', Cell: ({row}) => (
+       <span>{ formatterSize(row.values.totalStorage)}</span>
+    )},
     // {Header: 'Average Daily Data Traffic (In)', accessor: 'averageDailyDataTrafficIn'},
     // {Header: 'Average Daily Data Traffic (Out)', accessor: 'averageDailyDataTrafficOut'},
-    {Header: 'Mining Reward', accessor: 'miningReward'},
+    {Header: 'Mining Reward', accessor: 'miningReward', Cell: ({row}) => (
+       <span>{ formatterCurrencyStr(row.values.miningReward)}</span>
+    )},
     // {Header: 'Status', accessor: 'status'},
   ], [])
 

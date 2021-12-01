@@ -8,6 +8,7 @@ import {useApi} from "@polkadot/react-hooks";
 import _ from "lodash"
 import {formatterCurrency, formatterSize, formatterSizeFromMB} from "./utils";
 import request from "@polkadot/app-explorer/utils/reuqest";
+import Empty from "@polkadot/app-explorer/components/Empty";
 
 interface Props {
   className?: string,
@@ -25,7 +26,6 @@ function MinerDetail({className, value}: Props): React.ReactElement<Props> {
       // let res:any = await api.query.sminer.minerDetails(1);
       let res:any = await api.query.sminer.minerDetails(value);
       let resJson: any = res.toJSON();
-      console.log(resJson, '4444444444444444444444444444444')
       resJson.totalRewardObj = formatterCurrency(resJson.totalReward);
       resJson.totalRewardsCurrentlyAvailableObj = formatterCurrency(resJson.totalRewardsCurrentlyAvailable);
       resJson.totaldNotReceiveObj = formatterCurrency(resJson.totaldNotReceive);
@@ -232,7 +232,9 @@ function MinerDetail({className, value}: Props): React.ReactElement<Props> {
           <div className={"btn-actions"}>
             <Button isSelected label={`Extrinsics (${data.length})`} />
           </div>
-          <RcTable isShowPagination={false} columns={columns} data={data} renderRowSubComponent={renderRowSubComponent}/>
+          {
+            !_.isEmpty(data) ? <RcTable columns={columns} data={data} renderRowSubComponent={renderRowSubComponent}/> : <Empty />
+          }
         </div>
       </div>
     </div>

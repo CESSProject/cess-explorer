@@ -34,7 +34,7 @@ function ChainInfo({className}: Props): React.ReactElement<Props>{
       <div className={"chain-info"}>
         <div className={"chain-info-details"}>
           <div className={"chain-info-details-block"}>
-            <span className={"chain-info-details-block-item label"}>tipset height</span>
+            <span className={"chain-info-details-block-item label"}>block height</span>
             <span className={"chain-info-details-block-item"}>{num}</span>
           </div>
           <div className={"chain-info-details-block"}>

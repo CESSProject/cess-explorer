@@ -76,7 +76,8 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
       <Summary eventCount={eventCount} />
       <Switch>
         <Route path={`${basePath}/forks`}><Forks /></Route>
-        <Route path={`${basePath}/query/:value`}><BlockInfo /></Route>
+        <Route path={`${basePath}/query/:value/:type`}><BlockInfo /></Route>
+        {/*<Route path={`${basePath}/query/:value`}><BlockInfo /></Route>*/}
         <Route path={`${basePath}/query`}><BlockInfo /></Route>
         <Route path={`${basePath}/node`}><NodeInfo /></Route>
         <Route path={`${basePath}/miners`}><Miners /></Route>

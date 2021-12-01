@@ -7,6 +7,7 @@ import ReactTooltip from "react-tooltip";
 import {useApi} from "@polkadot/react-hooks";
 import _ from "lodash"
 import {formatterCurrency, formatterSize, formatterSizeFromMB} from "./utils";
+import request from "@polkadot/app-explorer/utils/reuqest";
 
 interface Props {
   className?: string,
@@ -17,12 +18,14 @@ function MinerDetail({className, value}: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const minerInfoRef = useRef<any>()
   const [minerDetail, setMinerDetail] = useState<any>({})
+  const [data, setData] = useState([])
 
   useEffect(() => {
     (async ():Promise<void> =>{
       // let res:any = await api.query.sminer.minerDetails(1);
       let res:any = await api.query.sminer.minerDetails(value);
       let resJson: any = res.toJSON();
+      console.log(resJson, '4444444444444444444444444444444')
       resJson.totalRewardObj = formatterCurrency(resJson.totalReward);
       resJson.totalRewardsCurrentlyAvailableObj = formatterCurrency(resJson.totalRewardsCurrentlyAvailable);
       resJson.totaldNotReceiveObj = formatterCurrency(resJson.totaldNotReceive);
@@ -100,52 +103,60 @@ function MinerDetail({className, value}: Props): React.ReactElement<Props> {
         window.addEventListener("resize", () =>{
           minerInfoRef.current.resize();
         });
+        //get extrinsic data
+        if(resJson && resJson.address){
+          fetchData(resJson.address)
+        }
       }
     })()
   }, [value])
 
+  const fetchData = async (address) =>{
+    let params = { row: 100, page: 0, address };
+    const response = await request.post({url:"http://106.15.44.155:4399/api/scan/extrinsics", params});
+    let extrinsics = _.get(response, 'data.extrinsics');
+    setData(extrinsics);
+  }
+
   const columns = React.useMemo(()=> [
-    {Header: 'Miner ID', accessor: 'Miner ID'},
-    {Header: 'Address1', accessor: 'address'},
-    {Header: 'Address2', accessor: 'beneficiary'},
-    {Header: 'Total Storage', accessor: 'totalStorage'},
-    {Header: 'Average Daily Data Traffic (In)', accessor: 'averageDailyDataTrafficIn'},
-    {Header: 'Average Daily Data Traffic (Out)', accessor: 'averageDailyDataTrafficOut'},
-    {Header: 'Mining Reward', accessor: 'miningReward'},
+    {Header: 'Extrinsic ID', accessor: 'extrinsic_index',id:'extrinsic_index', width: '12.5%'},
+    {Header: 'Block', accessor: 'block_num',id:'block_num', width: '12.5%'},
+    {Header: 'Extrinsic Hash', accessor: 'extrinsic_hash',id:'extrinsic_hash', width: '12.5%'},
+    {Header: 'Time', accessor: 'block_timestamp',id:'block_timestamp', width: '12.5%'},
+    // {Header: 'Result', accessor: 'result',id:'result', width: '12.5%'},
     {
-      Header: 'Call', accessor: 'Call', id: 'expander', // It needs an ID
+      Header: 'Call', accessor: 'call_module', id: 'call_module', // It needs an ID
       Cell: ({row}) => (
         <span {...row.getToggleRowExpandedProps()}>
-          {row.values.expander}
+          {`${row.values.call_module}(${row.original.call_module_function})`}
           <Icon icon={row.isExpanded ? 'caret-up' : 'caret-down'}/>
         </span>
       ),
     },
   ], [])
 
-  const renderRowSubComponent = React.useCallback(
-    ({ row }) => (
-      <div className={"expand-group"}>
-        <div>
-          <p>AccountId32</p>
-          <p>
-            <span>Account name</span>
-            <span>5DJPrZNBXD9vn6KgUBBvAFWGLJuD_</span>
-          </p>
+  const renderRowSubComponent = React.useCallback((
+    ({ row }) =>{
+      let params = row.original.params;
+      let rowInfo = JSON.parse(params);
+      return (
+        <div className={"expand-group"}>
+          {
+            rowInfo.map(info=>(
+              <div>
+                <p>{info.type}</p>
+                <p>
+                  <span>{info.name}</span>
+                  <span>{info.value}</span>
+                </p>
+              </div>
+            ))
+          }
         </div>
-        <div>
-          <p>AccountId32</p>
-          <p>
-            <span>Account name</span>
-            <span>5DJPrZNBXD9vn6KgUBBvAFWGLJuD_</span>
-          </p>
-        </div>
-      </div>
-    ),
-    []
-  )
+      )
+    }
+  ), [])
 
-  const changeTableFilter = () =>{}
 
   return (
     <div className={`${className} miner-detail`}>
@@ -216,14 +227,14 @@ function MinerDetail({className, value}: Props): React.ReactElement<Props> {
           </div>
         </div>
       </div>
-      {/*<div className={"miner-content"}>*/}
-      {/*  <div className={"accout-table"}>*/}
-      {/*    <div className={"btn-actions"}>*/}
-      {/*      <Button isSelected label={"Extrinsics (2)"} onClick={changeTableFilter}/>*/}
-      {/*    </div>*/}
-      {/*    <RcTable isShowPagination={false} columns={columns} data={state.data} renderRowSubComponent={renderRowSubComponent}/>*/}
-      {/*  </div>*/}
-      {/*</div>*/}
+      <div className={"miner-content"}>
+        <div className={"accout-table"}>
+          <div className={"btn-actions"}>
+            <Button isSelected label={`Extrinsics (${data.length})`} />
+          </div>
+          <RcTable isShowPagination={false} columns={columns} data={data} renderRowSubComponent={renderRowSubComponent}/>
+        </div>
+      </div>
     </div>
   )
 }

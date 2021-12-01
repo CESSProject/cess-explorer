@@ -141,7 +141,7 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
         <span >{ formatterCurrencyStr(row.values.downloadfee) }</span>
     )},
   ], [])
-  
+
   const renderRowSubComponent = React.useCallback((
     ({ row }) =>{
       let params = row.original.params;
@@ -207,8 +207,8 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
           </div>
           <div className={"accout-table"}>
             <div className={"btn-actions"}>
-              <Button isSelected={activeTab === "extrinsics"} label={"Extrinsics (2)"} onClick={ ()=>{changeTableFilter("extrinsics")}}/>
-              <Button isSelected={activeTab === "data"} label={"Data (10)"} onClick={()=>{changeTableFilter("data")}} className={"select-btn"}/>
+              <Button isSelected={activeTab === "extrinsics"} label={"Extrinsics (0)"} onClick={ ()=>{changeTableFilter("extrinsics")}}/>
+              <Button isSelected={activeTab === "data"} label={"Data (0)"} onClick={()=>{changeTableFilter("data")}} className={"select-btn"}/>
             </div>
             {
               !_.isEmpty(data) ? <RcTable columns={ activeTab === "extrinsics" ? extrinsicsColumns : columns} data={data} renderRowSubComponent={renderRowSubComponent} /> : <Empty />

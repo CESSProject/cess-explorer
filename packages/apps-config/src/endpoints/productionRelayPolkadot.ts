@@ -20,8 +20,9 @@ export function createPolkadot (t: TFunction): EndpointOption {
     info: 'polkadot',
     text: t('rpc.polkadot.parity', 'Polkadot', { ns: 'apps-config' }),
     providers: {
-      // Parity: 'wss://rpc.polkadot.io',          // 波卡
-      Parity: 'wss://cess.today/rpc2-hacknet/ws/', // CESS
+      // Parity: 'wss://rpc.polkadot.io',              // 波卡
+      // Parity: 'wss://cess.today/rpc2-hacknet/ws/',  // CESS
+      Parity: "ws://106.15.44.155:9947/",              // local
       OnFinality: 'wss://polkadot.api.onfinality.io/public-ws',
       'Patract Elara': 'wss://pub.elara.patract.io/polkadot',
       // Dwellir: 'wss://polkadot-rpc.dwellir.com',

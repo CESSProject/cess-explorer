@@ -40,6 +40,7 @@ function RcTable({ columns: userColumns, data, renderRowSubComponent, className,
     columns: userColumns,
     data,
     defaultColumn,
+    autoResetExpanded: false,
   },
     // useResizeColumns,
     // useFlexLayout,
@@ -140,7 +141,16 @@ function RcTable({ columns: userColumns, data, renderRowSubComponent, className,
   )
 }
 
-export default styled(RcTable)`
+function areEqual(prevProps, nextProps) {
+  if(prevProps.data === nextProps.data){
+    return true
+  }else {
+    return false
+  }
+
+}
+
+export default React.memo(styled(RcTable)`
   display: block;
   overflow-x: auto;
   table{
@@ -210,5 +220,5 @@ export default styled(RcTable)`
       min-height: 36px;
     }
   }
-`;
+`, areEqual)
 

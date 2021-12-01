@@ -66,8 +66,7 @@ function Query ({ className = '', value: propsValue }: Props): React.ReactElemen
         isError={!isValid && value.length !== 0}
         onChange={_setHash}
         onEnter={_onQuery}
-        placeholder={t<string>('Search by Block Hash / Address /  Miner ID')}
-        // placeholder={t<string>('Search by Block Hash / Extrinsics ID / Address /  Miner ID')}
+        placeholder={t<string>('Search by Block Hash / Extrinsics Hash / Address /  Miner ID')}
         withLabel={false}
       >
         <Button

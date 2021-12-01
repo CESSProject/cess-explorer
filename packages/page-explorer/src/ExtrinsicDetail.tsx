@@ -22,14 +22,11 @@ function ExtrinsicDetail({className, value}:Props) :React.ReactElement<Props>{
     toggleShowJson(!isShowJson);
   };
 
-  const showEventJsonCode = (id) =>{
-    let list = eventList;
-    console.log(id, 'ryyyyyyyooooooooooooooooo', list, 'eventListeventList',eventList, extrinsicInfo, 'propspropsprops')
-    // let idx = _.findIndex(list, v=>v.id === id);
-    // _.set(eventList,`${idx}.isShowEventJson`, true);
-    // list[idx].isShowEventJson = true;
-    // console.log(list, 'listlistlistlistlistlistlistlistlistlistlist', idx, id)
-    // setEventList(list);
+  const showEventJsonCode = (id, isExpanded) =>{
+    let idx = _.findIndex(eventList, v=>v.event_id === id);
+    eventList[idx].isShowEventJson = !eventList[idx].isShowEventJson;
+    eventList[idx].isExpanded = isExpanded;
+    setEventList([...eventList]);
   };
 
   useEffect(() =>{
@@ -70,33 +67,30 @@ function ExtrinsicDetail({className, value}:Props) :React.ReactElement<Props>{
     },
   ], [])
 
-  const renderRowSubComponent = React.useCallback((
+  const renderRowSubComponent = (
     ({ row }) =>{
       let params = row.original.params;
       let rowInfo = JSON.parse(params);
-      console.log(row, '444444444444455555555555555555555555555555555', rowInfo);
       return (
         <div  className={"expand-group"}>
           <div className={"expand-group-list"}>
             {
               rowInfo ? rowInfo.map((p, index)=>(
-                <p key={index} className={"json-item"}><span>{p.type}</span><span>{ _.isObject(p.value) ? p.value.weight : p.value }</span></p>
+                <p key={index} className={"json-item"}><span>{p.type}</span><span>{ _.isObject(p.value) ? JSON.stringify(p.value) : p.value }</span></p>
               )) : <div />
             }
           </div>
           <div className={"expand-code"}>
-            <Button isSelected label={"View Code"} onClick={()=>{
-              console.log(eventList, 'rrrrrrrrrrrrrrrr555555555')
-              showEventJsonCode(row.id)}
-            } />
-            { row.original && row.original.isShowEventJson && <div><pre><code>{params}</code></pre></div> }
+            <Button isSelected label={"View Code"} onClick={()=> {
+              showEventJsonCode(row.original.event_id, row.isExpanded)
+            }}
+            />
+            { row.original.isShowEventJson && <div><pre><code>{params}</code></pre></div> }
           </div>
         </div>
       )
     }
-  ), [])
-
-  console.log(eventList, 'eventListeventListeventListeventListeventListeventList')
+  )
 
   return (
     <div className={`${className} extrinsic-detail`}>
@@ -266,12 +260,14 @@ export default React.memo(styled(ExtrinsicDetail)`
         }
         .expand-code{
           width: 40%;
-          max-height: 400px;
-          overflow-y: auto;
-          border-left: 3px solid #8FBFFF;
-          >pre{
-            border: 1px dotted #DBDBDB;
-            margin: 18px 0 0 24px
+          div{
+            max-height: 400px;
+            overflow-y: auto;
+            border-left: 3px solid #8FBFFF;
+            >pre{
+              //border: 1px dotted #DBDBDB;
+              margin: 18px 0 0 24px
+            }
           }
         }
       }

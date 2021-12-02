@@ -95,7 +95,8 @@ function ExtrinsicDetail({className, value}:Props) :React.ReactElement<Props>{
   return (
     <div className={`${className} extrinsic-detail`}>
       <div className={"extrinsic-title"}>
-        Extrinsic Detail
+        <Icon className='highlight--color' icon='dot-circle'/>
+        <span className={"extrinsic-title-text"}>Extrinsic Detail</span>
       </div>
       <div className={"extrinsic-content"}>
         <div className={"extrinsic-content-form-item"}>
@@ -144,7 +145,9 @@ function ExtrinsicDetail({className, value}:Props) :React.ReactElement<Props>{
         </div>
         <div className={"extrinsic-content-form-item"}>
           <span className={"extrinsic-content-form-item-label"}>Result</span>
-          <Icon color='#5CD5B4'  icon='check-circle'/>
+          {
+            extrinsicInfo.success ? (extrinsicInfo.finalized ? <img src={require("./../../../assets/images/status/success.png")} alt=""/> :   <img src={require("./../../../assets/images/status/wait.png")} alt=""/>) : <img src={require("./../../../assets/images/status/fail.png")} alt=""/>
+          }
         </div>
         <div className={"extrinsic-content-form-item"}>
           <span className={"extrinsic-content-form-item-label"}>parameter</span>
@@ -169,7 +172,8 @@ function ExtrinsicDetail({className, value}:Props) :React.ReactElement<Props>{
         </div>
       </div>
       <div className={"events-title"}>
-        Events
+        <Icon className='highlight--color' icon='dot-circle'/>
+        <span className={"events-title-text"}>Extrinsic Detail</span>
       </div>
       <div className={"event-content"}>
         <div className={"event-table"}>
@@ -181,13 +185,19 @@ function ExtrinsicDetail({className, value}:Props) :React.ReactElement<Props>{
 }
 
 export default React.memo(styled(ExtrinsicDetail)`
-  margin: 20px 0;
+  margin: -50px 0 20px 0;
   font-size: 16px;
 
   .extrinsic-title, .extrinsic-content, .events-title, .event-content {
-    padding: 15px 1.5rem !important;
+    padding: 26px 1.5rem !important;
+    box-sizing: border-box;
     background: white;
     border-radius: 6px;
+  }
+  .extrinsic-title, .events-title{
+    &-text{
+      margin-left: 5px;
+    }
   }
   .extrinsic-content{
     margin-top: 4px;

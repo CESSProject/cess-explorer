@@ -174,10 +174,10 @@ function MinerDetail({className, value}: Props): React.ReactElement<Props> {
             </div>
             <div className={"miner-info-left-tr"}>
               <span className={"miner-info-left-td"}>Account1</span>
-              <span className={"miner-info-left-td ellipsis"} data-effect={"solid"} data-tip={minerDetail && minerDetail.address}>
+              <span className={"miner-info-left-td ellipsis"} data-for='address' data-effect={"solid"} data-tip={""}>
                 {minerDetail && minerDetail.address}
               </span>
-              <ReactTooltip effect="solid" delayUpdate={500} delayHide={2000}/>
+              <ReactTooltip id={"address"} effect="solid" delayUpdate={500} delayHide={2000} getContent={() => { return minerDetail.address }}/>
             </div>
             <div className={"miner-info-left-tr"}>
               <span className={"miner-info-left-td"}>Account2 name</span>
@@ -185,10 +185,10 @@ function MinerDetail({className, value}: Props): React.ReactElement<Props> {
             </div>
             <div className={"miner-info-left-tr"}>
               <span className={"miner-info-left-td"}>Account2</span>
-              <span className={"miner-info-left-td ellipsis"} data-effect={"solid"} data-tip={minerDetail && minerDetail.beneficiary}>
+              <span className={"miner-info-left-td ellipsis"} data-for='beneficiary' data-effect={"solid"} data-tip={""}>
                 {minerDetail && minerDetail.beneficiary}
               </span>
-              <ReactTooltip effect="solid" delayUpdate={500} delayHide={2000}/>
+              <ReactTooltip id={"beneficiary"} effect="solid" delayUpdate={500} delayHide={2000}  getContent={() => { return minerDetail.beneficiary }}/>
             </div>
           </div>
           <div className={"miner-info-right"}>

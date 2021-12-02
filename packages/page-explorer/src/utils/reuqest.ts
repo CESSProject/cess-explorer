@@ -17,7 +17,6 @@ const request = {
       }).then(res => {
         return res.json()
       }).then(data => {
-        console.log("请求的返回值----->",data)
         resolve(data);
       }).catch(error => {
         console.log(error.msg)

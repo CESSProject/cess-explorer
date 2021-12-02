@@ -60,7 +60,7 @@
     "echarts": "^5.2.2",
     "lodash": "^4.17.21",
     "rc-table": "^7.20.4",
-    "react-table": "^7.2.0",
+    "react-table": "^7.7.0",
     "react-tooltip": "^4.2.21"
   },
   "devDependencies": {
@@ -80,7 +80,7 @@
     "@types/react-copy-to-clipboard": "^5.0.2",
     "@types/react-dom": "^17.0.10",
     "@types/react-router-dom": "^5.3.2",
-    "@types/react-table": "7.0.29",
+    "@types/react-table": "7.7.8",
     "@types/store": "^2.0.2",
     "@types/styled-components": "^5.1.15",
     "@types/styled-theming": "^2.2.5",

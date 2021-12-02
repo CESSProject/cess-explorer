@@ -85,7 +85,7 @@ function ExtrinsicDetail({className, value}:Props) :React.ReactElement<Props>{
               showEventJsonCode(row.original.event_id, row.isExpanded)
             }}
             />
-            { row.original.isShowEventJson && <div><pre><code>{params}</code></pre></div> }
+            { row.original.isShowEventJson && <div><pre><code>{JSON.stringify(rowInfo, null, 2)}</code></pre></div> }
           </div>
         </div>
       )
@@ -151,8 +151,8 @@ function ExtrinsicDetail({className, value}:Props) :React.ReactElement<Props>{
           <div className={"extrinsic-content-form-item-parameter"}>
             <div className={"extrinsic-content-form-item-parameter-list"}>
               {
-                extrinsicInfo && extrinsicInfo.params && extrinsicInfo.params.map(p => {
-                  return <p><span>{p.name}</span><span>{p.value}</span></p>
+                extrinsicInfo && extrinsicInfo.params && extrinsicInfo.params.map((p,idx) => {
+                  return <p key={idx}><span>{p.name}</span><span>{p.value}</span></p>
                 })
               }
               <Button isSelected label={"More"} onClick={getMoreParameter} />
@@ -260,12 +260,13 @@ export default React.memo(styled(ExtrinsicDetail)`
         }
         .expand-code{
           width: 40%;
+          text-align: left;
+          max-height: 400px;
+          overflow-y: auto;
           div{
-            max-height: 400px;
-            overflow-y: auto;
             border-left: 3px solid #8FBFFF;
             >pre{
-              //border: 1px dotted #DBDBDB;
+              border: 1px dotted #DBDBDB;
               margin: 18px 0 0 24px
             }
           }

@@ -4442,12 +4442,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-table@npm:7.0.29":
-  version: 7.0.29
-  resolution: "@types/react-table@npm:7.0.29"
+"@types/react-table@npm:7.7.8":
+  version: 7.7.8
+  resolution: "@types/react-table@npm:7.7.8"
   dependencies:
     "@types/react": "*"
-  checksum: 0c6e106b5ea499c407c3acb2a77db86d3dc9ae6b342e8b7ebf0e01371372128955af8af7132c1ede9e14fec8d8a58963640c0341dfc736ef3aae4072c68b14ce
+  checksum: 8ee32341a2f20001d6b8ec80709a786391fde033e71634f8b3e5e2108532e123322bac8522583274f52b8901045085f9185b8a9e25717595589641d551bb2ce3
   languageName: node
   linkType: hard
 
@@ -15850,7 +15850,7 @@ __metadata:
     "@types/react-copy-to-clipboard": ^5.0.2
     "@types/react-dom": ^17.0.10
     "@types/react-router-dom": ^5.3.2
-    "@types/react-table": 7.0.29
+    "@types/react-table": 7.7.8
     "@types/store": ^2.0.2
     "@types/styled-components": ^5.1.15
     "@types/styled-theming": ^2.2.5
@@ -15868,7 +15868,7 @@ __metadata:
     react: ^17.0.2
     react-dom: ^17.0.2
     react-is: ^17.0.2
-    react-table: ^7.2.0
+    react-table: ^7.7.0
     react-tooltip: ^4.2.21
     source-map-explorer: ^2.5.2
     styled-components: ^5.3.1
@@ -16745,7 +16745,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-table@npm:^7.2.0":
+"react-table@npm:^7.7.0":
   version: 7.7.0
   resolution: "react-table@npm:7.7.0"
   peerDependencies:

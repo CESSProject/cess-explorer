@@ -60,7 +60,7 @@ function Miners({className}: Props): React.ReactElement<Props>{
        <a href={`#/explorer/query/${row.values.address}/${undefined}`} >{row.values.address}</a>
      )},
     {Header: 'Address2', accessor: 'beneficiary',Cell: ({row}) => (
-       <a href={`#/explorer/query/${row.values.address}/${undefined}`} >{row.values.beneficiary}</a>
+       <a href={`#/explorer/query/${row.values.beneficiary}/${undefined}`} >{row.values.beneficiary}</a>
     )},
     {Header: 'Total Storage', accessor: 'totalStorage', Cell: ({row}) => (
        <span>{ formatterSizeFromMB(row.values.totalStorage)}</span>

@@ -202,17 +202,17 @@ function MinerDetail({className, value}: Props): React.ReactElement<Props> {
           <div className={"miner-info-left"}>
             <div className={"miner-info-left-tr label"}>Balance</div>
             <div className={"miner-info-left-tr"}>
-              <span className={"miner-info-left-td"}>total</span>
+              <span className={"miner-info-left-td"}>Total Reward</span>
               <span className={"miner-info-left-td"}><span
                 className={"miner-info-left-td-value"}>{ minerDetail && minerDetail.totalRewardObj && minerDetail.totalRewardObj.money } </span><span>{ minerDetail && minerDetail.totalRewardObj && minerDetail.totalRewardObj.suffix }</span></span>
             </div>
             <div className={"miner-info-left-tr"}>
-              <span className={"miner-info-left-td"}>available transfers</span>
+              <span className={"miner-info-left-td"}>Available</span>
               <span className={"miner-info-left-td"}><span
                 className={"miner-info-left-td-value"}>{ minerDetail && minerDetail.totalRewardsCurrentlyAvailableObj && minerDetail.totalRewardsCurrentlyAvailableObj.money} </span><span>{ minerDetail && minerDetail.totalRewardsCurrentlyAvailableObj && minerDetail.totalRewardsCurrentlyAvailableObj.suffix }</span></span>
             </div>
             <div className={"miner-info-left-tr"}>
-              <span className={"miner-info-left-td"}>locked</span>
+              <span className={"miner-info-left-td"}>Total Not Receive</span>
               <span className={"miner-info-left-td"}>
                 <span className={"miner-info-left-td-value"}>{minerDetail && minerDetail.totaldNotReceiveObj && minerDetail.totaldNotReceiveObj.money }</span><span>{minerDetail && minerDetail.totaldNotReceiveObj && minerDetail.totaldNotReceiveObj.suffix }</span>
                 <img className={"ellipsis"} src={require("./../../../assets/images/hoverInfo.png")} alt="" data-place={"right"} data-effect={"solid"}  data-tip={"Binding through harvest"}/>
@@ -220,7 +220,7 @@ function MinerDetail({className, value}: Props): React.ReactElement<Props> {
               </span>
             </div>
             <div className={"miner-info-left-tr"}>
-              <span className={"miner-info-left-td"}>remaining staking</span>
+              <span className={"miner-info-left-td"}>Collaterals</span>
               <span className={"miner-info-left-td"}><span
                 className={"miner-info-left-td-value"}>{ minerDetail && minerDetail.collateralsObj && minerDetail.collateralsObj.money }</span><span>{ minerDetail && minerDetail.collateralsObj && minerDetail.collateralsObj.suffix }</span></span>
             </div>

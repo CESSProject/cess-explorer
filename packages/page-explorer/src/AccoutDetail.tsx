@@ -43,12 +43,15 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
         if(result){
           let info = result.toJSON();
           let otherInfo = result.toHuman();
+          console.log(otherInfo, 'otherInfootherInfootherInfootherInfootherInfootherInfootherInfo');
           let freeStr: string = otherInfo.data.free;
           let freeInt: number = _.toNumber(freeStr.replace(/,/g,''));
           let total: number = _.toNumber(otherInfo.data.feeFrozen.replace(/,/g,'')) + _.toNumber(otherInfo.data.miscFrozen.replace(/,/g,''))  +  _.toNumber(otherInfo.data.reserved.replace(/,/g,'')) + freeInt;
+          let availableTransfers = freeInt - _.toNumber(otherInfo.data.reserved.replace(/,/g,''));
           let totalObj: Currency = formatterCurrency(total);
           let reservedObj: Currency = formatterCurrency(info.data.reserved);
-          let obj:any = { totalObj, reservedObj }
+          let availableTransfersObj: Currency = formatterCurrency(availableTransfers);
+          let obj:any = { totalObj, reservedObj, availableTransfersObj }
           setAccountInfo(obj);
         }
       })().catch(console.error);
@@ -193,7 +196,7 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
               </div>
               <div className={"accout-info-left-tr"}>
                 <span className={"accout-info-left-td"}>Available transfers</span>
-                <span className={"accout-info-left-td"}><span className={"accout-info-left-td-value"}>{accountInfo && accountInfo.reservedObj &&  accountInfo.reservedObj.money} </span><span>{accountInfo && accountInfo.reservedObj &&  accountInfo.reservedObj.suffix}</span></span>
+                <span className={"accout-info-left-td"}><span className={"accout-info-left-td-value"}>{accountInfo && accountInfo.availableTransfersObj &&  accountInfo.availableTransfersObj.money} </span><span>{accountInfo && accountInfo.availableTransfersObj &&  accountInfo.availableTransfersObj.suffix}</span></span>
               </div>
             </div>
             <div className={"accout-info-center"}>

@@ -32,6 +32,7 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
   const { api } = useApi();
   const [size, setSize] = useState<number>(0);
   const [data, setData] = useState<any[]>([]);
+  const [extrinsics, setExtrinsics] = useState<any[]>([]);
   const [accountInfo, setAccountInfo] = useState<any>({});
   const [activeTab, setActiveTab] = useState<string>( 'extrinsics')
 
@@ -43,7 +44,6 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
         if(result){
           let info = result.toJSON();
           let otherInfo = result.toHuman();
-          console.log(otherInfo, 'otherInfootherInfootherInfootherInfootherInfootherInfootherInfo');
           let freeStr: string = otherInfo.data.free;
           let freeInt: number = _.toNumber(freeStr.replace(/,/g,''));
           let total: number = _.toNumber(otherInfo.data.feeFrozen.replace(/,/g,'')) + _.toNumber(otherInfo.data.miscFrozen.replace(/,/g,''))  +  _.toNumber(otherInfo.data.reserved.replace(/,/g,'')) + freeInt;
@@ -78,11 +78,12 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
   },[value])
 
   const fetchData = async (tab) =>{
+    setActiveTab(tab);
     if(tab === 'extrinsics'){
       let params = { row: 100, page: 0, address: value };
       const response = await request.post({url:"http://106.15.44.155:4399/api/scan/extrinsics", params});
-      let extrinsics = _.get(response, 'data.extrinsics');
-      setData(extrinsics);
+      let list = _.get(response, 'data.extrinsics');
+      setExtrinsics(list);
     } else {
       let entries:any = await api.query.fileBank.file.entries();
       let list:any[]= [];
@@ -101,7 +102,7 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
   }
 
   const changeTableFilter = tab => {
-    setActiveTab(tab);
+    // setActiveTab(tab);
     fetchData(tab);
   };
 
@@ -210,11 +211,12 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
           </div>
           <div className={"accout-table"}>
             <div className={"btn-actions"}>
-              <Button isSelected={activeTab === "extrinsics"} label={"Extrinsics (0)"} onClick={ ()=>{changeTableFilter("extrinsics")}}/>
-              <Button isSelected={activeTab === "data"} label={"Data (0)"} onClick={()=>{changeTableFilter("data")}} className={"select-btn"}/>
+              <Button isSelected={activeTab === "extrinsics"} label={`Extrinsics (${extrinsics.length})`} onClick={ ()=>{changeTableFilter("extrinsics")}}/>
+              <Button isSelected={activeTab === "data"} label={`Data (${data.length})`} onClick={()=>{changeTableFilter("data")}} className={"select-btn"}/>
             </div>
             {
-              !_.isEmpty(data) ? <RcTable columns={ activeTab === "extrinsics" ? extrinsicsColumns : columns} data={data} renderRowSubComponent={renderRowSubComponent} /> : <Empty />
+              ((activeTab === "extrinsics" && !_.isEmpty(extrinsics)) || (activeTab === "data" && !_.isEmpty(data))) ? <RcTable columns={ activeTab === "extrinsics" ? extrinsicsColumns : columns} data={ activeTab === "extrinsics" ? extrinsics : data}
+                 renderRowSubComponent={renderRowSubComponent} /> : <Empty />
             }
           </div>
         </div>

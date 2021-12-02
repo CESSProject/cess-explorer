@@ -170,7 +170,7 @@ function MinerDetail({className, value}: Props): React.ReactElement<Props> {
             <div className={"miner-info-left-tr label"}>Account</div>
             <div className={"miner-info-left-tr"}>
               <span className={"miner-info-left-td"}>Account name</span>
-              <span className={"miner-info-left-td"}>{minerDetail && minerDetail.address && minerDetail.address.substr(0,5)}</span>
+              <span className={"miner-info-left-td"}>{minerDetail && minerDetail.address && (minerDetail.address.substr(0,5) + '...' + minerDetail.address.substr(minerDetail.beneficiary.length -5,minerDetail.address.length -1))}</span>
             </div>
             <div className={"miner-info-left-tr"}>
               <span className={"miner-info-left-td"}>Account1</span>
@@ -181,7 +181,7 @@ function MinerDetail({className, value}: Props): React.ReactElement<Props> {
             </div>
             <div className={"miner-info-left-tr"}>
               <span className={"miner-info-left-td"}>Account2 name</span>
-              <span className={"miner-info-left-td"}> {minerDetail && minerDetail.beneficiary && minerDetail.beneficiary.substr(0,5) }</span>
+              <span className={"miner-info-left-td"}> {minerDetail && minerDetail.beneficiary && (minerDetail.beneficiary.substr(0,5) + '...' + minerDetail.beneficiary.substr(minerDetail.beneficiary.length -5,minerDetail.beneficiary.length -1))}</span>
             </div>
             <div className={"miner-info-left-tr"}>
               <span className={"miner-info-left-td"}>Account2</span>
@@ -249,7 +249,7 @@ export default React.memo(styled(MinerDetail)`
     padding: 26px 1.5rem !important;
     background: white;
     border-radius: 6px;
-    .accout-title-text{
+    .miner-title-text{
       margin-left: 5px;
     }
   }

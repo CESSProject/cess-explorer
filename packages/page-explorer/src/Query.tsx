@@ -50,7 +50,7 @@ function Query ({ className = '', value: propsValue }: Props): React.ReactElemen
       let params = {hash: value};
       let res = await request.post({url:"http://106.15.44.155:4399/api/scan/check_hash", params});
       let type = _.get(res, 'data.hash_type');
-      console.log(res, 'rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr')
+      console.log(res, 'hash_typehash_typehash_type')
       if (value.length !== 0) {
         window.location.hash = `/explorer/query/${value}/${type}`;
       }

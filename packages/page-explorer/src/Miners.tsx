@@ -54,13 +54,13 @@ function Miners({className}: Props): React.ReactElement<Props>{
 
   const columns = React.useMemo(()=> [
     {Header: 'Miner ID', accessor: 'minerId',Cell: ({row}) => (
-      <a href={`/explorer/query/${row.values.minerId}`} >{row.values.minerId}</a>
+      <a href={`#/explorer/query/${row.values.minerId}/${undefined}`} >{row.values.minerId}</a>
     )},
     {Header: 'Address1', accessor: 'address',Cell: ({row}) => (
-       <a href={`/explorer/query/${row.values.address}`} >{row.values.address}</a>
+       <a href={`#/explorer/query/${row.values.address}/${undefined}`} >{row.values.address}</a>
      )},
     {Header: 'Address2', accessor: 'beneficiary',Cell: ({row}) => (
-       <a href={`/explorer/query/${row.values.address}`} >{row.values.beneficiary}</a>
+       <a href={`#/explorer/query/${row.values.address}/${undefined}`} >{row.values.beneficiary}</a>
     )},
     {Header: 'Total Storage', accessor: 'totalStorage', Cell: ({row}) => (
        <span>{ formatterSizeFromMB(row.values.totalStorage)}</span>

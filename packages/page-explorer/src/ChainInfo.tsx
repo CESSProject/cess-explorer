@@ -13,6 +13,8 @@ interface Props{
 
 function ChainInfo({className}: Props): React.ReactElement<Props>{
   const [minerData, setMinerData] = useState<any>({})
+  const [lastEra, setLastEra] = useState<any>(0)
+  const [currentEra, setCurrentEra] = useState<any>(0)
   const { lastHeaders } = useContext(BlockAuthorsContext);
 
   let json = lastHeaders && lastHeaders[0] && lastHeaders[0].toJSON();
@@ -24,6 +26,18 @@ function ChainInfo({className}: Props): React.ReactElement<Props>{
       if(res){
         let info = res.toJSON();
         setMinerData(info);
+      }
+    })().catch(console.error);
+  }, [])
+
+  useEffect(()=>{
+    (async (): Promise<void> =>{
+      const res = await api.query.staking.currentEra();
+      if(res){
+        let info:any = res.toHuman();
+        setCurrentEra(info);
+        let res2 = await api.query.staking.erasRewardPoints(info - 1);
+        setLastEra(_.get(res2.toHuman(), 'total'));
       }
     })().catch(console.error);
   }, [])
@@ -46,12 +60,12 @@ function ChainInfo({className}: Props): React.ReactElement<Props>{
             <span className={"chain-info-details-block-item"}><BlockToTime value={BN_ONE} /></span>
           </div>
           <div className={"chain-info-details-block middle-block"}>
-            <span className={"chain-info-details-block-item label"}>block reward</span>
-            <span className={"chain-info-details-block-item"}>0 <span className={"unit"}>TCESS</span></span>
+            <span className={"chain-info-details-block-item label"}>current era</span>
+            <span className={"chain-info-details-block-item"}>{currentEra} </span>
           </div>
           <div className={"chain-info-details-block"}>
-            <span className={"chain-info-details-block-item label"}>24h average block reward</span>
-            <span className={"chain-info-details-block-item"}>0 <span className={"unit"}>TCESS/TB</span></span>
+            <span className={"chain-info-details-block-item label"}>last era reward</span>
+            <span className={"chain-info-details-block-item"}>{lastEra} <span className={"unit"}>TCESS</span></span>
           </div>
           <div className={"chain-info-details-block"}>
             <span className={"chain-info-details-block-item label"}>active miners</span>

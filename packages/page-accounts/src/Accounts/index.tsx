@@ -240,11 +240,11 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
             label={t<string>('Restore JSON')}
             onClick={toggleImport}
           />
-          <Button
-            icon='qrcode'
-            label={t<string>('Add via Qr')}
-            onClick={toggleQr}
-          />
+          {/*<Button*/}
+          {/*  icon='qrcode'*/}
+          {/*  label={t<string>('Add via Qr')}*/}
+          {/*  onClick={toggleQr}*/}
+          {/*/>*/}
           {isLedgerEnabled && (
             <>
               <Button

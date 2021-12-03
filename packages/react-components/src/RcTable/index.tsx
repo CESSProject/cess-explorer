@@ -154,7 +154,7 @@ export default React.memo(styled(RcTable)`
   display: block;
   overflow-x: auto;
   table{
-    border-collapse: collapse;
+    //border-collapse: collapse;
     width: 100%;
     border: 1.5px solid #5078FE;
     border-radius: 6px;

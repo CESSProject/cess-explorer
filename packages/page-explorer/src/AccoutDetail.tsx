@@ -160,12 +160,12 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
       return (
         <div className={"expand-group"}>
           {
-            rowInfo.map(info=>(
-              <div>
+            rowInfo.map((info, idx)=>(
+              <div key={idx}>
                 <p>{info.type}</p>
                 <p>
                   <span>{info.name}</span>
-                  <span>{info.value}</span>
+                  <span className={"ellipsis"} style={{ width: '60%'}}>{!_.isObject(info.value) ? info.value : JSON.stringify(info.value)}</span>
                 </p>
               </div>
             ))
@@ -329,6 +329,12 @@ export default React.memo(styled(AccoutDetail)`
   //sepecial
   .filehash-ellipsis{
     width: 100px;
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .ellipsis{
     display: inline-block;
     overflow: hidden;
     white-space: nowrap;

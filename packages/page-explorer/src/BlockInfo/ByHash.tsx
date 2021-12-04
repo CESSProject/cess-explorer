@@ -7,7 +7,7 @@ import type { EventRecord, SignedBlock } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-
+import _ from "lodash"
 import { AddressSmall, Columar, LinkExternal, Table } from '@polkadot/react-components';
 import { useApi, useIsMountedRef } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
@@ -79,6 +79,16 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
   const parentHash = getHeader?.parentHash.toHex();
   const hasParent = !getHeader?.parentHash.isEmpty;
 
+  const onClickName = params =>{
+    let addr  = params.author.toHuman()
+    params = _.trim(params);
+    if(params.length === 48){
+      window.location.hash = `/explorer/query/${addr}/${undefined}`;
+    } else {
+      window.location.hash = `/explorer/query/${addr}/${undefined}`;
+    }
+  }
+
   return (
     <div className={className}>
       <Summary
@@ -96,7 +106,7 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
             <tr>
               <td className='address'>
                 {getHeader.author && (
-                  <AddressSmall value={getHeader.author} />
+                  <AddressSmall value={getHeader.author} isNav={true} onClickName={()=>{onClickName(getHeader)}}/>
                 )}
               </td>
               <td className='hash overflow'>{getHeader.hash.toHex()}</td>

@@ -44,7 +44,6 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
         if(result){
           let info = result.toJSON();
           let otherInfo = result.toHuman();
-          console.log(info, 'eeeeeeeeeeeeeeeeeeeeeeeeeeee', otherInfo)
           let freeStr: string = otherInfo.data.free;
           let freeInt: number = _.toNumber(freeStr.replace(/,/g,''));
           let total: number = _.toNumber(otherInfo.data.feeFrozen.replace(/,/g,'')) + _.toNumber(otherInfo.data.miscFrozen.replace(/,/g,''))  +  _.toNumber(otherInfo.data.reserved.replace(/,/g,'')) + freeInt;

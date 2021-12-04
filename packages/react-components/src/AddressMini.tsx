@@ -47,7 +47,7 @@ function AddressMini ({ balance, bonded, children, className = '', iconInfo, isH
   }
 
   const onClick = params =>{
-    let addr  = params.toHuman()
+    let addr  = params.toHuman().Id || params.toHuman()
     params = _.trim(params);
     if(params.length === 48){
       window.location.hash = `/explorer/query/${addr}/${undefined}`;

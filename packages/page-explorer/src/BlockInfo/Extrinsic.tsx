@@ -138,7 +138,7 @@ function ExtrinsicDisplay ({ blockNumber, className = '', events, index, maxBloc
       <td className='top media--1200'>
         {value.isSigned && (
           <>
-            <AddressMini value={value.signer} />
+            <AddressMini value={value.signer} isNav={true}/>
             <div className='explorer--BlockByHash-nonce'>
               {t<string>('index')} {formatNumber(value.nonce)}
             </div>

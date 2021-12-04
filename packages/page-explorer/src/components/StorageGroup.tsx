@@ -163,7 +163,7 @@ function StorageGroup({className}: Props): React.ReactElement<Props>{
         <div className={"chain-info-percent-detail"}>
           <div className={"chain-info-percent-detail-left"}>
             <p>utilization</p>
-            <p>{utilization} %</p>
+            <p>{_.round(utilization, 3)} %</p>
           </div>
           <div className={"chain-info-percent-detail-right"} />
         </div>
@@ -189,6 +189,7 @@ export default React.memo(styled(StorageGroup)`
     width: 50%;
     display: flex;
     flex-direction: row;
+    justify-content: center;
     align-items: center;
     &-detail{
       display: flex;

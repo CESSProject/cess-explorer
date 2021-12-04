@@ -110,7 +110,7 @@ function RcTable({ columns: userColumns, data, renderRowSubComponent, className,
             {pageIndex + 1} of {pageOptions.length}
           </strong>{' '}
         </span>
-          <span>
+          <span className={"page-number-input"}>
           | Go to page:{' '}
             <input
               type="number"
@@ -207,10 +207,14 @@ export default React.memo(styled(RcTable)`
       line-height: 2 !important;
       min-width: 36px;
     }
+    .page-number-input{
+      vertical-align: bottom;
+    }
     input, select{
       border-radius: 4px;
       border: 1px solid #DBDBDB;
       line-height: 2 !important;
+      min-height: 36px;
       &:focus{
         border: 1px solid #5078FE;
         outline: none;

@@ -48,6 +48,7 @@ function Miners({className}: Props): React.ReactElement<Props>{
         let humanObj = entry.toJSON();
         list.push(_.assign(humanObj, { minerId }));
       });
+      list = _.sortBy(list, 'minerId');
       setMinerList(list);
     })().catch(console.error);
   }, [])

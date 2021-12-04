@@ -46,8 +46,8 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
           let otherInfo = result.toHuman();
           let freeStr: string = otherInfo.data.free;
           let freeInt: number = _.toNumber(freeStr.replace(/,/g,''));
-          let total: number = _.toNumber(otherInfo.data.feeFrozen.replace(/,/g,'')) + _.toNumber(otherInfo.data.miscFrozen.replace(/,/g,''))  +  _.toNumber(otherInfo.data.reserved.replace(/,/g,'')) + freeInt;
-          let availableTransfers = freeInt - _.toNumber(otherInfo.data.reserved.replace(/,/g,''));
+          let total: number = freeInt + _.toNumber(otherInfo.data.reserved.replace(/,/g,''));
+          let availableTransfers: number = freeInt - _.toNumber(otherInfo.data.feeFrozen.replace(/,/g,''));
           let totalObj: Currency = formatterCurrency(total);
           let reservedObj: Currency = formatterCurrency(info.data.reserved);
           let availableTransfersObj: Currency = formatterCurrency(availableTransfers);

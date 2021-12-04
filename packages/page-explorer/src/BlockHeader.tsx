@@ -27,7 +27,7 @@ function BlockHeader ({ value }: Props): React.ReactElement<Props> | null {
   return (
     <tr>
       <td className='number'>
-        <h2><Link to={`/explorer/query/${hashHex}`}><Digits value={formatNumber(value.number)} /></Link></h2>
+        <h2><Link to={`/explorer/query/${hashHex}/block`}><Digits value={formatNumber(value.number)} /></Link></h2>
       </td>
       <td className='all hash overflow'>{hashHex}</td>
       <td className='address'>

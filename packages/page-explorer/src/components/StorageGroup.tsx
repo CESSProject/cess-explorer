@@ -163,7 +163,7 @@ function StorageGroup({className}: Props): React.ReactElement<Props>{
         <div className={"chain-info-percent-detail"}>
           <div className={"chain-info-percent-detail-left"}>
             <p>utilization</p>
-            <p>{_.round(utilization, 3)} %</p>
+            <p>{_.round(utilization, 1)} %</p>
           </div>
           <div className={"chain-info-percent-detail-right"} />
         </div>

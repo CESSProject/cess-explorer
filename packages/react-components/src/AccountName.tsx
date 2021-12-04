@@ -131,7 +131,7 @@ function extractIdentity (address: string, identity: DeriveAccountRegistration):
   return elem;
 }
 
-function AccountName ({ isNav = false, children, className = '', defaultName, label, onClick, override, toggle, value, withSidebar }: Props): React.ReactElement<Props> {
+function AccountName ({ isNav = true, children, className = '', defaultName, label, onClick, override, toggle, value, withSidebar }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const info = useCall<DeriveAccountInfo>(api.derive.accounts.info, [value]);
   const [name, setName] = useState<React.ReactNode>(() => extractName((value || '').toString(), undefined, defaultName));

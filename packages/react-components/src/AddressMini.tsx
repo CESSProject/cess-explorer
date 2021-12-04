@@ -4,7 +4,7 @@
 import type BN from 'bn.js';
 import type { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 import type { KeyringItemType } from '@polkadot/ui-keyring/types';
-
+import _ from "lodash"
 import React from 'react';
 import styled from 'styled-components';
 
@@ -28,6 +28,7 @@ interface Props {
   labelBalance?: React.ReactNode;
   nameExtra?: React.ReactNode;
   onNameClick?: () => void;
+  onClick?: () => void;
   summary?: React.ReactNode;
   type?: KeyringItemType;
   value?: AccountId | AccountIndex | Address | string | null | Uint8Array;
@@ -43,6 +44,16 @@ interface Props {
 function AddressMini ({ balance, bonded, children, className = '', iconInfo, isHighlight, isPadded = true, label, labelBalance, nameExtra, onNameClick, summary, value, withAddress = true, withBalance = false, withBonded = false, withLockedVote = false, withName = true, withShrink = false, withSidebar = true }: Props): React.ReactElement<Props> | null {
   if (!value) {
     return null;
+  }
+
+  const onClick = params =>{
+    let addr  = params.toHuman()
+    params = _.trim(params);
+    if(params.length === 48){
+      window.location.hash = `/explorer/query/${addr}/${undefined}`;
+    } else {
+      window.location.hash = `/explorer/query/${addr}/${undefined}`;
+    }
   }
 
   return (
@@ -69,6 +80,7 @@ function AddressMini ({ balance, bonded, children, className = '', iconInfo, isH
                 <AccountName
                   value={value}
                   withSidebar={withSidebar}
+                  onClick={() =>{ onClick(value)}}
                 >
                   {nameExtra}
                 </AccountName>

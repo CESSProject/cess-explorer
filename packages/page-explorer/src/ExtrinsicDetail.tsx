@@ -5,6 +5,7 @@ import request from "./utils/reuqest";
 import _ from "lodash"
 import moment from "moment";
 import RcTable from "@polkadot/react-components/RcTable";
+import Empty from "@polkadot/app-explorer/components/Empty";
 
 interface Props{
   className?: string,
@@ -50,6 +51,8 @@ function ExtrinsicDetail({className, value}:Props) :React.ReactElement<Props>{
         return t;
       })
       setEventList(res.data.event);
+    } else {
+      setExtrinsicInfo([]);
     }
   }
 
@@ -93,94 +96,100 @@ function ExtrinsicDetail({className, value}:Props) :React.ReactElement<Props>{
   )
 
   return (
-    <div className={`${className} extrinsic-detail`}>
-      <div className={"extrinsic-title"}>
-        <Icon className='highlight--color' icon='dot-circle'/>
-        <span className={"extrinsic-title-text"}>Extrinsic Detail</span>
-      </div>
-      <div className={"extrinsic-content"}>
-        <div className={"extrinsic-content-form-item"}>
-          <span className={"extrinsic-content-form-item-label"}>Extrinsic ID</span>
-          <span className={"extrinsic-content-form-item-value"}>{ extrinsicInfo.extrinsic_index }</span>
-        </div>
-        <div className={"extrinsic-content-form-item"}>
-          <span className={"extrinsic-content-form-item-label"}>Time</span>
-          <span className={"extrinsic-content-form-item-value"}> { moment(extrinsicInfo.block_timestamp).format("YYYY-MM-DD HH:mm:ss") } </span>
-        </div>
-        <div className={"extrinsic-content-form-item"}>
-          <span className={"extrinsic-content-form-item-label"}>Extrinsic hash</span>
-          <span className={"extrinsic-content-form-item-value"}>{ extrinsicInfo.extrinsic_hash }</span>
-        </div>
-        <div className={"extrinsic-content-form-item"}>
-          <span className={"extrinsic-content-form-item-label"}>Block</span>
-          <span className={"extrinsic-content-form-item-value"}>{ extrinsicInfo.block_num }</span>
-        </div>
-        <div className={"extrinsic-content-form-item"}>
-          <span className={"extrinsic-content-form-item-label"}>Module</span>
-          <span className={"extrinsic-content-form-item-value"}>{ extrinsicInfo.call_module }</span>
-        </div>
-        <div className={"extrinsic-content-form-item"}>
-          <span className={"extrinsic-content-form-item-label"}>Call</span>
-          <span className={"extrinsic-content-form-item-value"}>{ extrinsicInfo.call_module_function }</span>
-        </div>
-        <div className={"extrinsic-content-form-item"}>
-          <span className={"extrinsic-content-form-item-label"}>Sender</span>
-          <span className={"extrinsic-content-form-item-value"}>{extrinsicInfo.account_id}</span>
-        </div>
-        <div className={"extrinsic-content-form-item"}>
-          <span className={"extrinsic-content-form-item-label"}>Destination</span>
-          <span className={"extrinsic-content-form-item-value"}>{extrinsicInfo.destination}</span>
-        </div>
-        <div className={"extrinsic-content-form-item"}>
-          <span className={"extrinsic-content-form-item-label"}>Value</span>
-          <span className={"extrinsic-content-form-item-value"}>{extrinsicInfo.value}</span>
-        </div>
-        <div className={"extrinsic-content-form-item"}>
-          <span className={"extrinsic-content-form-item-label"}>Gas</span>
-          <span className={"extrinsic-content-form-item-value"}>{ extrinsicInfo.fee }</span>
-        </div>
-        <div className={"extrinsic-content-form-item"}>
-          <span className={"extrinsic-content-form-item-label"}>Nonce</span>
-          <span className={"extrinsic-content-form-item-value"}>{ extrinsicInfo.nonce }</span>
-        </div>
-        <div className={"extrinsic-content-form-item"}>
-          <span className={"extrinsic-content-form-item-label"}>Result</span>
-          {
-            extrinsicInfo.success ? (extrinsicInfo.finalized ? <img src={require("./../../../assets/images/status/success.png")} alt=""/> :   <img src={require("./../../../assets/images/status/wait.png")} alt=""/>) : <img src={require("./../../../assets/images/status/fail.png")} alt=""/>
-          }
-        </div>
-        <div className={"extrinsic-content-form-item"}>
-          <span className={"extrinsic-content-form-item-label"}>parameter</span>
-          <div className={"extrinsic-content-form-item-parameter"}>
-            <div className={"extrinsic-content-form-item-parameter-list"}>
-              {
-                extrinsicInfo && extrinsicInfo.params && extrinsicInfo.params.map((p,idx) => {
-                  return <p key={idx}><span>{p.name}</span><span>{p.value}</span></p>
-                })
-              }
-              <Button isSelected label={"More"} onClick={getMoreParameter} />
+    <>
+      {
+        !_.isEmpty(extrinsicInfo) ?
+          <div className={`${className} extrinsic-detail`}>
+            <div className={"extrinsic-title"}>
+              <Icon className='highlight--color' icon='dot-circle'/>
+              <span className={"extrinsic-title-text"}>Extrinsic Detail</span>
             </div>
-            <div className={"extrinsic-content-form-item-parameter-actions"}>
-              <Button isSelected label={"View Code"} onClick={showJsonCode} />
-              { isShowJson && <div><pre><code>{JSON.stringify(extrinsicInfo.params, null, 2)}</code></pre></div> }
+            <div className={"extrinsic-content"}>
+              <div className={"extrinsic-content-form-item"}>
+                <span className={"extrinsic-content-form-item-label"}>Extrinsic ID</span>
+                <span className={"extrinsic-content-form-item-value"}>{ extrinsicInfo.extrinsic_index }</span>
+              </div>
+              <div className={"extrinsic-content-form-item"}>
+                <span className={"extrinsic-content-form-item-label"}>Time</span>
+                <span className={"extrinsic-content-form-item-value"}> { moment(extrinsicInfo.block_timestamp).format("YYYY-MM-DD HH:mm:ss") } </span>
+              </div>
+              <div className={"extrinsic-content-form-item"}>
+                <span className={"extrinsic-content-form-item-label"}>Extrinsic hash</span>
+                <span className={"extrinsic-content-form-item-value"}>{ extrinsicInfo.extrinsic_hash }</span>
+              </div>
+              <div className={"extrinsic-content-form-item"}>
+                <span className={"extrinsic-content-form-item-label"}>Block</span>
+                <span className={"extrinsic-content-form-item-value"}>{ extrinsicInfo.block_num }</span>
+              </div>
+              <div className={"extrinsic-content-form-item"}>
+                <span className={"extrinsic-content-form-item-label"}>Module</span>
+                <span className={"extrinsic-content-form-item-value"}>{ extrinsicInfo.call_module }</span>
+              </div>
+              <div className={"extrinsic-content-form-item"}>
+                <span className={"extrinsic-content-form-item-label"}>Call</span>
+                <span className={"extrinsic-content-form-item-value"}>{ extrinsicInfo.call_module_function }</span>
+              </div>
+              <div className={"extrinsic-content-form-item"}>
+                <span className={"extrinsic-content-form-item-label"}>Sender</span>
+                <span className={"extrinsic-content-form-item-value"}>{extrinsicInfo.account_id}</span>
+              </div>
+              <div className={"extrinsic-content-form-item"}>
+                <span className={"extrinsic-content-form-item-label"}>Destination</span>
+                <span className={"extrinsic-content-form-item-value"}>{extrinsicInfo.destination}</span>
+              </div>
+              <div className={"extrinsic-content-form-item"}>
+                <span className={"extrinsic-content-form-item-label"}>Value</span>
+                <span className={"extrinsic-content-form-item-value"}>{extrinsicInfo.value}</span>
+              </div>
+              <div className={"extrinsic-content-form-item"}>
+                <span className={"extrinsic-content-form-item-label"}>Gas</span>
+                <span className={"extrinsic-content-form-item-value"}>{ extrinsicInfo.fee }</span>
+              </div>
+              <div className={"extrinsic-content-form-item"}>
+                <span className={"extrinsic-content-form-item-label"}>Nonce</span>
+                <span className={"extrinsic-content-form-item-value"}>{ extrinsicInfo.nonce }</span>
+              </div>
+              <div className={"extrinsic-content-form-item"}>
+                <span className={"extrinsic-content-form-item-label"}>Result</span>
+                {
+                  extrinsicInfo.success ? (extrinsicInfo.finalized ? <img src={require("./../../../assets/images/status/success.png")} alt=""/> :   <img src={require("./../../../assets/images/status/wait.png")} alt=""/>) : <img src={require("./../../../assets/images/status/fail.png")} alt=""/>
+                }
+              </div>
+              <div className={"extrinsic-content-form-item"}>
+                <span className={"extrinsic-content-form-item-label"}>parameter</span>
+                <div className={"extrinsic-content-form-item-parameter"}>
+                  <div className={"extrinsic-content-form-item-parameter-list"}>
+                    {
+                      extrinsicInfo && extrinsicInfo.params && extrinsicInfo.params.map((p,idx) => {
+                        return <p key={idx}><span>{p.name}</span><span>{p.value}</span></p>
+                      })
+                    }
+                    <Button isSelected label={"More"} onClick={getMoreParameter} />
+                  </div>
+                  <div className={"extrinsic-content-form-item-parameter-actions"}>
+                    <Button isSelected label={"View Code"} onClick={showJsonCode} />
+                    { isShowJson && <div><pre><code>{JSON.stringify(extrinsicInfo.params, null, 2)}</code></pre></div> }
+                  </div>
+                </div>
+              </div>
+              <div className={"extrinsic-content-form-item"}>
+                <span className={"extrinsic-content-form-item-label"}>signature</span>
+                <span className={"extrinsic-content-form-item-value"}>{extrinsicInfo.signature}</span>
+              </div>
             </div>
-          </div>
-        </div>
-        <div className={"extrinsic-content-form-item"}>
-          <span className={"extrinsic-content-form-item-label"}>signature</span>
-          <span className={"extrinsic-content-form-item-value"}>{extrinsicInfo.signature}</span>
-        </div>
-      </div>
-      <div className={"events-title"}>
-        <Icon className='highlight--color' icon='dot-circle'/>
-        <span className={"events-title-text"}>Extrinsic Detail</span>
-      </div>
-      <div className={"event-content"}>
-        <div className={"event-table"}>
-          <RcTable columns={columns} data={eventList} renderRowSubComponent={renderRowSubComponent}/>
-        </div>
-      </div>
-    </div>
+            <div className={"events-title"}>
+              <Icon className='highlight--color' icon='dot-circle'/>
+              <span className={"events-title-text"}>Extrinsic Detail</span>
+            </div>
+            <div className={"event-content"}>
+              <div className={"event-table"}>
+                <RcTable columns={columns} data={eventList} renderRowSubComponent={renderRowSubComponent}/>
+              </div>
+            </div>
+          </div> : <Empty />
+      }
+    </>
+
   )
 }
 

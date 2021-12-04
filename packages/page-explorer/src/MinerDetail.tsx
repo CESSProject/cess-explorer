@@ -159,85 +159,87 @@ function MinerDetail({className, value}: Props): React.ReactElement<Props> {
 
 
   return (
-    <div className={`${className} miner-detail`}>
-      <div className={"miner-title"}>
-        <Icon className='highlight--color' icon='dot-circle'/>
-        <span className={"miner-title-text"}>Miner Detail</span>
-      </div>
-      <div className={"miner-content"}>
-        <div className={"miner-info"}>
-          <div className={"miner-info-left"}>
-            <div className={"miner-info-left-tr label"}>Account</div>
-            <div className={"miner-info-left-tr"}>
-              <span className={"miner-info-left-td"}>Account name</span>
-              <span className={"miner-info-left-td"}>{minerDetail && minerDetail.address && (minerDetail.address.substr(0,5) + '...' + minerDetail.address.substr(minerDetail.beneficiary.length -5,minerDetail.address.length -1))}</span>
-            </div>
-            <div className={"miner-info-left-tr"}>
-              <span className={"miner-info-left-td"}>Account1</span>
-              <span className={"miner-info-left-td ellipsis"} data-for='address' data-effect={"solid"} data-tip={""}>
+    <>
+      {
+        !_.isEmpty(minerDetail) ? <div className={`${className} miner-detail`}>
+          <div className={"miner-title"}>
+            <Icon className='highlight--color' icon='dot-circle'/>
+            <span className={"miner-title-text"}>Miner Detail</span>
+          </div>
+          <div className={"miner-content"}>
+            <div className={"miner-info"}>
+              <div className={"miner-info-left"}>
+                <div className={"miner-info-left-tr label"}>Account</div>
+                <div className={"miner-info-left-tr"}>
+                  <span className={"miner-info-left-td"}>Account name</span>
+                  <span className={"miner-info-left-td"}>{minerDetail && minerDetail.address && (minerDetail.address.substr(0,5) + '...' + minerDetail.address.substr(minerDetail.beneficiary.length -5,minerDetail.address.length -1))}</span>
+                </div>
+                <div className={"miner-info-left-tr"}>
+                  <span className={"miner-info-left-td"}>Account1</span>
+                  <span className={"miner-info-left-td ellipsis"} data-for='address' data-effect={"solid"} data-tip={""}>
                 {minerDetail && minerDetail.address}
               </span>
-              <ReactTooltip id={"address"} effect="solid" delayUpdate={500} delayHide={2000} getContent={() => { return minerDetail.address }}/>
-            </div>
-            <div className={"miner-info-left-tr"}>
-              <span className={"miner-info-left-td"}>Account2 name</span>
-              <span className={"miner-info-left-td"}> {minerDetail && minerDetail.beneficiary && (minerDetail.beneficiary.substr(0,5) + '...' + minerDetail.beneficiary.substr(minerDetail.beneficiary.length -5,minerDetail.beneficiary.length -1))}</span>
-            </div>
-            <div className={"miner-info-left-tr"}>
-              <span className={"miner-info-left-td"}>Account2</span>
-              <span className={"miner-info-left-td ellipsis"} data-for='beneficiary' data-effect={"solid"} data-tip={""}>
+                  <ReactTooltip id={"address"} effect="solid" delayUpdate={500} delayHide={2000} getContent={() => { return minerDetail.address }}/>
+                </div>
+                <div className={"miner-info-left-tr"}>
+                  <span className={"miner-info-left-td"}>Account2 name</span>
+                  <span className={"miner-info-left-td"}> {minerDetail && minerDetail.beneficiary && (minerDetail.beneficiary.substr(0,5) + '...' + minerDetail.beneficiary.substr(minerDetail.beneficiary.length -5,minerDetail.beneficiary.length -1))}</span>
+                </div>
+                <div className={"miner-info-left-tr"}>
+                  <span className={"miner-info-left-td"}>Account2</span>
+                  <span className={"miner-info-left-td ellipsis"} data-for='beneficiary' data-effect={"solid"} data-tip={""}>
                 {minerDetail && minerDetail.beneficiary}
               </span>
-              <ReactTooltip id={"beneficiary"} effect="solid" delayUpdate={500} delayHide={2000}  getContent={() => { return minerDetail.beneficiary }}/>
-            </div>
-          </div>
-          <div className={"miner-info-right"}>
-            <div id="miner-info-box" ref={minerInfoRef} className={"miner-info-box"}/>
-          </div>
+                  <ReactTooltip id={"beneficiary"} effect="solid" delayUpdate={500} delayHide={2000}  getContent={() => { return minerDetail.beneficiary }}/>
+                </div>
+              </div>
+              <div className={"miner-info-right"}>
+                <div id="miner-info-box" ref={minerInfoRef} className={"miner-info-box"}/>
+              </div>
 
-        </div>
-      </div>
-      <div className={"miner-content"}>
-        <div className={"miner-balance"}>
-          <div className={"miner-info-left"}>
-            <div className={"miner-info-left-tr label"}>Balance</div>
-            <div className={"miner-info-left-tr"}>
-              <span className={"miner-info-left-td"}>Total Reward</span>
-              <span className={"miner-info-left-td"}><span
-                className={"miner-info-left-td-value"}>{ minerDetail && minerDetail.totalRewardObj && minerDetail.totalRewardObj.money } </span><span>{ minerDetail && minerDetail.totalRewardObj && minerDetail.totalRewardObj.suffix }</span></span>
             </div>
-            <div className={"miner-info-left-tr"}>
-              <span className={"miner-info-left-td"}>Available</span>
-              <span className={"miner-info-left-td"}><span
-                className={"miner-info-left-td-value"}>{ minerDetail && minerDetail.totalRewardsCurrentlyAvailableObj && minerDetail.totalRewardsCurrentlyAvailableObj.money} </span><span>{ minerDetail && minerDetail.totalRewardsCurrentlyAvailableObj && minerDetail.totalRewardsCurrentlyAvailableObj.suffix }</span></span>
-            </div>
-            <div className={"miner-info-left-tr"}>
-              <span className={"miner-info-left-td"}>Total Not Receive</span>
-              <span className={"miner-info-left-td"}>
+          </div>
+          <div className={"miner-content"}>
+            <div className={"miner-balance"}>
+              <div className={"miner-info-left"}>
+                <div className={"miner-info-left-tr label"}>Balance</div>
+                <div className={"miner-info-left-tr"}>
+                  <span className={"miner-info-left-td"}>Total Reward</span>
+                  <span className={"miner-info-left-td"}><span
+                    className={"miner-info-left-td-value"}>{ minerDetail && minerDetail.totalRewardObj && minerDetail.totalRewardObj.money } </span><span>{ minerDetail && minerDetail.totalRewardObj && minerDetail.totalRewardObj.suffix }</span></span>
+                </div>
+                <div className={"miner-info-left-tr"}>
+                  <span className={"miner-info-left-td"}>Available</span>
+                  <span className={"miner-info-left-td"}><span
+                    className={"miner-info-left-td-value"}>{ minerDetail && minerDetail.totalRewardsCurrentlyAvailableObj && minerDetail.totalRewardsCurrentlyAvailableObj.money} </span><span>{ minerDetail && minerDetail.totalRewardsCurrentlyAvailableObj && minerDetail.totalRewardsCurrentlyAvailableObj.suffix }</span></span>
+                </div>
+                <div className={"miner-info-left-tr"}>
+                  <span className={"miner-info-left-td"}>Total Not Receive</span>
+                  <span className={"miner-info-left-td"}>
                 <span className={"miner-info-left-td-value"}>{minerDetail && minerDetail.totaldNotReceiveObj && minerDetail.totaldNotReceiveObj.money }</span><span>{minerDetail && minerDetail.totaldNotReceiveObj && minerDetail.totaldNotReceiveObj.suffix }</span>
                 <img className={"ellipsis"} src={require("./../../../assets/images/hoverInfo.png")} alt="" data-place={"right"} data-effect={"solid"}  data-tip={"Binding through harvest"}/>
                 <ReactTooltip place={"right"} effect="solid" delayUpdate={500} delayHide={2000}/>
               </span>
-            </div>
-            <div className={"miner-info-left-tr"}>
-              <span className={"miner-info-left-td"}>Collaterals</span>
-              <span className={"miner-info-left-td"}><span
-                className={"miner-info-left-td-value"}>{ minerDetail && minerDetail.collateralsObj && minerDetail.collateralsObj.money }</span><span>{ minerDetail && minerDetail.collateralsObj && minerDetail.collateralsObj.suffix }</span></span>
+                </div>
+                <div className={"miner-info-left-tr"}>
+                  <span className={"miner-info-left-td"}>Collaterals</span>
+                  <span className={"miner-info-left-td"}><span
+                    className={"miner-info-left-td-value"}>{ minerDetail && minerDetail.collateralsObj && minerDetail.collateralsObj.money }</span><span>{ minerDetail && minerDetail.collateralsObj && minerDetail.collateralsObj.suffix }</span></span>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div className={"miner-content"}>
-        <div className={"accout-table"}>
-          <div className={"btn-actions"}>
-            <Button isSelected label={`Extrinsics (${data.length})`} />
+          <div className={"miner-content"}>
+            <div className={"accout-table"}>
+              <div className={"btn-actions"}>
+                <Button isSelected label={`Extrinsics (${data.length})`} />
+              </div>
+              <RcTable columns={columns} data={data} renderRowSubComponent={renderRowSubComponent}/>
+            </div>
           </div>
-          {
-            !_.isEmpty(data) ? <RcTable columns={columns} data={data} renderRowSubComponent={renderRowSubComponent}/> : <Empty />
-          }
-        </div>
-      </div>
-    </div>
+        </div> : <Empty />
+      }
+    </>
   )
 }
 

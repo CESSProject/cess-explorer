@@ -51,6 +51,10 @@ function Query ({ className = '', value: propsValue }: Props): React.ReactElemen
       let res = await request.post({url:"http://106.15.44.155:4399/api/scan/check_hash", params});
       let type = _.get(res, 'data.hash_type');
       console.log(res, 'hash_typehash_typehash_type')
+      if(!type){
+        window.location.hash = `/explorer/query/${value}/${'extrinsic'}`;
+        return;
+      }
       if (value.length !== 0) {
         window.location.hash = `/explorer/query/${value}/${type}`;
       }

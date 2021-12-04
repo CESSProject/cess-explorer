@@ -400,7 +400,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
   }
 
   const onClickName = address =>{
-    window.location.hash = `/explorer/query/${address}`;
+    window.location.hash = `/explorer/query/${address}/${undefined}`;
   }
 
   return (

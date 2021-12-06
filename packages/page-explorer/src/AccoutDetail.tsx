@@ -12,6 +12,7 @@ import Icon from "@polkadot/react-components/Icon";
 import {number} from "echarts";
 import {fetch} from "@polkadot/x-fetch";
 import request from "./utils/reuqest";
+import moment from "moment";
 
 interface Props{
   className? :string,
@@ -93,7 +94,7 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
         // console.log('account data--->', entry.toHuman(), 'toJSON ---->', entry.toJSON());
         let jsonObj = entry.toJSON();
         let humanObj = entry.toHuman();
-        if(jsonObj.owner == value && jsonObj.ispublic === 1){
+        if(jsonObj.owner == value){
           jsonObj.filesize = formatterSize(jsonObj.filesize);
           jsonObj.filename = humanObj.filename;
           jsonObj.similarityhash = humanObj.similarityhash;
@@ -113,7 +114,11 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
     {Header: 'Extrinsic ID', accessor: 'extrinsic_index',id:'extrinsic_index', width: '12.5%'},
     {Header: 'Block', accessor: 'block_num',id:'block_num', width: '12.5%'},
     {Header: 'Extrinsic Hash', accessor: 'extrinsic_hash',id:'extrinsic_hash', width: '12.5%'},
-    {Header: 'Time', accessor: 'block_timestamp',id:'block_timestamp', width: '12.5%'},
+    {
+      Header: 'Time', accessor: 'block_timestamp', id: 'block_timestamp', width: '12.5%', Cell: ({row}) => (
+        <span>{ moment(row.values.block_timestamp * 1000).format("YYYY-MM-DD HH:mm:ss")}</span>
+      )
+    },
     // {Header: 'Result', accessor: 'result',id:'result', width: '12.5%'},
     {
       Header: 'Call', accessor: 'call_module', id: 'call_module', // It needs an ID
@@ -127,9 +132,17 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
   ], [])
 
   const columns = React.useMemo(()=> [
-    {Header: 'File Name', accessor: 'filename',id:'filename', width: '12.5%'},
+    {Header: 'File Name', accessor: 'filename',id:'filename', width: '12.5%',Cell: ({row}) => (
+      <span>{row.original.ispublic === 1 ? row.values.filename : "******"}</span>
+    )},
     {Header: 'Data ID', accessor: 'fileid',id:'fileid',width: '12.5%',Cell: ({row}) => (
-        <a href={`http://121.46.19.38:54558/fileDetail?fid=${row.values.fileid}`} target="_blank">{row.values.fileid}</a>
+      <>
+        {
+          row.original.ispublic === 1 ?
+            <a href={`http://121.46.19.38:54558/fileDetail?fid=${row.values.fileid}`} target="_blank">{row.values.fileid}</a> : <span>{row.values.fileid}</span>
+        }
+      </>
+
     )},
     {Header: 'PoE', accessor: 'filehash',id:'filehash', width: '12.5%',Cell: ({row}) => (
         <span className={"filehash-ellipsis"}>
@@ -137,17 +150,27 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
         </span>
       )},
     {Header: 'Characteristic', accessor: 'similarityhash',id:'similarityhash', width: '12.5%',Cell: ({row}) => (
-        <a href={`http://121.46.19.38:54558/fileDetail?fid=${row.values.fileid}`}  target="_blank">{row.values.similarityhash === "null" ? "": row.values.similarityhash}</a>
+      <>
+        {
+          row.original.ispublic === 1 ?
+            <a href={`http://121.46.19.38:54558/fileDetail?fid=${row.values.fileid}`}  target="_blank">{row.values.similarityhash === "null" ? "": row.values.similarityhash}</a> :
+              <span>{row.values.similarityhash === "null" ? "": row.values.similarityhash}</span>
+        }
+      </>
     )},
     {Header: 'Size', accessor: 'filesize',id:'filesize', width: '12.5%',Cell: ({row}) => (
         <span >
-          {row.values.filesize}
+          {row.original.ispublic === 1 ? row.values.filesize : '******'}
         </span>
     )},
     {Header: 'Is The File Public?', accessor: 'ispublic',id:'ispublic', width: '12.5%',Cell: ({row}) => (
         <span >{row.values.ispublic == 1 ? "yes" : "no"}</span>
     )},
-    {Header: 'Storage Validity Period To',id:'deadline', accessor: 'deadline', width: '12.5%'},
+    {Header: 'Storage Validity Period To',id:'deadline', accessor: 'deadline', width: '12.5%',Cell: ({row}) => (
+        <span >
+          {row.original.ispublic === 1 ? row.values.deadline : '******'}
+        </span>
+    )},
     {Header: 'Charge', accessor: 'downloadfee',id:'downloadfee', width: '12.5%',Cell: ({row}) => (
         <span >{ formatterCurrencyStr(row.values.downloadfee) }</span>
     )},

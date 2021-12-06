@@ -52,7 +52,7 @@ function RcTable({ columns: userColumns, data, renderRowSubComponent, className,
   return (
     <Fragment>
       <div className={`${className} fragment-box`} {...getTableProps()}>
-        <table className={`normal-styles`}>
+        <table className={`normal-styles`} >
           <thead>
           {headerGroups.map((headerGroup: any) => (
             <tr {...headerGroup.getHeaderGroupProps()}>

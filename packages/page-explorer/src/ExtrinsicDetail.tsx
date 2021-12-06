@@ -16,8 +16,14 @@ function ExtrinsicDetail({className, value}:Props) :React.ReactElement<Props>{
   const [extrinsicInfo, setExtrinsicInfo] = useState<any>({});
   const [eventList, setEventList] = useState<any>([]);
   const [isShowJson, toggleShowJson] = useState(false);
+  const [state, setState] = useState<any>({
+    paramsPageSize: 5,
+    paramsPageNum: 1,
+  })
 
-  const getMoreParameter = () =>{}
+  const getMoreParameter = () =>{
+    setState({...state, paramsPageNum: state.paramsPageNum + 1})
+  }
 
   const showJsonCode = () => {
     toggleShowJson(!isShowJson);
@@ -84,7 +90,7 @@ function ExtrinsicDetail({className, value}:Props) :React.ReactElement<Props>{
             }
           </div>
           <div className={"expand-code"}>
-            <Button isSelected label={"View Code"} onClick={()=> {
+            <Button isSelected label={row.original.isShowEventJson ? "Decode" : "View Code"} onClick={()=> {
               showEventJsonCode(row.original.event_id, row.isExpanded)
             }}
             />
@@ -111,7 +117,7 @@ function ExtrinsicDetail({className, value}:Props) :React.ReactElement<Props>{
               </div>
               <div className={"extrinsic-content-form-item"}>
                 <span className={"extrinsic-content-form-item-label"}>Time</span>
-                <span className={"extrinsic-content-form-item-value"}> { moment(extrinsicInfo.block_timestamp).format("YYYY-MM-DD HH:mm:ss") } </span>
+                <span className={"extrinsic-content-form-item-value"}> { moment(extrinsicInfo.block_timestamp * 1000).format("YYYY-MM-DD HH:mm:ss") } </span>
               </div>
               <div className={"extrinsic-content-form-item"}>
                 <span className={"extrinsic-content-form-item-label"}>Extrinsic hash</span>
@@ -160,14 +166,14 @@ function ExtrinsicDetail({className, value}:Props) :React.ReactElement<Props>{
                 <div className={"extrinsic-content-form-item-parameter"}>
                   <div className={"extrinsic-content-form-item-parameter-list"}>
                     {
-                      extrinsicInfo && extrinsicInfo.params && extrinsicInfo.params.map((p,idx) => {
+                      extrinsicInfo && extrinsicInfo.params &&           extrinsicInfo.params.map((p,idx) => {
                         return <p key={idx}><span>{p.name}</span><span>{p.value}</span></p>
                       })
                     }
                     <Button isSelected label={"More"} onClick={getMoreParameter} />
                   </div>
                   <div className={"extrinsic-content-form-item-parameter-actions"}>
-                    <Button isSelected label={"View Code"} onClick={showJsonCode} />
+                    <Button isSelected label={isShowJson ? "Decode" : "View Code"} onClick={showJsonCode} />
                     { isShowJson && <div><pre><code>{JSON.stringify(extrinsicInfo.params, null, 2)}</code></pre></div> }
                   </div>
                 </div>
@@ -179,7 +185,7 @@ function ExtrinsicDetail({className, value}:Props) :React.ReactElement<Props>{
             </div>
             <div className={"events-title"}>
               <Icon className='highlight--color' icon='dot-circle'/>
-              <span className={"events-title-text"}>Extrinsic Detail</span>
+              <span className={"events-title-text"}>Events</span>
             </div>
             <div className={"event-content"}>
               <div className={"event-table"}>

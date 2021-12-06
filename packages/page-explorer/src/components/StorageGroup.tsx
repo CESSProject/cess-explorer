@@ -112,7 +112,7 @@ function StorageGroup({className}: Props): React.ReactElement<Props>{
 
   const drawUtilization = ({used_storage, available_storage}) =>{
     let usedPercent: number = used_storage / (used_storage + available_storage);
-    setUtilization(_.ceil(usedPercent,2)*100);
+    setUtilization(_.round(usedPercent,2)*100);
     let percentPI: number = 0;
     let coordinate: any;
     let canvas = document.getElementsByClassName("chain-info-percent-canvas")[0] as HTMLCanvasElement;

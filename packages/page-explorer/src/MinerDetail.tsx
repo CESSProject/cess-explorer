@@ -4,7 +4,7 @@ import * as echarts from "echarts";
 import {Button, Icon} from "@polkadot/react-components";
 import RcTable from "@polkadot/react-components/RcTable";
 import ReactTooltip from "react-tooltip";
-import {useApi} from "@polkadot/react-hooks";
+import {useApi, useLoadingDelay} from "@polkadot/react-hooks";
 import _ from "lodash"
 import {formatterCurrency, formatterSize, formatterSizeFromMB} from "./utils";
 import request from "@polkadot/app-explorer/utils/reuqest";

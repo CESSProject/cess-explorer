@@ -6,6 +6,7 @@ import _ from "lodash"
 import moment from "moment";
 import RcTable from "@polkadot/react-components/RcTable";
 import Empty from "@polkadot/app-explorer/components/Empty";
+import {useLoadingDelay} from "@polkadot/react-hooks";
 
 interface Props{
   className?: string,
@@ -170,7 +171,7 @@ function ExtrinsicDetail({className, value}:Props) :React.ReactElement<Props>{
                         return <p key={idx}><span>{p.name}</span><span>{p.value}</span></p>
                       })
                     }
-                    <Button isSelected label={"More"} onClick={getMoreParameter} />
+                    {extrinsicInfo.params && extrinsicInfo.params.length > 5 && <Button isSelected label={"More"} onClick={getMoreParameter} />}
                   </div>
                   <div className={"extrinsic-content-form-item-parameter-actions"}>
                     <Button isSelected label={isShowJson ? "Decode" : "View Code"} onClick={showJsonCode} />

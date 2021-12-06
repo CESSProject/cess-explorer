@@ -25,10 +25,10 @@ function StorageGroup({className}: Props): React.ReactElement<Props>{
     (async (): Promise<void> =>{
       let storageInfoValue = await api.query.sminer.storageInfoValue();
       let storageInfo = storageInfoValue.toJSON();
-      drawUtilization({used_storage: _.toNumber(_.get(storageInfo , 'usedStorage' )), available_storage: _.toNumber(_.get(storageInfo , 'availableStorage' ))});
+      drawUtilization({used_storage: _.toNumber(_.get(storageInfo , 'usedStorage' )), available_storage: _.toNumber(_.get(storageInfo , 'availableStorage' )) - _.toNumber(_.get(storageInfo , 'usedStorage' ))});
       let barData = [
         { value: _.get(storageInfo , 'usedStorage' ), name: 'used storage'},
-        { value: _.get(storageInfo , 'availableStorage' ), name: 'available storage'},
+        { value: _.get(storageInfo , 'availableStorage' ) - _.get(storageInfo , 'usedStorage' ), name: 'available storage'},
       ];
       setBarData(barData);
       const option: any = {
@@ -111,7 +111,7 @@ function StorageGroup({className}: Props): React.ReactElement<Props>{
   }
 
   const drawUtilization = ({used_storage, available_storage}) =>{
-    let usedPercent: number = used_storage / (used_storage + available_storage);
+    let usedPercent: number = used_storage / available_storage;
     setUtilization(_.round(usedPercent,2)*100);
     let percentPI: number = 0;
     let coordinate: any;

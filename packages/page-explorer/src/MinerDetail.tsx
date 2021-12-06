@@ -9,6 +9,7 @@ import _ from "lodash"
 import {formatterCurrency, formatterSize, formatterSizeFromMB} from "./utils";
 import request from "@polkadot/app-explorer/utils/reuqest";
 import Empty from "@polkadot/app-explorer/components/Empty";
+import moment from "moment";
 
 interface Props {
   className?: string,
@@ -122,7 +123,9 @@ function MinerDetail({className, value}: Props): React.ReactElement<Props> {
     {Header: 'Extrinsic ID', accessor: 'extrinsic_index',id:'extrinsic_index', width: '12.5%'},
     {Header: 'Block', accessor: 'block_num',id:'block_num', width: '12.5%'},
     {Header: 'Extrinsic Hash', accessor: 'extrinsic_hash',id:'extrinsic_hash', width: '12.5%'},
-    {Header: 'Time', accessor: 'block_timestamp',id:'block_timestamp', width: '12.5%'},
+    {Header: 'Time', accessor: 'block_timestamp',id:'block_timestamp', width: '12.5%', Cell: ({row}) => (
+      <span>{ moment(row.values.block_timestamp * 1000).format("YYYY-MM-DD HH:mm:ss")}</span>
+    )},
     // {Header: 'Result', accessor: 'result',id:'result', width: '12.5%'},
     {
       Header: 'Call', accessor: 'call_module', id: 'call_module', // It needs an ID

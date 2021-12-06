@@ -1,6 +1,6 @@
 import _ from "lodash"
 import RcTable from "@polkadot/react-components/RcTable"
-import React, {Fragment, useEffect, useState} from "react"
+import React, {Fragment, useCallback, useEffect, useState} from "react"
 import styled from "styled-components"
 import {Button} from "@polkadot/react-components";
 import IdentityIcon from "@polkadot/react-components/IdentityIcon";
@@ -105,6 +105,10 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
     }
   }
 
+  const fetchData2 = useCallback(({pageSize, pageIndex}) =>{
+    console.log(pageSize, pageIndex, 'eeeeeeeeeeeeeeeeeeee')
+  },[])
+
   const changeTableFilter = tab => {
     // setActiveTab(tab);
     fetchData(tab);
@@ -168,7 +172,7 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
     )},
     {Header: 'Storage Validity Period To',id:'deadline', accessor: 'deadline', width: '12.5%',Cell: ({row}) => (
         <span >
-          {row.original.ispublic === 1 ? row.values.deadline : '******'}
+          {row.original.ispublic === 1 ? moment(row.values.deadline*1000).format("YYYY-MM-DD HH:mm:ss") : '******'}
         </span>
     )},
     {Header: 'Charge', accessor: 'downloadfee',id:'downloadfee', width: '12.5%',Cell: ({row}) => (

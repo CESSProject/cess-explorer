@@ -166,7 +166,7 @@ function ExtrinsicDetail({className, value}:Props) :React.ReactElement<Props>{
                 <div className={"extrinsic-content-form-item-parameter"}>
                   <div className={"extrinsic-content-form-item-parameter-list"}>
                     {
-                      extrinsicInfo && extrinsicInfo.params &&           extrinsicInfo.params.map((p,idx) => {
+                      extrinsicInfo && extrinsicInfo.params && _.slice(extrinsicInfo.params, 0, state.paramsPageNum * state.paramsPageSize).map((p,idx) => {
                         return <p key={idx}><span>{p.name}</span><span>{p.value}</span></p>
                       })
                     }

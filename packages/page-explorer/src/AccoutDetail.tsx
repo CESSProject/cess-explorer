@@ -1,4 +1,5 @@
 import _ from "lodash"
+import ControlledTable from "@polkadot/react-components/RcTable/ControlledTable"
 import RcTable from "@polkadot/react-components/RcTable"
 import React, {Fragment, useCallback, useEffect, useState} from "react"
 import styled from "styled-components"
@@ -9,8 +10,6 @@ import {useApi} from "@polkadot/react-hooks";
 import {formatterCurrency, formatterCurrencyStr, formatterSize} from "./utils";
 import Empty from "./components/Empty";
 import Icon from "@polkadot/react-components/Icon";
-import {number} from "echarts";
-import {fetch} from "@polkadot/x-fetch";
 import request from "./utils/reuqest";
 import moment from "moment";
 
@@ -36,6 +35,8 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
   const [extrinsics, setExtrinsics] = useState<any[]>([]);
   const [accountInfo, setAccountInfo] = useState<any>({});
   const [activeTab, setActiveTab] = useState<string>( 'extrinsics')
+  const [pageCount, setPageCount] = useState<number>(0);
+  const [extrinsicCount,setExtrinsicCount] = useState<number>(0);
 
   useEffect(()=>{
     if(value){
@@ -81,10 +82,7 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
   const fetchData = async (tab) =>{
     setActiveTab(tab);
     if(tab === 'extrinsics'){
-      let params = { row: 100, page: 0, address: value };
-      const response = await request.post({url:"http://106.15.44.155:4399/api/scan/extrinsics", params});
-      let list = _.get(response, 'data.extrinsics');
-      setExtrinsics(list);
+      await fetchData2({pageSize: 10, pageIndex: 0});
     } else {
       let entries:any = await api.query.fileBank.file.entries();
       let list:any[]= [];
@@ -105,9 +103,15 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
     }
   }
 
-  const fetchData2 = useCallback(({pageSize, pageIndex}) =>{
-    console.log(pageSize, pageIndex, 'eeeeeeeeeeeeeeeeeeee')
-  },[])
+  const fetchData2 = useCallback(async ({pageSize, pageIndex}) =>{
+    let params = { row: pageSize, page: pageIndex, address: value };
+    const response = await request.post({url:"http://106.15.44.155:4399/api/scan/extrinsics", params});
+    let list = _.get(response, 'data.extrinsics');
+    let count = _.get(response, 'data.count');
+    setExtrinsics(list);
+    setPageCount(_.ceil(count / pageSize));
+    setExtrinsicCount(count);
+  },[pageCount])
 
   const changeTableFilter = tab => {
     // setActiveTab(tab);
@@ -137,7 +141,7 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
 
   const columns = React.useMemo(()=> [
     {Header: 'File Name', accessor: 'filename',id:'filename', width: '12.5%',Cell: ({row}) => (
-      <span>{row.original.ispublic === 1 ? row.values.filename : "******"}</span>
+      <span className={"ellipsis ellipsis-filename"}>{row.original.ispublic === 1 ? row.values.filename : "******"}</span>
     )},
     {Header: 'Data ID', accessor: 'fileid',id:'fileid',width: '12.5%',Cell: ({row}) => (
       <>
@@ -149,7 +153,7 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
 
     )},
     {Header: 'PoE', accessor: 'filehash',id:'filehash', width: '12.5%',Cell: ({row}) => (
-        <span className={"filehash-ellipsis"}>
+        <span className={"ellipsis ellipsis-filehash"}>
           {row.values.filehash}
         </span>
       )},
@@ -172,7 +176,7 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
     )},
     {Header: 'Storage Validity Period To',id:'deadline', accessor: 'deadline', width: '12.5%',Cell: ({row}) => (
         <span >
-          {row.original.ispublic === 1 ? moment(row.values.deadline*1000).format("YYYY-MM-DD HH:mm:ss") : '******'}
+          {row.original.ispublic === 1 ? moment(row.values.deadline*1000).format("YYYY-MM-DD") : '******'}
         </span>
     )},
     {Header: 'Charge', accessor: 'downloadfee',id:'downloadfee', width: '12.5%',Cell: ({row}) => (
@@ -201,6 +205,7 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
       )
     }
   ), [])
+
 
   return (
     <Fragment>
@@ -244,12 +249,14 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
           </div>
           <div className={"accout-table"}>
             <div className={"btn-actions"}>
-              <Button isSelected={activeTab === "extrinsics"} label={`Extrinsics (${extrinsics ? extrinsics.length : 0})`} onClick={ ()=>{changeTableFilter("extrinsics")}}/>
+              <Button isSelected={activeTab === "extrinsics"} label={`Extrinsics (${extrinsicCount})`} onClick={ ()=>{changeTableFilter("extrinsics")}}/>
               <Button isSelected={activeTab === "data"} label={`Data (${data ? data.length: 0})`} onClick={()=>{changeTableFilter("data")}} className={"select-btn"}/>
             </div>
             {
-              ((activeTab === "extrinsics" && !_.isEmpty(extrinsics)) || (activeTab === "data" && !_.isEmpty(data))) ? <RcTable columns={ activeTab === "extrinsics" ? extrinsicsColumns : columns} data={ activeTab === "extrinsics" ? extrinsics : data}
-                 renderRowSubComponent={renderRowSubComponent} /> : <Empty />
+              ((activeTab === "extrinsics" && !_.isEmpty(extrinsics)) || (activeTab === "data" && !_.isEmpty(data))) ?
+                activeTab === "extrinsics"?
+                <ControlledTable fetchData={fetchData2} columns={extrinsicsColumns} data={extrinsics} pageCount={pageCount} renderRowSubComponent={renderRowSubComponent} /> :
+                <RcTable columns={columns} data={data} renderRowSubComponent={renderRowSubComponent} /> : <Empty />
             }
           </div>
         </div>
@@ -296,10 +303,10 @@ export default React.memo(styled(AccoutDetail)`
               vertical-align: middle;
             }
           }
-          &.ellipsis{
-            overflow: hidden;
-            text-overflow: ellipsis;
-          }
+          //&.ellipsis{
+          //  overflow: hidden;
+          //  text-overflow: ellipsis;
+          //}
           &-value{
             font-size: 28px;
             color: #5078FE;
@@ -353,17 +360,16 @@ export default React.memo(styled(AccoutDetail)`
   }
 
   //sepecial
-  .filehash-ellipsis{
-    width: 100px;
-    display: inline-block;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
   .ellipsis{
     display: inline-block;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    &-filehash{
+      width: 100px;
+    }
+    &-filename{
+      width: 150px;
+    }
   }
 `)

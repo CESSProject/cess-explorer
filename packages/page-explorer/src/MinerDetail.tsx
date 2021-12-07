@@ -6,7 +6,7 @@ import RcTable from "@polkadot/react-components/RcTable";
 import ReactTooltip from "react-tooltip";
 import {useApi, useLoadingDelay} from "@polkadot/react-hooks";
 import _ from "lodash"
-import {formatterCurrency, formatterSize, formatterSizeFromMB} from "./utils";
+import {formatterCurrency, formatterSize, formatterSizeFromMB, isJson} from "./utils";
 import request from "@polkadot/app-explorer/utils/reuqest";
 import Empty from "@polkadot/app-explorer/components/Empty";
 import moment from "moment";
@@ -116,6 +116,7 @@ function MinerDetail({className, value}: Props): React.ReactElement<Props> {
     let params = { row: 100, page: 0, address };
     const response = await request.post({url:"http://106.15.44.155:4399/api/scan/extrinsics", params});
     let extrinsics = _.get(response, 'data.extrinsics');
+    console.log(extrinsics, 'extrinsicsextrinsicsextrinsicsextrinsicsextrinsicsextrinsicsextrinsicsextrinsics')
     setData(extrinsics);
   }
 
@@ -141,21 +142,29 @@ function MinerDetail({className, value}: Props): React.ReactElement<Props> {
   const renderRowSubComponent = React.useCallback((
     ({ row }) =>{
       let params = row.original.params;
-      let rowInfo = JSON.parse(params);
+      let rowInfo:any;
+      if(isJson(params)){
+        rowInfo = JSON.parse(params)
+      }
       return (
-        <div className={"expand-group"}>
+        <>
           {
-            rowInfo.map(info=>(
-              <div>
-                <p>{info.type}</p>
-                <p>
-                  <span>{info.name}</span>
-                  <span>{info.value}</span>
-                </p>
-              </div>
-            ))
+            rowInfo ?<div className={"expand-group"}>
+              {
+                rowInfo.map(info=>(
+                  <div>
+                    <p>{info.type}</p>
+                    <p>
+                      <span>{info.name}</span>
+                      <span>{ _.isObject(info.value) ? JSON.stringify(info.value) : info.value}</span>
+                    </p>
+                  </div>
+                ))
+              }
+            </div> : <div />
           }
-        </div>
+        </>
+
       )
     }
   ), [])

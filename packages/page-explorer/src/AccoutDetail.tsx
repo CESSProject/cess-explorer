@@ -257,7 +257,7 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
           <div className={"accout-table"}>
             <div className={"btn-actions"}>
               <Button isSelected={activeTab === "extrinsics"} label={`Extrinsics (${extrinsicCount})`} onClick={ ()=>{changeTableFilter("extrinsics")}}/>
-              <Button isSelected={activeTab === "data"} label={data.length >0 ? `Data (${data.length})` : ''} onClick={()=>{changeTableFilter("data")}} className={"select-btn"}/>
+              <Button isBasic isSelected={activeTab === "data"} label={data.length >0 ? `Data (${data.length})` : 'Data'} onClick={()=>{changeTableFilter("data")}} className={"select-btn"}/>
             </div>
             {
               ((activeTab === "extrinsics" && !_.isEmpty(extrinsics)) || (activeTab === "data" && !_.isEmpty(data))) ?

@@ -141,21 +141,28 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
 
   const columns = React.useMemo(()=> [
     {Header: 'File Name', accessor: 'filename',id:'filename', width: '12.5%',Cell: ({row}) => (
-      <span className={"ellipsis ellipsis-filename"}>{row.original.ispublic === 1 ? row.values.filename : "******"}</span>
+      <>
+        <span className={"ellipsis ellipsis-filename"} data-effect={"solid"} data-tip={row.original.ispublic === 1 ? row.values.filename : "******"}>{row.original.ispublic === 1 ? row.values.filename : "******"}</span>
+        <ReactTooltip effect="solid" delayUpdate={500} delayHide={2000}/>
+      </>
     )},
     {Header: 'Data ID', accessor: 'fileid',id:'fileid',width: '12.5%',Cell: ({row}) => (
       <>
         {
           row.original.ispublic === 1 ?
-            <a href={`http://121.46.19.38:54558/fileDetail?fid=${row.values.fileid}`} target="_blank">{row.values.fileid}</a> : <span>{row.values.fileid}</span>
+            <a href={`http://121.46.19.38:54558/fileDetail?fid=${row.values.fileid}`} target="_blank">{row.values.fileid}</a> :
+            <span>{"**********"}</span>
         }
       </>
 
     )},
     {Header: 'PoE', accessor: 'filehash',id:'filehash', width: '12.5%',Cell: ({row}) => (
-        <span className={"ellipsis ellipsis-filehash"}>
+      <>
+        <span className={"ellipsis ellipsis-filehash"} data-effect={"solid"} data-tip={row.values.filehash}>
           {row.values.filehash}
         </span>
+        <ReactTooltip effect="solid" delayUpdate={500} delayHide={2000}/>
+      </>
       )},
     {Header: 'Characteristic', accessor: 'similarityhash',id:'similarityhash', width: '12.5%',Cell: ({row}) => (
       <>

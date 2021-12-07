@@ -17,13 +17,10 @@ function ExtrinsicDetail({className, value}:Props) :React.ReactElement<Props>{
   const [extrinsicInfo, setExtrinsicInfo] = useState<any>({});
   const [eventList, setEventList] = useState<any>([]);
   const [isShowJson, toggleShowJson] = useState(false);
-  const [state, setState] = useState<any>({
-    paramsPageSize: 5,
-    paramsPageNum: 1,
-  })
+  const [isShowAllParams, setShowAll] = useState(false);
 
   const getMoreParameter = () =>{
-    setState({...state, paramsPageNum: state.paramsPageNum + 1})
+    setShowAll(!isShowAllParams);
   }
 
   const showJsonCode = () => {
@@ -167,11 +164,11 @@ function ExtrinsicDetail({className, value}:Props) :React.ReactElement<Props>{
                 <div className={"extrinsic-content-form-item-parameter"}>
                   <div className={"extrinsic-content-form-item-parameter-list"}>
                     {
-                      extrinsicInfo && extrinsicInfo.params && _.slice(extrinsicInfo.params, 0, state.paramsPageNum * state.paramsPageSize).map((p,idx) => {
+                      extrinsicInfo && extrinsicInfo.params && (isShowAllParams ? extrinsicInfo.params : _.slice(extrinsicInfo.params, 0, 5)).map((p,idx) => {
                         return <p key={idx}><span>{p.name}</span><span>{p.value}</span></p>
                       })
                     }
-                    {extrinsicInfo.params && extrinsicInfo.params.length > 5 && <Button isSelected label={"More"} onClick={getMoreParameter} />}
+                    {extrinsicInfo.params && extrinsicInfo.params.length > 5 && <Button isSelected label={isShowAllParams ? "Put Away":"More"} onClick={getMoreParameter} />}
                   </div>
                   <div className={"extrinsic-content-form-item-parameter-actions"}>
                     <Button isSelected label={isShowJson ? "Decode" : "View Code"} onClick={showJsonCode} />

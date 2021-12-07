@@ -76,16 +76,14 @@ interface Props{
 function NetworkStorageTrend({className}: Props): React.ReactElement<Props>{
   const { api } = useApi();
   const networkStorageTrendRef = useRef<any>();
-  // const [xAxisData , setXAxisData] = useState<string[]>([]);
-  // const [usedStorageData, setUsedStorageData] = useState<number[]>([]);
-  // const [availableStorageData, setAvailableStorage] = useState<number[]>([]);
 
   const cleanData = list =>{
     let xAxisData: Array<string> = [], usedStorageData: Array<number> = [], availableStorageData: Array<number> = [];
     _.map(list, v=>{
       xAxisData.push(moment(v.time).format("YYYY-MM-DD"));
       usedStorageData.push(v.usedStorage);
-      availableStorageData.push(~v.availableStorage);
+      // availableStorageData.push(~v.availableStorage)
+      availableStorageData.push(~(v.availableStorage-v.usedStorage));
     })
     return {xAxisData, usedStorageData, availableStorageData}
   }

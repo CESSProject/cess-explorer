@@ -352,15 +352,17 @@ export default React.memo(styled(AccoutDetail)`
         display: flex;
         flex-direction: column;
         align-items: flex-end;
-        >div{
-          width: 700px;text-align: left; border: 1px dashed #DBDBDB; padding: 10px;box-sizing: border-box;
-          >p:last-child{
+        > div {
+          width: 700px;
+          text-align: left;
+          border: 1px dashed #DBDBDB;
+          padding: 10px;
+          box-sizing: border-box;
+          margin-bottom: 8px;
+          > p:last-child {
             display: flex;
             justify-content: space-between;
           }
-        }
-        >div:last-child{
-          margin: 8px 0;
         }
       }
     }

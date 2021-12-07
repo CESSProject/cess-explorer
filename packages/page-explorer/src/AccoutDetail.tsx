@@ -143,7 +143,7 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
     {Header: 'File Name', accessor: 'filename',id:'filename', width: '12.5%',Cell: ({row}) => (
       <>
         <span className={"ellipsis ellipsis-filename"} data-effect={"solid"} data-tip={row.original.ispublic === 1 ? row.values.filename : "******"}>{row.original.ispublic === 1 ? row.values.filename : "******"}</span>
-        <ReactTooltip effect="solid" delayUpdate={500} delayHide={2000}/>
+        <ReactTooltip effect="solid" delayUpdate={500} delayHide={1000}/>
       </>
     )},
     {Header: 'Data ID', accessor: 'fileid',id:'fileid',width: '12.5%',Cell: ({row}) => (
@@ -161,7 +161,7 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
         <span className={"ellipsis ellipsis-filehash"} data-effect={"solid"} data-tip={row.values.filehash}>
           {row.values.filehash}
         </span>
-        <ReactTooltip effect="solid" delayUpdate={500} delayHide={2000}/>
+        <ReactTooltip effect="solid" delayUpdate={500} delayHide={1000}/>
       </>
       )},
     {Header: 'Characteristic', accessor: 'similarityhash',id:'similarityhash', width: '12.5%',Cell: ({row}) => (
@@ -257,7 +257,7 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
           <div className={"accout-table"}>
             <div className={"btn-actions"}>
               <Button isSelected={activeTab === "extrinsics"} label={`Extrinsics (${extrinsicCount})`} onClick={ ()=>{changeTableFilter("extrinsics")}}/>
-              <Button isSelected={activeTab === "data"} label={`Data (${data ? data.length: 0})`} onClick={()=>{changeTableFilter("data")}} className={"select-btn"}/>
+              <Button isSelected={activeTab === "data"} label={data.length >0 ? `Data (${data.length})` : ''} onClick={()=>{changeTableFilter("data")}} className={"select-btn"}/>
             </div>
             {
               ((activeTab === "extrinsics" && !_.isEmpty(extrinsics)) || (activeTab === "data" && !_.isEmpty(data))) ?

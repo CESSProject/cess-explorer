@@ -7,6 +7,7 @@ import moment from "moment";
 import RcTable from "@polkadot/react-components/RcTable";
 import Empty from "@polkadot/app-explorer/components/Empty";
 import {useLoadingDelay} from "@polkadot/react-hooks";
+import {isJson} from "@polkadot/app-explorer/utils";
 
 interface Props{
   className?: string,
@@ -77,24 +78,34 @@ function ExtrinsicDetail({className, value}:Props) :React.ReactElement<Props>{
   const renderRowSubComponent = (
     ({ row }) =>{
       let params = row.original.params;
-      let rowInfo = JSON.parse(params);
+      let isValid = isJson(params)
+      let rowInfo:any;
+      if(isValid){
+        rowInfo = JSON.parse(params);
+      }
       return (
-        <div  className={"expand-group"}>
-          <div className={"expand-group-list"}>
-            {
-              rowInfo ? rowInfo.map((p, index)=>(
-                <p key={index} className={"json-item"}><span>{p.type}</span><span>{ _.isObject(p.value) ? JSON.stringify(p.value) : p.value }</span></p>
-              )) : <div />
-            }
-          </div>
-          <div className={"expand-code"}>
-            <Button isSelected label={row.original.isShowEventJson ? "Decode" : "View Code"} onClick={()=> {
-              showEventJsonCode(row.original.event_id, row.isExpanded)
-            }}
-            />
-            { row.original.isShowEventJson && <div><pre><code>{JSON.stringify(rowInfo, null, 2)}</code></pre></div> }
-          </div>
-        </div>
+        <>
+          {
+            isValid && rowInfo ?
+            <div  className={"expand-group"}>
+              <div className={"expand-group-list"}>
+                {
+                  rowInfo ? rowInfo.map((p, index)=>(
+                    <p key={index} className={"json-item"}><span>{p.type}</span><span>{ _.isObject(p.value) ? JSON.stringify(p.value) : p.value }</span></p>
+                  )) : <div />
+                }
+              </div>
+              <div className={"expand-code"}>
+                <Button isSelected label={row.original.isShowEventJson ? "Decode" : "View Code"} onClick={()=> {
+                  showEventJsonCode(row.original.event_id, row.isExpanded)
+                }}
+                />
+                { row.original.isShowEventJson && <div><pre><code>{JSON.stringify(rowInfo, null, 2)}</code></pre></div> }
+              </div>
+            </div> : <div />
+          }
+        </>
+
       )
     }
   )

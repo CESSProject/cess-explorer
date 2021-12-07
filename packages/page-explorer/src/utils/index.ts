@@ -90,10 +90,34 @@ const formatterCurrencyStr = (coin:number): string =>{
   return `${(coin / Math.pow(k, i)).toFixed(3)} ${currencyStr[i]}`;
 }
 
+/**
+ * check is json
+ * @param str
+ */
+const isJson = (str:string): boolean =>{
+  let isValid = true;
+  if (typeof str == 'string') {
+    try {
+      let obj=JSON.parse(str);
+      if(typeof obj == 'object' && obj ){
+
+      }else{
+        isValid = false;
+      }
+
+    } catch(e) {
+      console.log('error：'+str+'!!!'+e);
+      isValid = false;
+    }
+  }
+  return isValid;
+}
+
 
 export {
   formatterSize,
   formatterSizeFromMB,
   formatterCurrency,
-  formatterCurrencyStr
+  formatterCurrencyStr,
+  isJson
 }

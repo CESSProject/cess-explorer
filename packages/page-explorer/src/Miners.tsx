@@ -22,17 +22,18 @@ function Miners({className}: Props): React.ReactElement<Props>{
 
   useEffect(()=>{
     (async (): Promise<void> =>{
-      const res = await api.query.sminer.minerStatValue();
-      if(res){
-        let info:any = res.toJSON();
-        let stakingObj = formatterCurrency(info.staking);
-        info.stakingMoney = stakingObj.money;
-        info.stakingSuffix = stakingObj.suffix;
-        let minerRewardObj = formatterCurrency(info.minerReward);
-        info.minerRewardMoney = minerRewardObj.money;
-        info.minerRewardSuffix = minerRewardObj.suffix;
-        setMinerData(info);
-      }
+      const unsub = await api.query.sminer.minerStatValue((res)=>{
+        if(res){
+          let info:any = res.toJSON();
+          let stakingObj = formatterCurrency(info.staking);
+          info.stakingMoney = stakingObj.money;
+          info.stakingSuffix = stakingObj.suffix;
+          let minerRewardObj = formatterCurrency(info.minerReward);
+          info.minerRewardMoney = minerRewardObj.money;
+          info.minerRewardSuffix = minerRewardObj.suffix;
+          setMinerData(info);
+        }
+      });
     })().catch(console.error);
   }, [])
 

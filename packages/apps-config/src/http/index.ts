@@ -2,7 +2,7 @@ let httpUrl:string;
 let linkUrl: string;
 if(process.env.NODE_ENV === "production"){
   httpUrl = 'http://106.15.44.155:4399';
-  linkUrl = 'http://121.46.19.38:54558'
+  linkUrl = 'http://data.cesslab.co.uk/'
 } else {
   httpUrl = 'http://106.15.44.155:4399';
   linkUrl = 'http://121.46.19.38:54558'

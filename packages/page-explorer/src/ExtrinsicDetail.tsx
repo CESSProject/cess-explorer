@@ -176,7 +176,7 @@ function ExtrinsicDetail({className, value}:Props) :React.ReactElement<Props>{
                   <div className={"extrinsic-content-form-item-parameter-list"}>
                     {
                       extrinsicInfo && extrinsicInfo.params && (isShowAllParams ? extrinsicInfo.params : _.slice(extrinsicInfo.params, 0, 5)).map((p,idx) => {
-                        return <p key={idx}><span>{p.name}</span><span>{p.value}</span></p>
+                        return <p key={idx}><span>{p.name}</span><span>{ _.isObject(p.value) ? JSON.stringify(p.value) : p.value}</span></p>
                       })
                     }
                     {extrinsicInfo.params && extrinsicInfo.params.length > 5 && <Button isSelected label={isShowAllParams ? "Put Away":"More"} onClick={getMoreParameter} />}

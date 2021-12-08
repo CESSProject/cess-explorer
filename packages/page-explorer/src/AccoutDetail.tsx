@@ -203,7 +203,9 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
                 <p>{info.type}</p>
                 <p>
                   <span>{info.name}</span>
-                  <span className={"ellipsis"} style={{ width: '60%'}}>{!_.isObject(info.value) ? info.value : JSON.stringify(info.value)}</span>
+                  <a className={"ellipsis ellipsis-link"} href="javascript:void(0)" title={!_.isObject(info.value) ? info.value : JSON.stringify(info.value)} >{!_.isObject(info.value) ? info.value : JSON.stringify(info.value)}</a>
+                  {/*<span className={"ellipsis"} style={{ width: '60%'}} data-place={"left"} data-multiline={true} data-effect={"solid"} data-tip={!_.isObject(info.value) ? info.value : JSON.stringify(info.value)}>{!_.isObject(info.value) ? info.value : JSON.stringify(info.value)}</span>*/}
+                  {/*<ReactTooltip effect="solid" place={"left"} multiline={true} delayUpdate={500} delayHide={1000}/>*/}
                 </p>
               </div>
             ))
@@ -224,7 +226,7 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
         <div className={"accout-content"}>
           <div className={"accout-info"}>
             <div className={"accout-info-left"}>
-              <div className={"accout-info-left-tr"}>Account</div>
+              <div className={"accout-info-left-tr first-title"}>Account</div>
               <div className={"accout-info-left-tr"}>
                 <span className={"accout-info-left-td"}>Account name</span>
                 <span className={"accout-info-left-td account-name"}>
@@ -293,6 +295,9 @@ export default React.memo(styled(AccoutDetail)`
       &-left{
         width: 50%;
         font-size: 16px;
+        .first-title{
+          color: #5078FE;
+        }
         &-tr{
           padding: 16px 0;
           box-sizing: border-box;
@@ -379,6 +384,11 @@ export default React.memo(styled(AccoutDetail)`
     }
     &-filename{
       width: 150px;
+    }
+    &-link{
+      width: 80%;
+      color: #858585 !important;
+      cursor: initial;
     }
   }
 `)

@@ -10,6 +10,7 @@ import {formatterCurrency, formatterSize, formatterSizeFromMB, isJson} from "./u
 import request from "@polkadot/app-explorer/utils/reuqest";
 import Empty from "@polkadot/app-explorer/components/Empty";
 import moment from "moment";
+import {httpUrl} from "@polkadot/apps-config/http";
 
 interface Props {
   className?: string,
@@ -114,7 +115,7 @@ function MinerDetail({className, value}: Props): React.ReactElement<Props> {
 
   const fetchData = async (address) =>{
     let params = { row: 100, page: 0, address };
-    const response = await request.post({url:"http://106.15.44.155:4399/api/scan/extrinsics", params});
+    const response = await request.post({url:`${httpUrl}/api/scan/extrinsics`, params});
     let extrinsics = _.get(response, 'data.extrinsics');
     console.log(extrinsics, 'extrinsicsextrinsicsextrinsicsextrinsicsextrinsicsextrinsicsextrinsicsextrinsics')
     setData(extrinsics);

@@ -8,6 +8,7 @@ import RcTable from "@polkadot/react-components/RcTable";
 import Empty from "@polkadot/app-explorer/components/Empty";
 import {useLoadingDelay} from "@polkadot/react-hooks";
 import {isJson} from "@polkadot/app-explorer/utils";
+import {httpUrl} from "@polkadot/apps-config/http";
 
 interface Props{
   className?: string,
@@ -41,7 +42,7 @@ function ExtrinsicDetail({className, value}:Props) :React.ReactElement<Props>{
 
   const fetchData = async (): Promise<void> =>{
     let params = {hash: value};
-    let res:any = await request.post({url:"http://106.15.44.155:4399/api/scan/extrinsic", params});
+    let res:any = await request.post({url:`${httpUrl}/api/scan/extrinsic`, params});
     if(res && res.data){
       if(res.data.call_module === "balances" && (res.data.call_module_function === "transfer_keep_alive" || res.data.call_module_function === "transfer")){
         let events = res.data.events;

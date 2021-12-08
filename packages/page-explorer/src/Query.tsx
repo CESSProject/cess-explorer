@@ -9,6 +9,7 @@ import { isHex } from '@polkadot/util';
 import _ from "lodash"
 import { useTranslation } from './translate';
 import request from "@polkadot/app-explorer/utils/reuqest";
+import {httpUrl} from "@polkadot/apps-config/http";
 
 interface Props {
   className?: string;
@@ -48,7 +49,7 @@ function Query ({ className = '', value: propsValue }: Props): React.ReactElemen
   const _onQuery = useCallback(
     async (): Promise<void> => {
       let params = {hash: value};
-      let res = await request.post({url:"http://106.15.44.155:4399/api/scan/check_hash", params});
+      let res = await request.post({url:`${httpUrl}/api/scan/check_hash`, params});
       let type = _.get(res, 'data.hash_type');
       console.log(res, 'hash_typehash_typehash_type')
       if(!type){

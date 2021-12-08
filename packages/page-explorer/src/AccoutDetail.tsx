@@ -12,6 +12,7 @@ import Empty from "./components/Empty";
 import Icon from "@polkadot/react-components/Icon";
 import request from "./utils/reuqest";
 import moment from "moment";
+import {httpUrl, linkUrl} from "@polkadot/apps-config/http"
 
 interface Props{
   className? :string,
@@ -105,7 +106,7 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
 
   const fetchData2 = useCallback(async ({pageSize, pageIndex}) =>{
     let params = { row: pageSize, page: pageIndex, address: value };
-    const response = await request.post({url:"http://106.15.44.155:4399/api/scan/extrinsics", params});
+    const response = await request.post({url: `${httpUrl}/api/scan/extrinsics`, params});
     let list = _.get(response, 'data.extrinsics');
     let count = _.get(response, 'data.count');
     setExtrinsics(list);
@@ -150,7 +151,7 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
       <>
         {
           row.original.ispublic === 1 ?
-            <a href={`http://121.46.19.38:54558/fileDetail?fid=${row.values.fileid}`} target="_blank">{row.values.fileid}</a> :
+            <a href={`${linkUrl}/fileDetail?fid=${row.values.fileid}`} target="_blank">{row.values.fileid}</a> :
             <span>{"**********"}</span>
         }
       </>
@@ -168,7 +169,7 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
       <>
         {
           row.original.ispublic === 1 ?
-            <a href={`http://121.46.19.38:54558/fileDetail?fid=${row.values.fileid}`}  target="_blank">{row.values.similarityhash === "null" ? "": row.values.similarityhash}</a> :
+            <a href={`${linkUrl}/fileDetail?fid=${row.values.fileid}`}  target="_blank">{row.values.similarityhash === "null" ? "": row.values.similarityhash}</a> :
               <span>{row.values.similarityhash === "null" ? "": row.values.similarityhash}</span>
         }
       </>

@@ -116,7 +116,7 @@ function MinerDetail({className, value}: Props): React.ReactElement<Props> {
   const fetchData = async (address) =>{
     let params = { row: 100, page: 0, address };
     const response = await request.post({url:`${httpUrl}/api/scan/extrinsics`, params});
-    let extrinsics = _.get(response, 'data.extrinsics');
+    let extrinsics = _.get(response, 'data.extrinsics', []);
     console.log(extrinsics, 'extrinsicsextrinsicsextrinsicsextrinsicsextrinsicsextrinsicsextrinsicsextrinsics')
     setData(extrinsics);
   }
@@ -245,7 +245,7 @@ function MinerDetail({className, value}: Props): React.ReactElement<Props> {
           <div className={"miner-content"}>
             <div className={"accout-table"}>
               <div className={"btn-actions"}>
-                <Button isSelected label={`Extrinsics (${data.length})`} />
+                <Button isSelected label={`Extrinsics (${!_.isEmpty(data) ? data.length : 0})`} />
               </div>
               <RcTable columns={columns} data={data} renderRowSubComponent={renderRowSubComponent}/>
             </div>

@@ -9,7 +9,7 @@ import {formatterSizeFromMB} from './utils';
 
 const option:any ={
   title: {
-    subtext: "unit(MB)"
+    subtext: ""
   },
   tooltip: {
     trigger: 'axis',
@@ -114,7 +114,7 @@ function NetworkStorageTrend({className}: Props): React.ReactElement<Props>{
     <div className={`${className} network-storage-trend`}>
       <div className={"network-storage-trend-title"}>
         <Icon className='highlight--color' icon='dot-circle'/>
-        <span>Network Storage Trend</span>
+        <span>network storage trend</span>
       </div>
       <div id="network-storage-trend-box" ref={networkStorageTrendRef} className={"network-storage-trend-box"} />
     </div>
@@ -122,7 +122,7 @@ function NetworkStorageTrend({className}: Props): React.ReactElement<Props>{
 }
 
 export default React.memo(styled(NetworkStorageTrend)`
-  margin: 20px 0 50px 0;
+  margin: 20px 0 60px 0;
   height: 420px;
   .network-storage-trend-title,.network-storage-trend-box{
     background: white;
@@ -130,18 +130,21 @@ export default React.memo(styled(NetworkStorageTrend)`
     box-sizing: border-box;
   }
   .network-storage-trend-title{
+    padding: 0.375rem 0.75rem 0.375rem 1.5rem;
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
     >span{
       font-size: 24px;
       color: #464646;
       margin-left: 5px;
-      vertical-align: middle;
+      vertical-align: baseline;
       display: inline-block;
       margin-top: -3px;
+      font-weight: 100;
     }
   }
   .network-storage-trend-box{
+    margin-top: 4px;
     width: 100%;
     height: 100%;
   }

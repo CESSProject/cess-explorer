@@ -63,10 +63,10 @@ function ExtrinsicDetail({className, value}:Props) :React.ReactElement<Props>{
   }
 
   const columns = React.useMemo(()=> [
-    {Header: 'Event ID', accessor: 'event_id',id:'event_id', width: '12.5%'},
-    {Header: 'Hash', accessor: 'extrinsic_hash',id:'extrinsic_hash', width: '12.5%'},
+    {Header: 'event ID', accessor: 'event_id',id:'event_id', width: '12.5%'},
+    {Header: 'hash', accessor: 'extrinsic_hash',id:'extrinsic_hash', width: '12.5%'},
     {
-      Header: 'Operation', accessor: 'operation', id: 'operation', // It needs an ID
+      Header: 'operation', accessor: 'operation', id: 'operation', // It needs an ID
       Cell: ({row}) => (
         <span {...row.getToggleRowExpandedProps()}>
           {`${row.original.module_id}(${row.original.event_id})`}
@@ -122,51 +122,51 @@ function ExtrinsicDetail({className, value}:Props) :React.ReactElement<Props>{
             </div>
             <div className={"extrinsic-content"}>
               <div className={"extrinsic-content-form-item"}>
-                <span className={"extrinsic-content-form-item-label"}>Extrinsic ID</span>
+                <span className={"extrinsic-content-form-item-label"}>extrinsic ID</span>
                 <span className={"extrinsic-content-form-item-value"}>{ extrinsicInfo.extrinsic_index }</span>
               </div>
               <div className={"extrinsic-content-form-item"}>
-                <span className={"extrinsic-content-form-item-label"}>Time</span>
+                <span className={"extrinsic-content-form-item-label"}>time</span>
                 <span className={"extrinsic-content-form-item-value"}> { moment(extrinsicInfo.block_timestamp * 1000).format("YYYY-MM-DD HH:mm:ss") } </span>
               </div>
               <div className={"extrinsic-content-form-item"}>
-                <span className={"extrinsic-content-form-item-label"}>Extrinsic hash</span>
+                <span className={"extrinsic-content-form-item-label"}>extrinsic hash</span>
                 <span className={"extrinsic-content-form-item-value"}>{ extrinsicInfo.extrinsic_hash }</span>
               </div>
               <div className={"extrinsic-content-form-item"}>
-                <span className={"extrinsic-content-form-item-label"}>Block</span>
+                <span className={"extrinsic-content-form-item-label"}>block</span>
                 <span className={"extrinsic-content-form-item-value"}>{ extrinsicInfo.block_num }</span>
               </div>
               <div className={"extrinsic-content-form-item"}>
-                <span className={"extrinsic-content-form-item-label"}>Module</span>
+                <span className={"extrinsic-content-form-item-label"}>module</span>
                 <span className={"extrinsic-content-form-item-value"}>{ extrinsicInfo.call_module }</span>
               </div>
               <div className={"extrinsic-content-form-item"}>
-                <span className={"extrinsic-content-form-item-label"}>Call</span>
+                <span className={"extrinsic-content-form-item-label"}>call</span>
                 <span className={"extrinsic-content-form-item-value"}>{ extrinsicInfo.call_module_function }</span>
               </div>
               <div className={"extrinsic-content-form-item"}>
-                <span className={"extrinsic-content-form-item-label"}>Sender</span>
+                <span className={"extrinsic-content-form-item-label"}>sender</span>
                 <span className={"extrinsic-content-form-item-value"}>{extrinsicInfo.account_id}</span>
               </div>
               <div className={"extrinsic-content-form-item"}>
-                <span className={"extrinsic-content-form-item-label"}>Destination</span>
+                <span className={"extrinsic-content-form-item-label"}>destination</span>
                 <span className={"extrinsic-content-form-item-value"}>{extrinsicInfo.destination}</span>
               </div>
               <div className={"extrinsic-content-form-item"}>
-                <span className={"extrinsic-content-form-item-label"}>Value</span>
+                <span className={"extrinsic-content-form-item-label"}>value</span>
                 <span className={"extrinsic-content-form-item-value"}>{extrinsicInfo.value}</span>
               </div>
               <div className={"extrinsic-content-form-item"}>
-                <span className={"extrinsic-content-form-item-label"}>Gas</span>
+                <span className={"extrinsic-content-form-item-label"}>gas</span>
                 <span className={"extrinsic-content-form-item-value"}>{ extrinsicInfo.fee }</span>
               </div>
               <div className={"extrinsic-content-form-item"}>
-                <span className={"extrinsic-content-form-item-label"}>Nonce</span>
+                <span className={"extrinsic-content-form-item-label"}>nonce</span>
                 <span className={"extrinsic-content-form-item-value"}>{ extrinsicInfo.nonce }</span>
               </div>
               <div className={"extrinsic-content-form-item"}>
-                <span className={"extrinsic-content-form-item-label"}>Result</span>
+                <span className={"extrinsic-content-form-item-label"}>result</span>
                 {
                   extrinsicInfo.success ? (extrinsicInfo.finalized ? <img src={require("./../../../assets/images/status/success.png")} alt=""/> :   <img src={require("./../../../assets/images/status/wait.png")} alt=""/>) : <img src={require("./../../../assets/images/status/fail.png")} alt=""/>
                 }
@@ -210,7 +210,7 @@ function ExtrinsicDetail({className, value}:Props) :React.ReactElement<Props>{
 }
 
 export default React.memo(styled(ExtrinsicDetail)`
-  margin: -50px 0 20px 0;
+  margin: -50px 0 0px 0;
   font-size: 16px;
 
   .extrinsic-title, .extrinsic-content, .events-title, .event-content {
@@ -272,7 +272,7 @@ export default React.memo(styled(ExtrinsicDetail)`
     margin-top: 20px;
   }
   .event-content{
-    margin-top: 10px;
+    margin-top: 4px;
     .event-table{
       & .btn-actions{
         margin-bottom: 20px;

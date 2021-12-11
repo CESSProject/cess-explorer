@@ -55,21 +55,21 @@ function Miners({className}: Props): React.ReactElement<Props>{
   }, [])
 
   const columns = React.useMemo(()=> [
-    {Header: 'Miner ID', accessor: 'minerId',Cell: ({row}) => (
+    {Header: 'miner ID', accessor: 'minerId',Cell: ({row}) => (
       <a href={`#/explorer/query/${row.values.minerId}/${undefined}`} >{row.values.minerId}</a>
     )},
-    {Header: 'Address1', accessor: 'address',Cell: ({row}) => (
+    {Header: 'address1', accessor: 'address',Cell: ({row}) => (
        <a href={`#/explorer/query/${row.values.address}/${undefined}`} >{row.values.address}</a>
      )},
-    {Header: 'Address2', accessor: 'beneficiary',Cell: ({row}) => (
+    {Header: 'address2', accessor: 'beneficiary',Cell: ({row}) => (
        <a href={`#/explorer/query/${row.values.beneficiary}/${undefined}`} >{row.values.beneficiary}</a>
     )},
-    {Header: 'Total Storage', accessor: 'totalStorage', Cell: ({row}) => (
+    {Header: 'total storage', accessor: 'totalStorage', Cell: ({row}) => (
        <span>{ formatterSizeFromMB(row.values.totalStorage)}</span>
     )},
     // {Header: 'Average Daily Data Traffic (In)', accessor: 'averageDailyDataTrafficIn'},
     // {Header: 'Average Daily Data Traffic (Out)', accessor: 'averageDailyDataTrafficOut'},
-    {Header: 'Mining Reward', accessor: 'miningReward', Cell: ({row}) => (
+    {Header: 'mining reward', accessor: 'miningReward', Cell: ({row}) => (
        <span>{ formatterCurrencyStr(row.values.miningReward)}</span>
     )},
     // {Header: 'Status', accessor: 'status'},
@@ -105,9 +105,12 @@ function Miners({className}: Props): React.ReactElement<Props>{
       <div className={"miners-table"}>
         <div className={"miners-title"}>
           <Icon className='highlight--color' icon='dot-circle'/>
-          <span>Miners</span>
+          <span>miners</span>
         </div>
-        <RcTable columns={columns} data={minerList}/>
+        <div className={"miners-table-info"}>
+          <RcTable columns={columns} data={minerList}/>
+        </div>
+
       </div>
 
     </div>
@@ -118,8 +121,7 @@ export default React.memo(styled(Miners)`
   margin-top: -50px;
   height: 100%;
   .miners-info{
-    border-top-left-radius: 6px;
-    border-top-right-radius: 6px;
+    border-radius: 6px;
     display: flex;
     background: white;
     padding: 15px 1.5rem !important;
@@ -155,21 +157,31 @@ export default React.memo(styled(Miners)`
     }
   }
   .miners-table{
-    border-bottom-left-radius: 6px;
-    border-bottom-right-radius: 6px;
-    background: white;
-    padding: 15px 1.5rem !important;
-    box-sizing: border-box;
+    margin-top: 20px;
     .miners-title{
-      margin-bottom: 18px;
+      background: white;
+      border-radius: 6px;
+      padding: 15px 1.5rem;
+      box-sizing: border-box;
+      svg{
+        vertical-align: baseline
+      }
       >span{
         font-size: 24px;
         color: #464646;
         margin-left: 5px;
-        vertical-align: middle;
+        vertical-align: baseline;
         display: inline-block;
         margin-top: -3px;
+        font-weight: 100;
       }
+    }
+    &-info{
+      margin-top: 4px;
+      background: white;
+      padding: 15px 1.5rem;
+      box-sizing: border-box;
+      border-radius: 6px;
     }
   }
 `)

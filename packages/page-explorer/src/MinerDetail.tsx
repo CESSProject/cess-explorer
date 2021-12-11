@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import styled from "styled-components";
 import * as echarts from "echarts";
 import {Button, Icon} from "@polkadot/react-components";
@@ -11,6 +11,7 @@ import request from "@polkadot/app-explorer/utils/reuqest";
 import Empty from "@polkadot/app-explorer/components/Empty";
 import moment from "moment";
 import {httpUrl} from "@polkadot/apps-config/http";
+import ControlledTable from "@polkadot/react-components/RcTable/ControlledTable";
 
 interface Props {
   className?: string,
@@ -22,6 +23,8 @@ function MinerDetail({className, value}: Props): React.ReactElement<Props> {
   const minerInfoRef = useRef<any>()
   const [minerDetail, setMinerDetail] = useState<any>({})
   const [data, setData] = useState([])
+  const [pageCount, setPageCount] = useState<number>(0);
+  const [dataCount, setDataCount] = useState<number>(0);
 
   useEffect(() => {
     (async ():Promise<void> =>{
@@ -114,23 +117,29 @@ function MinerDetail({className, value}: Props): React.ReactElement<Props> {
   }, [value])
 
   const fetchData = async (address) =>{
-    let params = { row: 100, page: 0, address };
-    const response = await request.post({url:`${httpUrl}/api/scan/extrinsics`, params});
-    let extrinsics = _.get(response, 'data.extrinsics', []);
-    console.log(extrinsics, 'extrinsicsextrinsicsextrinsicsextrinsicsextrinsicsextrinsicsextrinsicsextrinsics')
-    setData(extrinsics);
+    await fetchData2({ row: 100, page: 0, address });
   }
 
+  const fetchData2 = useCallback(async ({pageSize, pageIndex, address}) =>{
+    let params = { row: pageSize, page: pageIndex, address: address };
+    const response = await request.post({url:`${httpUrl}/api/scan/extrinsics`, params});
+    let extrinsics = _.get(response, 'data.extrinsics', []);
+    let count = _.get(response, 'data.count', 0);
+    setData(extrinsics);
+    setPageCount(_.ceil(count / pageSize));
+    setDataCount(count);
+  },[pageCount])
+
   const columns = React.useMemo(()=> [
-    {Header: 'Extrinsic ID', accessor: 'extrinsic_index',id:'extrinsic_index', width: '12.5%'},
-    {Header: 'Block', accessor: 'block_num',id:'block_num', width: '12.5%'},
-    {Header: 'Extrinsic Hash', accessor: 'extrinsic_hash',id:'extrinsic_hash', width: '12.5%'},
-    {Header: 'Time', accessor: 'block_timestamp',id:'block_timestamp', width: '12.5%', Cell: ({row}) => (
+    {Header: 'extrinsic ID', accessor: 'extrinsic_index',id:'extrinsic_index', width: '12.5%'},
+    {Header: 'block', accessor: 'block_num',id:'block_num', width: '12.5%'},
+    {Header: 'extrinsic hash', accessor: 'extrinsic_hash',id:'extrinsic_hash', width: '12.5%'},
+    {Header: 'time', accessor: 'block_timestamp',id:'block_timestamp', width: '12.5%', Cell: ({row}) => (
       <span>{ moment(row.values.block_timestamp * 1000).format("YYYY-MM-DD HH:mm:ss")}</span>
     )},
     // {Header: 'Result', accessor: 'result',id:'result', width: '12.5%'},
     {
-      Header: 'Call', accessor: 'call_module', id: 'call_module', // It needs an ID
+      Header: 'call', accessor: 'call_module', id: 'call_module', // It needs an ID
       Cell: ({row}) => (
         <span {...row.getToggleRowExpandedProps()}>
           {`${row.values.call_module}(${row.original.call_module_function})`}
@@ -184,22 +193,26 @@ function MinerDetail({className, value}: Props): React.ReactElement<Props> {
               <div className={"miner-info-left"}>
                 <div className={"miner-info-left-tr label"}>Account</div>
                 <div className={"miner-info-left-tr"}>
-                  <span className={"miner-info-left-td"}>Account name</span>
+                  <span className={"miner-info-left-td"}>miner ID</span>
+                  <span className={"miner-info-left-td"}>{ value }</span>
+                </div>
+                <div className={"miner-info-left-tr"}>
+                  <span className={"miner-info-left-td"}>account name</span>
                   <span className={"miner-info-left-td"}>{minerDetail && minerDetail.address && (minerDetail.address.substr(0,5) + '...' + minerDetail.address.substr(minerDetail.beneficiary.length -5,minerDetail.address.length -1))}</span>
                 </div>
                 <div className={"miner-info-left-tr"}>
-                  <span className={"miner-info-left-td"}>Account1</span>
+                  <span className={"miner-info-left-td"}>account1</span>
                   <span className={"miner-info-left-td ellipsis"} data-for='address' data-effect={"solid"} data-tip={""}>
                 {minerDetail && minerDetail.address}
               </span>
                   <ReactTooltip id={"address"} effect="solid" delayUpdate={500} delayHide={2000} getContent={() => { return minerDetail.address }}/>
                 </div>
                 <div className={"miner-info-left-tr"}>
-                  <span className={"miner-info-left-td"}>Account2 name</span>
+                  <span className={"miner-info-left-td"}>account2 name</span>
                   <span className={"miner-info-left-td"}> {minerDetail && minerDetail.beneficiary && (minerDetail.beneficiary.substr(0,5) + '...' + minerDetail.beneficiary.substr(minerDetail.beneficiary.length -5,minerDetail.beneficiary.length -1))}</span>
                 </div>
                 <div className={"miner-info-left-tr"}>
-                  <span className={"miner-info-left-td"}>Account2</span>
+                  <span className={"miner-info-left-td"}>account2</span>
                   <span className={"miner-info-left-td ellipsis"} data-for='beneficiary' data-effect={"solid"} data-tip={""}>
                 {minerDetail && minerDetail.beneficiary}
               </span>
@@ -217,17 +230,17 @@ function MinerDetail({className, value}: Props): React.ReactElement<Props> {
               <div className={"miner-info-left"}>
                 <div className={"miner-info-left-tr label"}>Balance</div>
                 <div className={"miner-info-left-tr"}>
-                  <span className={"miner-info-left-td"}>Total Reward</span>
+                  <span className={"miner-info-left-td"}>total reward</span>
                   <span className={"miner-info-left-td"}><span
                     className={"miner-info-left-td-value"}>{ minerDetail && minerDetail.totalRewardObj && minerDetail.totalRewardObj.money } </span><span>{ minerDetail && minerDetail.totalRewardObj && minerDetail.totalRewardObj.suffix }</span></span>
                 </div>
                 <div className={"miner-info-left-tr"}>
-                  <span className={"miner-info-left-td"}>Available</span>
+                  <span className={"miner-info-left-td"}>available</span>
                   <span className={"miner-info-left-td"}><span
                     className={"miner-info-left-td-value"}>{ minerDetail && minerDetail.totalRewardsCurrentlyAvailableObj && minerDetail.totalRewardsCurrentlyAvailableObj.money} </span><span>{ minerDetail && minerDetail.totalRewardsCurrentlyAvailableObj && minerDetail.totalRewardsCurrentlyAvailableObj.suffix }</span></span>
                 </div>
                 <div className={"miner-info-left-tr"}>
-                  <span className={"miner-info-left-td"}>Total Not Receive</span>
+                  <span className={"miner-info-left-td"}>total not receive</span>
                   <span className={"miner-info-left-td"}>
                 <span className={"miner-info-left-td-value"}>{minerDetail && minerDetail.totaldNotReceiveObj && minerDetail.totaldNotReceiveObj.money }</span><span>{minerDetail && minerDetail.totaldNotReceiveObj && minerDetail.totaldNotReceiveObj.suffix }</span>
                 <img className={"ellipsis"} src={require("./../../../assets/images/hoverInfo.png")} alt="" data-place={"right"} data-effect={"solid"}  data-tip={"Binding through harvest"}/>
@@ -235,7 +248,7 @@ function MinerDetail({className, value}: Props): React.ReactElement<Props> {
               </span>
                 </div>
                 <div className={"miner-info-left-tr"}>
-                  <span className={"miner-info-left-td"}>Collaterals</span>
+                  <span className={"miner-info-left-td"}>collaterals</span>
                   <span className={"miner-info-left-td"}><span
                     className={"miner-info-left-td-value"}>{ minerDetail && minerDetail.collateralsObj && minerDetail.collateralsObj.money }</span><span>{ minerDetail && minerDetail.collateralsObj && minerDetail.collateralsObj.suffix }</span></span>
                 </div>
@@ -245,9 +258,10 @@ function MinerDetail({className, value}: Props): React.ReactElement<Props> {
           <div className={"miner-content"}>
             <div className={"accout-table"}>
               <div className={"btn-actions"}>
-                <Button isSelected label={`Extrinsics (${!_.isEmpty(data) ? data.length : 0})`} />
+                <Button isSelected label={`extrinsics (${dataCount})`} />
               </div>
-              <RcTable columns={columns} data={data} renderRowSubComponent={renderRowSubComponent}/>
+              <ControlledTable fetchData={fetchData2} pageCount={pageCount} columns={columns} data={data} renderRowSubComponent={renderRowSubComponent} />
+              {/*<RcTable columns={columns} data={data} renderRowSubComponent={renderRowSubComponent}/>*/}
             </div>
           </div>
         </div> : <Empty />

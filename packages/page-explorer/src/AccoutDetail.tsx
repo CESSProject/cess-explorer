@@ -120,17 +120,17 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
   };
 
   const extrinsicsColumns = React.useMemo(()=> [
-    {Header: 'Extrinsic ID', accessor: 'extrinsic_index',id:'extrinsic_index', width: '12.5%'},
-    {Header: 'Block', accessor: 'block_num',id:'block_num', width: '12.5%'},
-    {Header: 'Extrinsic Hash', accessor: 'extrinsic_hash',id:'extrinsic_hash', width: '12.5%'},
+    {Header: 'extrinsic ID', accessor: 'extrinsic_index',id:'extrinsic_index', width: '12.5%'},
+    {Header: 'block', accessor: 'block_num',id:'block_num', width: '12.5%'},
+    {Header: 'extrinsic hash', accessor: 'extrinsic_hash',id:'extrinsic_hash', width: '12.5%'},
     {
-      Header: 'Time', accessor: 'block_timestamp', id: 'block_timestamp', width: '12.5%', Cell: ({row}) => (
+      Header: 'time', accessor: 'block_timestamp', id: 'block_timestamp', width: '12.5%', Cell: ({row}) => (
         <span>{ moment(row.values.block_timestamp * 1000).format("YYYY-MM-DD HH:mm:ss")}</span>
       )
     },
     // {Header: 'Result', accessor: 'result',id:'result', width: '12.5%'},
     {
-      Header: 'Call', accessor: 'call_module', id: 'call_module', // It needs an ID
+      Header: 'call', accessor: 'call_module', id: 'call_module', // It needs an ID
       Cell: ({row}) => (
         <span {...row.getToggleRowExpandedProps()}>
           {`${row.values.call_module}(${row.original.call_module_function})`}
@@ -141,13 +141,13 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
   ], [])
 
   const columns = React.useMemo(()=> [
-    {Header: 'File Name', accessor: 'filename',id:'filename', width: '12.5%',Cell: ({row}) => (
+    {Header: 'file name', accessor: 'filename',id:'filename', width: '12.5%',Cell: ({row}) => (
       <>
         <span className={"ellipsis ellipsis-filename"} data-effect={"solid"} data-tip={row.original.ispublic === 1 ? row.values.filename : "******"}>{row.original.ispublic === 1 ? row.values.filename : "******"}</span>
         <ReactTooltip effect="solid" delayUpdate={500} delayHide={1000}/>
       </>
     )},
-    {Header: 'Data ID', accessor: 'fileid',id:'fileid',width: '12.5%',Cell: ({row}) => (
+    {Header: 'data ID', accessor: 'fileid',id:'fileid',width: '12.5%',Cell: ({row}) => (
       <>
         {
           row.original.ispublic === 1 ?
@@ -157,7 +157,7 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
       </>
 
     )},
-    {Header: 'PoE', accessor: 'filehash',id:'filehash', width: '12.5%',Cell: ({row}) => (
+    {Header: 'poe', accessor: 'filehash',id:'filehash', width: '12.5%',Cell: ({row}) => (
       <>
         <span className={"ellipsis ellipsis-filehash"} data-effect={"solid"} data-tip={row.values.filehash}>
           {row.values.filehash}
@@ -165,7 +165,7 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
         <ReactTooltip effect="solid" delayUpdate={500} delayHide={1000}/>
       </>
       )},
-    {Header: 'Characteristic', accessor: 'similarityhash',id:'similarityhash', width: '12.5%',Cell: ({row}) => (
+    {Header: 'characteristic', accessor: 'similarityhash',id:'similarityhash', width: '12.5%',Cell: ({row}) => (
       <>
         {
           row.original.ispublic === 1 ?
@@ -174,20 +174,20 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
         }
       </>
     )},
-    {Header: 'Size', accessor: 'filesize',id:'filesize', width: '12.5%',Cell: ({row}) => (
+    {Header: 'size', accessor: 'filesize',id:'filesize', width: '12.5%',Cell: ({row}) => (
         <span >
           {row.original.ispublic === 1 ? row.values.filesize : '******'}
         </span>
     )},
-    {Header: 'Is The File Public?', accessor: 'ispublic',id:'ispublic', width: '12.5%',Cell: ({row}) => (
+    {Header: 'is The file public?', accessor: 'ispublic',id:'ispublic', width: '12.5%',Cell: ({row}) => (
         <span >{row.values.ispublic == 1 ? "yes" : "no"}</span>
     )},
-    {Header: 'Storage Validity Period To',id:'deadline', accessor: 'deadline', width: '12.5%',Cell: ({row}) => (
+    {Header: 'storage validity period To',id:'deadline', accessor: 'deadline', width: '12.5%',Cell: ({row}) => (
         <span >
           {row.original.ispublic === 1 ? moment(row.values.deadline*1000).format("YYYY-MM-DD") : '******'}
         </span>
     )},
-    {Header: 'Charge', accessor: 'downloadfee',id:'downloadfee', width: '12.5%',Cell: ({row}) => (
+    {Header: 'charge', accessor: 'downloadfee',id:'downloadfee', width: '12.5%',Cell: ({row}) => (
         <span >{ formatterCurrencyStr(row.values.downloadfee) }</span>
     )},
   ], [])
@@ -229,23 +229,23 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
             <div className={"accout-info-left"}>
               <div className={"accout-info-left-tr first-title"}>Account</div>
               <div className={"accout-info-left-tr"}>
-                <span className={"accout-info-left-td"}>Account name</span>
+                <span className={"accout-info-left-td"}>account name</span>
                 <span className={"accout-info-left-td account-name"}>
                   <IdentityIcon value={value} />
                   <span>{value?.substr(0, 5) + '...' + value?.substr(value?.length - 5, value?.length)}</span>
                 </span>
               </div>
               <div className={"accout-info-left-tr"}>
-                <span className={"accout-info-left-td"}>Account</span>
+                <span className={"accout-info-left-td"}>account</span>
                 <span className={"accout-info-left-td ellipsis"} data-effect={"solid"} data-tip={value}>{value}</span>
                 <ReactTooltip effect="solid" delayUpdate={500} delayHide={2000}/>
               </div>
               <div className={"accout-info-left-tr"}>
-                <span className={"accout-info-left-td"}>Total</span>
+                <span className={"accout-info-left-td"}>total</span>
                 <span className={"accout-info-left-td"}><span className={"accout-info-left-td-value"}>{accountInfo && accountInfo.totalObj &&  accountInfo.totalObj.money} </span><span>{accountInfo && accountInfo.totalObj &&  accountInfo.totalObj.suffix}</span></span>
               </div>
               <div className={"accout-info-left-tr"}>
-                <span className={"accout-info-left-td"}>Available transfers</span>
+                <span className={"accout-info-left-td"}>available transfers</span>
                 <span className={"accout-info-left-td"}><span className={"accout-info-left-td-value"}>{accountInfo && accountInfo.availableTransfersObj &&  accountInfo.availableTransfersObj.money} </span><span>{accountInfo && accountInfo.availableTransfersObj &&  accountInfo.availableTransfersObj.suffix}</span></span>
               </div>
             </div>
@@ -253,14 +253,14 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
               <img src={require("./../../../assets/images/accoutAvailableLogo.png")} alt=""/>
             </div>
             <div className={"accout-info-right"}>
-              <span>Data</span>
+              <span>data</span>
               <span>{size}</span>
             </div>
           </div>
           <div className={"accout-table"}>
             <div className={"btn-actions"}>
-              <Button isSelected={activeTab === "extrinsics"} label={`Extrinsics (${extrinsicCount})`} onClick={ ()=>{changeTableFilter("extrinsics")}}/>
-              <Button isBasic isSelected={activeTab === "data"} label={data.length >0 ? `Data (${data.length})` : 'Data'} onClick={()=>{changeTableFilter("data")}} className={"select-btn"}/>
+              <Button isSelected={activeTab === "extrinsics"} label={`extrinsics (${extrinsicCount})`} onClick={ ()=>{changeTableFilter("extrinsics")}}/>
+              <Button isBasic isSelected={activeTab === "data"} label={data.length >0 ? `data (${data.length})` : 'data'} onClick={()=>{changeTableFilter("data")}} className={"select-btn"}/>
             </div>
             {
               ((activeTab === "extrinsics" && !_.isEmpty(extrinsics)) || (activeTab === "data" && !_.isEmpty(data))) ?

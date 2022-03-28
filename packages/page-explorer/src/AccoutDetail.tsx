@@ -35,7 +35,7 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
   const [data, setData] = useState<any[]>([]);
   const [extrinsics, setExtrinsics] = useState<any[]>([]);
   const [accountInfo, setAccountInfo] = useState<any>({});
-  const [activeTab, setActiveTab] = useState<string>( 'extrinsics')
+  const [activeTab, setActiveTab] = useState<string>( 'data') //extrinsics
   const [pageCount, setPageCount] = useState<number>(0);
   const [extrinsicCount,setExtrinsicCount] = useState<number>(0);
 
@@ -64,7 +64,7 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
   useEffect(()=>{
     if(value){
       (async ():Promise<void> =>{
-        let res:any = await api.query.fileBank.userFileSize(value);
+        let res:any = await api.query.fileBank.userHoldSpaceDetails(value);
         if(res){
           let size = res.toJSON() || 0;
           size = formatterSize(size);
@@ -74,9 +74,22 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
     }
   },[value])
 
+  // useEffect(()=>{
+  //   if(value){
+  //     (async ():Promise<void> =>{
+  //       let res:any = await api.query.fileBank.userFileSize(value);
+  //       if(res){
+  //         let size = res.toJSON() || 0;
+  //         size = formatterSize(size);
+  //         setSize(size);
+  //       }
+  //     })().catch(console.error);
+  //   }
+  // },[value])
+
   useEffect(()=>{
     if(value){
-      fetchData("extrinsics");
+      fetchData("data");
     }
   },[value])
 
@@ -259,7 +272,7 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
           </div>
           <div className={"accout-table"}>
             <div className={"btn-actions"}>
-              <Button isSelected={activeTab === "extrinsics"} label={`extrinsics (${extrinsicCount})`} onClick={ ()=>{changeTableFilter("extrinsics")}}/>
+              {/* <Button isSelected={activeTab === "extrinsics"} label={`extrinsics (${extrinsicCount})`} onClick={ ()=>{changeTableFilter("extrinsics")}}/> */}
               <Button isBasic isSelected={activeTab === "data"} label={data.length >0 ? `data (${data.length})` : 'data'} onClick={()=>{changeTableFilter("data")}} className={"select-btn"}/>
             </div>
             {

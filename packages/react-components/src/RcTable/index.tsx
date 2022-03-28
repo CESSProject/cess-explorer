@@ -19,7 +19,7 @@ function RcTable({ columns: userColumns, data, renderRowSubComponent, className,
     }),
     []
   )
-
+  let autoResetExpanded:boolean=false;
   const {
     getTableProps,
     getTableBodyProps,
@@ -39,8 +39,7 @@ function RcTable({ columns: userColumns, data, renderRowSubComponent, className,
   }: any = useTable({
       columns: userColumns,
       data,
-      defaultColumn,
-      autoResetExpanded: false,
+      defaultColumn
     },
     // useResizeColumns,
     // useFlexLayout,

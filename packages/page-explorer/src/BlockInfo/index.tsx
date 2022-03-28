@@ -31,7 +31,13 @@ function getSearchType(param, typeStr){
   } else if(param.length === 48){
     type = 2
   } else if(param.length>0 && param.length < 5){
-    type = 3
+    if(typeStr=='extrinsic'){
+      type = 0;
+    }else{
+      type = 3; //  /miner/
+    }
+    
+    // type = 3
   }
   return type;
 }

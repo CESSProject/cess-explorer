@@ -11,7 +11,7 @@ import { Columar } from '@polkadot/react-components';
 import BlockHeaders from './BlockHeaders';
 import Events from './Events';
 import ChainInfo from "@polkadot/app-explorer/ChainInfo";
-import NetworkStorageTrend from "@polkadot/app-explorer/NetworkStorageTrend";
+// import NetworkStorageTrend from "@polkadot/app-explorer/NetworkStorageTrend";
 
 interface Props {
   eventCount: number;
@@ -23,7 +23,7 @@ function Main ({ eventCount, events, headers }: Props): React.ReactElement<Props
   return (
     <>
       <ChainInfo />
-      <NetworkStorageTrend />
+      {/* <NetworkStorageTrend /> */}
       <Columar>
         <Columar.Column>
           <BlockHeaders headers={headers} />

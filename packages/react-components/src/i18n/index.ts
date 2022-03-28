@@ -92,7 +92,7 @@ i18next
 
 settings.on('change', (settings): void => {
   i18next.changeLanguage(
-    settings.i18nLang === LANGUAGE_DEFAULT
+    settings.i18nLang === LANGUAGE_DEFAULT &&(i18next.services as Services)&&(i18next.services as Services).languageDetector
       ? (i18next.services as Services).languageDetector.detect()
       : settings.i18nLang
   ).catch(console.error);

@@ -23,8 +23,21 @@ function StorageGroup({className}: Props): React.ReactElement<Props>{
   useEffect(() =>{
     let myChart = echarts.init(chainInfoRef.current);
     (async (): Promise<void> =>{
-      let storageInfoValue = await api.query.sminer.storageInfoValue();
-      let storageInfo = storageInfoValue.toJSON();
+      // let storageInfoValue = await api.query.sminer.storageInfoValue();
+      // let storageInfo = storageInfoValue.toJSON();//{usedStorage: 0, availableStorage: 39936, time: 0}
+
+      let totalSpaceSrc = await api.query.sminer.totalSpace();
+      let totalPowerSrc = await api.query.sminer.totalPower();
+      let totalSpace:any=totalSpaceSrc.toJSON();
+      let totalPower:any=totalPowerSrc.toJSON();
+      // availabel storage = totalpower - totalspace   
+      // used storage = totalspace
+      let availableStorage:any= totalPower-totalSpace;
+      let storageInfo={
+        usedStorage:totalSpace,
+        availableStorage
+      };
+
       drawUtilization({used_storage: _.toNumber(_.get(storageInfo , 'usedStorage' )), available_storage: _.toNumber(_.get(storageInfo , 'availableStorage' )) - _.toNumber(_.get(storageInfo , 'usedStorage' ))});
       let barData = [
         { value: _.get(storageInfo , 'usedStorage' ), name: 'used storage'},
@@ -111,7 +124,7 @@ function StorageGroup({className}: Props): React.ReactElement<Props>{
   }
 
   const drawUtilization = ({used_storage, available_storage}) =>{
-    let usedPercent: number = used_storage / available_storage;
+    let usedPercent: number = available_storage==0?1:used_storage / available_storage;
     setUtilization(_.round(usedPercent,2)*100);
     let percentPI: number = 0;
     let coordinate: any;

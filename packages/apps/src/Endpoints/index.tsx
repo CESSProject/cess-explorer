@@ -231,13 +231,15 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
     (): void => {
       try {
         localStorage.setItem(CUSTOM_ENDPOINT_KEY, JSON.stringify([...storedCustomEndpoints, apiUrl]));
-        _onApply();
+        setGroups(combineEndpoints(createWsEndpoints(t)));
+        setStoredCustomEndpoints(getCustomEndpoints());
+        // _onApply();
       } catch (e) {
         console.error(e);
         // ignore error
       }
     },
-    [_onApply, apiUrl, storedCustomEndpoints]
+    [_onApply, apiUrl, storedCustomEndpoints,t]
   );
 
   const canSwitch = useMemo(

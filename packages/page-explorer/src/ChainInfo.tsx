@@ -20,11 +20,17 @@ function ChainInfo({className}: Props): React.ReactElement<Props>{
   let json = lastHeaders && lastHeaders[0] && lastHeaders[0].toJSON();
   let num = json ? json?.number : 0;
 
+  // console.log('********',num,'*********');
+
   useEffect(()=>{
     (async (): Promise<void> =>{
-      const res = await api.query.sminer.minerStatValue();
+      // const res = await api.query.sminer.minerStatValue();
+      const res = await api.query.sminer.minerItems.entries();      
       if(res){
-        let info = res.toJSON();
+        // let info = res1.toJSON();
+        let info={
+          activeMiners:res.length
+        };
         setMinerData(info);
       }
     })().catch(console.error);

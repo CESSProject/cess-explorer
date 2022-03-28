@@ -1,24 +1,25 @@
-import React, {useCallback, useEffect, useRef, useState} from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import * as echarts from "echarts";
-import {Button, Icon} from "@polkadot/react-components";
-import RcTable from "@polkadot/react-components/RcTable";
+import { Button, Icon } from "@polkadot/react-components";
+// import RcTable from "@polkadot/react-components/RcTable";
 import ReactTooltip from "react-tooltip";
-import {useApi, useLoadingDelay} from "@polkadot/react-hooks";
+import { useApi } from "@polkadot/react-hooks";
 import _ from "lodash"
-import {formatterCurrency, formatterSize, formatterSizeFromMB, isJson} from "./utils";
+import { formatterCurrency, formatterSizeFromMB, isJson } from "./utils";
 import request from "@polkadot/app-explorer/utils/reuqest";
 import Empty from "@polkadot/app-explorer/components/Empty";
 import moment from "moment";
-import {httpUrl} from "@polkadot/apps-config/http";
-import ControlledTable from "@polkadot/react-components/RcTable/ControlledTable";
+import { httpUrl } from "@polkadot/apps-config/http";
+import MinerSearch from "./components/MinerSearch";
+// import ControlledTable from "@polkadot/react-components/RcTable/ControlledTable";
 
 interface Props {
   className?: string,
   value?: number
 }
 
-function MinerDetail({className, value}: Props): React.ReactElement<Props> {
+function MinerDetail({ className, value }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const minerInfoRef = useRef<any>()
   const [minerDetail, setMinerDetail] = useState<any>({})
@@ -27,19 +28,19 @@ function MinerDetail({className, value}: Props): React.ReactElement<Props> {
   const [dataCount, setDataCount] = useState<number>(0);
 
   useEffect(() => {
-    (async ():Promise<void> =>{
+    (async (): Promise<void> => {
       // let res:any = await api.query.sminer.minerDetails(1);
-      let res:any = await api.query.sminer.minerDetails(value);
+      let res: any = await api.query.sminer.minerDetails(value);
       let resJson: any = res.toJSON();
       resJson.totalRewardObj = formatterCurrency(resJson.totalReward);
       resJson.totalRewardsCurrentlyAvailableObj = formatterCurrency(resJson.totalRewardsCurrentlyAvailable);
       resJson.totaldNotReceiveObj = formatterCurrency(resJson.totaldNotReceive);
       resJson.collateralsObj = formatterCurrency(resJson.collaterals);
-      if(res){
+      if (res) {
         setMinerDetail(resJson)
         let barData = [
-          { value: resJson.space, name: 'used storage'},
-          { value: resJson.power - resJson.space, name: 'available storage'},
+          { value: resJson.space, name: 'used storage' },
+          { value: resJson.power - resJson.space, name: 'available storage' },
         ];
         const option: any = {
           tooltip: {
@@ -58,18 +59,18 @@ function MinerDetail({className, value}: Props): React.ReactElement<Props> {
             icon: 'roundRect',
             itemWidth: 8,
             itemHeight: 61,
-            formatter: name =>{
-              let value = _.get(_.find(barData, v=> v.name === name),'value');
+            formatter: name => {
+              let value = _.get(_.find(barData, v => v.name === name), 'value');
               return ['{a|' + name + '}', '{b|' + formatterSizeFromMB(value) + '}'].join('\n');
             },
-            textStyle:{
+            textStyle: {
               rich: {
                 a: {
                   color: '#858585',
                   fontSize: 14,
                   verticalAlign: 'middle'
                 },
-                b:{
+                b: {
                   align: 'right',
                   lineHeight: 40,
                   fontSize: 18,
@@ -105,68 +106,70 @@ function MinerDetail({className, value}: Props): React.ReactElement<Props> {
         };
         let myChart = minerInfoRef.current = echarts.init(document.getElementById("miner-info-box") as HTMLDivElement);
         myChart.setOption(option);
-        window.addEventListener("resize", () =>{
+        window.addEventListener("resize", () => {
           minerInfoRef.current.resize();
         });
         //get extrinsic data
-        if(resJson && resJson.address){
+        if (resJson && resJson.address) {
           fetchData(resJson.address)
         }
       }
     })()
   }, [value])
 
-  const fetchData = async (address) =>{
-    await fetchData2({ row: 100, page: 0, address });
+  const fetchData = async (address) => {
+    // await fetchData2({ row: 100, page: 0, address });
   }
 
-  const fetchData2 = useCallback(async ({pageSize, pageIndex, address}) =>{
+  const fetchData2 = useCallback(async ({ pageSize, pageIndex, address }) => {
     let params = { row: pageSize, page: pageIndex, address: address };
-    const response = await request.post({url:`${httpUrl}/api/scan/extrinsics`, params});
+    const response = await request.post({ url: `${httpUrl}/api/scan/extrinsics`, params });
     let extrinsics = _.get(response, 'data.extrinsics', []);
     let count = _.get(response, 'data.count', 0);
     setData(extrinsics);
     setPageCount(_.ceil(count / pageSize));
     setDataCount(count);
-  },[pageCount])
+  }, [pageCount])
 
-  const columns = React.useMemo(()=> [
-    {Header: 'extrinsic ID', accessor: 'extrinsic_index',id:'extrinsic_index', width: '12.5%'},
-    {Header: 'block', accessor: 'block_num',id:'block_num', width: '12.5%'},
-    {Header: 'extrinsic hash', accessor: 'extrinsic_hash',id:'extrinsic_hash', width: '12.5%'},
-    {Header: 'time', accessor: 'block_timestamp',id:'block_timestamp', width: '12.5%', Cell: ({row}) => (
-      <span>{ moment(row.values.block_timestamp * 1000).format("YYYY-MM-DD HH:mm:ss")}</span>
-    )},
+  const columns = React.useMemo(() => [
+    { Header: 'extrinsic ID', accessor: 'extrinsic_index', id: 'extrinsic_index', width: '12.5%' },
+    { Header: 'block', accessor: 'block_num', id: 'block_num', width: '12.5%' },
+    { Header: 'extrinsic hash', accessor: 'extrinsic_hash', id: 'extrinsic_hash', width: '12.5%' },
+    {
+      Header: 'time', accessor: 'block_timestamp', id: 'block_timestamp', width: '12.5%', Cell: ({ row }) => (
+        <span>{moment(row.values.block_timestamp * 1000).format("YYYY-MM-DD HH:mm:ss")}</span>
+      )
+    },
     // {Header: 'Result', accessor: 'result',id:'result', width: '12.5%'},
     {
       Header: 'call', accessor: 'call_module', id: 'call_module', // It needs an ID
-      Cell: ({row}) => (
+      Cell: ({ row }) => (
         <span {...row.getToggleRowExpandedProps()}>
           {`${row.values.call_module}(${row.original.call_module_function})`}
-          <Icon icon={row.isExpanded ? 'caret-up' : 'caret-down'}/>
+          <Icon icon={row.isExpanded ? 'caret-up' : 'caret-down'} />
         </span>
       ),
     },
   ], [])
 
   const renderRowSubComponent = React.useCallback((
-    ({ row }) =>{
+    ({ row }) => {
       let params = row.original.params;
-      let rowInfo:any;
-      if(isJson(params)){
+      let rowInfo: any;
+      if (isJson(params)) {
         rowInfo = JSON.parse(params)
       }
       return (
         <>
           {
-            rowInfo ?<div className={"expand-group"}>
+            rowInfo ? <div className={"expand-group"}>
               {
-                rowInfo.map(info=>(
+                rowInfo.map(info => (
                   <div>
                     <p>{info.type}</p>
                     <p>
                       <span>{info.name}</span>
-                      <span>{ _.isObject(info.value) ? JSON.stringify(info.value) : info.value}</span>
+                      <span>{_.isObject(info.value) ? JSON.stringify(info.value) : info.value}</span>
                     </p>
                   </div>
                 ))
@@ -185,8 +188,9 @@ function MinerDetail({className, value}: Props): React.ReactElement<Props> {
       {
         !_.isEmpty(minerDetail) ? <div className={`${className} miner-detail`}>
           <div className={"miner-title"}>
-            <Icon className='highlight--color' icon='dot-circle'/>
+            <Icon className='highlight--color' icon='dot-circle' />
             <span className={"miner-title-text"}>Miner Detail</span>
+            <MinerSearch className="right-search-box" />
           </div>
           <div className={"miner-content"}>
             <div className={"miner-info"}>
@@ -194,33 +198,33 @@ function MinerDetail({className, value}: Props): React.ReactElement<Props> {
                 <div className={"miner-info-left-tr label"}>Account</div>
                 <div className={"miner-info-left-tr"}>
                   <span className={"miner-info-left-td"}>miner ID</span>
-                  <span className={"miner-info-left-td"}>{ value }</span>
+                  <span className={"miner-info-left-td"}>{value}</span>
                 </div>
                 <div className={"miner-info-left-tr"}>
                   <span className={"miner-info-left-td"}>account name</span>
-                  <span className={"miner-info-left-td"}>{minerDetail && minerDetail.address && (minerDetail.address.substr(0,5) + '...' + minerDetail.address.substr(minerDetail.beneficiary.length -5,minerDetail.address.length -1))}</span>
+                  <span className={"miner-info-left-td"}>{minerDetail && minerDetail.address && (minerDetail.address.substr(0, 5) + '...' + minerDetail.address.substr(minerDetail.beneficiary.length - 5, minerDetail.address.length - 1))}</span>
                 </div>
                 <div className={"miner-info-left-tr"}>
                   <span className={"miner-info-left-td"}>account1</span>
                   <span className={"miner-info-left-td ellipsis"} data-for='address' data-effect={"solid"} data-tip={""}>
-                {minerDetail && minerDetail.address}
-              </span>
-                  <ReactTooltip id={"address"} effect="solid" delayUpdate={500} delayHide={2000} getContent={() => { return minerDetail.address }}/>
+                    {minerDetail && minerDetail.address}
+                  </span>
+                  <ReactTooltip id={"address"} effect="solid" delayUpdate={500} delayHide={2000} getContent={() => { return minerDetail.address }} />
                 </div>
                 <div className={"miner-info-left-tr"}>
                   <span className={"miner-info-left-td"}>account2 name</span>
-                  <span className={"miner-info-left-td"}> {minerDetail && minerDetail.beneficiary && (minerDetail.beneficiary.substr(0,5) + '...' + minerDetail.beneficiary.substr(minerDetail.beneficiary.length -5,minerDetail.beneficiary.length -1))}</span>
+                  <span className={"miner-info-left-td"}> {minerDetail && minerDetail.beneficiary && (minerDetail.beneficiary.substr(0, 5) + '...' + minerDetail.beneficiary.substr(minerDetail.beneficiary.length - 5, minerDetail.beneficiary.length - 1))}</span>
                 </div>
                 <div className={"miner-info-left-tr"}>
                   <span className={"miner-info-left-td"}>account2</span>
                   <span className={"miner-info-left-td ellipsis"} data-for='beneficiary' data-effect={"solid"} data-tip={""}>
-                {minerDetail && minerDetail.beneficiary}
-              </span>
-                  <ReactTooltip id={"beneficiary"} effect="solid" delayUpdate={500} delayHide={2000}  getContent={() => { return minerDetail.beneficiary }}/>
+                    {minerDetail && minerDetail.beneficiary}
+                  </span>
+                  <ReactTooltip id={"beneficiary"} effect="solid" delayUpdate={500} delayHide={2000} getContent={() => { return minerDetail.beneficiary }} />
                 </div>
               </div>
               <div className={"miner-info-right"}>
-                <div id="miner-info-box" ref={minerInfoRef} className={"miner-info-box"}/>
+                <div id="miner-info-box" ref={minerInfoRef} className={"miner-info-box"} />
               </div>
 
             </div>
@@ -232,35 +236,35 @@ function MinerDetail({className, value}: Props): React.ReactElement<Props> {
                 <div className={"miner-info-left-tr"}>
                   <span className={"miner-info-left-td"}>total reward</span>
                   <span className={"miner-info-left-td"}><span
-                    className={"miner-info-left-td-value"}>{ minerDetail && minerDetail.totalRewardObj && minerDetail.totalRewardObj.money } </span><span>{ minerDetail && minerDetail.totalRewardObj && minerDetail.totalRewardObj.suffix }</span></span>
+                    className={"miner-info-left-td-value"}>{minerDetail && minerDetail.totalRewardObj && minerDetail.totalRewardObj.money} </span><span>{minerDetail && minerDetail.totalRewardObj && minerDetail.totalRewardObj.suffix}</span></span>
                 </div>
                 <div className={"miner-info-left-tr"}>
                   <span className={"miner-info-left-td"}>available</span>
                   <span className={"miner-info-left-td"}><span
-                    className={"miner-info-left-td-value"}>{ minerDetail && minerDetail.totalRewardsCurrentlyAvailableObj && minerDetail.totalRewardsCurrentlyAvailableObj.money} </span><span>{ minerDetail && minerDetail.totalRewardsCurrentlyAvailableObj && minerDetail.totalRewardsCurrentlyAvailableObj.suffix }</span></span>
+                    className={"miner-info-left-td-value"}>{minerDetail && minerDetail.totalRewardsCurrentlyAvailableObj && minerDetail.totalRewardsCurrentlyAvailableObj.money} </span><span>{minerDetail && minerDetail.totalRewardsCurrentlyAvailableObj && minerDetail.totalRewardsCurrentlyAvailableObj.suffix}</span></span>
                 </div>
                 <div className={"miner-info-left-tr"}>
                   <span className={"miner-info-left-td"}>total not receive</span>
                   <span className={"miner-info-left-td"}>
-                <span className={"miner-info-left-td-value"}>{minerDetail && minerDetail.totaldNotReceiveObj && minerDetail.totaldNotReceiveObj.money }</span><span>{minerDetail && minerDetail.totaldNotReceiveObj && minerDetail.totaldNotReceiveObj.suffix }</span>
-                <img className={"ellipsis"} src={require("./../../../assets/images/hoverInfo.png")} alt="" data-place={"right"} data-effect={"solid"}  data-tip={"Binding through harvest"}/>
-                <ReactTooltip place={"right"} effect="solid" delayUpdate={500} delayHide={2000}/>
-              </span>
+                    <span className={"miner-info-left-td-value"}>{minerDetail && minerDetail.totaldNotReceiveObj && minerDetail.totaldNotReceiveObj.money}</span><span>{minerDetail && minerDetail.totaldNotReceiveObj && minerDetail.totaldNotReceiveObj.suffix}</span>
+                    <img className={"ellipsis"} src={require("./../../../assets/images/hoverInfo.png")} alt="" data-place={"right"} data-effect={"solid"} data-tip={"Binding through harvest"} />
+                    <ReactTooltip place={"right"} effect="solid" delayUpdate={500} delayHide={2000} />
+                  </span>
                 </div>
                 <div className={"miner-info-left-tr"}>
                   <span className={"miner-info-left-td"}>collaterals</span>
                   <span className={"miner-info-left-td"}><span
-                    className={"miner-info-left-td-value"}>{ minerDetail && minerDetail.collateralsObj && minerDetail.collateralsObj.money }</span><span>{ minerDetail && minerDetail.collateralsObj && minerDetail.collateralsObj.suffix }</span></span>
+                    className={"miner-info-left-td-value"}>{minerDetail && minerDetail.collateralsObj && minerDetail.collateralsObj.money}</span><span>{minerDetail && minerDetail.collateralsObj && minerDetail.collateralsObj.suffix}</span></span>
                 </div>
               </div>
             </div>
           </div>
           <div className={"miner-content"}>
             <div className={"accout-table"}>
-              <div className={"btn-actions"}>
+              {/* <div className={"btn-actions"}>
                 <Button isSelected label={`extrinsics (${dataCount})`} />
-              </div>
-              <ControlledTable fetchData={fetchData2} pageCount={pageCount} columns={columns} data={data} renderRowSubComponent={renderRowSubComponent} />
+              </div> */}
+              {/* <ControlledTable fetchData={fetchData2} pageCount={pageCount} columns={columns} data={data} renderRowSubComponent={renderRowSubComponent} /> */}
               {/*<RcTable columns={columns} data={data} renderRowSubComponent={renderRowSubComponent}/>*/}
             </div>
           </div>

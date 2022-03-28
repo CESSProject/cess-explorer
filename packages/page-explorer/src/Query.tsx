@@ -46,18 +46,44 @@ function Query ({ className = '', value: propsValue }: Props): React.ReactElemen
   //   [isValid, value]
   // );
 
+  // const _onQuery = useCallback(
+  //   async (): Promise<void> => {
+  //     let params = {hash: value};
+  //     let res = await request.post({url:`${httpUrl}/api/scan/check_hash`, params});
+  //     let type = _.get(res, 'data.hash_type');
+  //     console.log(res, 'hash_typehash_typehash_type')
+  //     if(!type){
+  //       window.location.hash = `/explorer/query/${value}/${'extrinsic'}`;
+  //       return;
+  //     }
+  //     if (value.length !== 0) {
+  //       window.location.hash = `/explorer/query/${value}/${type}`;
+  //     }
+  //   },
+  //   [value]
+  // );
+
   const _onQuery = useCallback(
     async (): Promise<void> => {
-      let params = {hash: value};
-      let res = await request.post({url:`${httpUrl}/api/scan/check_hash`, params});
-      let type = _.get(res, 'data.hash_type');
-      console.log(res, 'hash_typehash_typehash_type')
-      if(!type){
-        window.location.hash = `/explorer/query/${value}/${'extrinsic'}`;
+      if (value.length === 0) {
         return;
       }
-      if (value.length !== 0) {
-        window.location.hash = `/explorer/query/${value}/${type}`;
+      let url='';
+      switch(value.length){
+        case 0:
+          break;
+        case 66://hash
+          url=`/explorer/query/${value}/${'block'}`;
+          break;
+        case 48://addr
+          url=`/explorer/query/${value}/${'address'}`;
+          break;
+        default://Extrinsics Hash
+          url=`/explorer/query/${value}/${'extrinsic'}`;          
+          break;
+      }
+      if(url){
+        window.location.hash =url;
       }
     },
     [value]
@@ -71,7 +97,7 @@ function Query ({ className = '', value: propsValue }: Props): React.ReactElemen
         isError={!isValid && value.length !== 0}
         onChange={_setHash}
         onEnter={_onQuery}
-        placeholder={t<string>('Search by Block Hash / Extrinsics Hash / Address /  Miner ID')}
+        placeholder={t<string>('Search by Block Hash / Block Height /  Address')}   //placeholder={t<string>('Search by Block Hash / Extrinsics Hash / Address /  Miner ID')}
         withLabel={false}
       >
         <Button

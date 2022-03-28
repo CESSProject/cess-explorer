@@ -29,7 +29,7 @@ languageDetector.addDetector({
 });
 
 i18next
-  // .use(languageDetector)        // auto-detected / 自动检测浏览器语言
+  // .use(languageDetector)        // auto-detected
   .use(initReactI18next)
   .use(Backend)
   .init({

@@ -55,6 +55,8 @@ function InputStorage ({ className = '', defaultValue, help, label, onChange, wi
     [_onKeyChange, api, value]
   );
 
+  console.log('optionsMethod',optionsMethod);
+
   return (
     <LinkedWrapper
       className={className}

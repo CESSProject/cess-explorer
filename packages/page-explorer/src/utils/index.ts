@@ -15,16 +15,16 @@ const formatterSize = (bytes) =>{
     bytes = _.toNumber(bytes);
   }
   if (bytes == 0) return '0 B';
-  let k = 1024; //设定基础容量大小
-  let sizeStr = ['B','KB','MB','GB','TB','PB','EB','ZB','YB']; //容量单位
-  let i = 0; //单位下标和次幂
+  let k = 1024; 
+  let sizeStr = ['B','KB','MB','GB','TB','PB','EB','ZB','YB']; 
+  let i = 0; 
   for(let l=0;l<8;l++){
     if(bytes / Math.pow(k, l) < 1){
       break;
     }
     i = l;
   }
-  return (bytes / Math.pow(k, i)).toFixed(3) + ' ' + sizeStr[i];  //循环结束 或 条件成立 返回字符
+  return (bytes / Math.pow(k, i)).toFixed(3) + ' ' + sizeStr[i];
 }
 
 /**
@@ -36,16 +36,16 @@ const formatterSizeFromMB = (bytes) =>{
     bytes = _.toNumber(bytes);
   }
   if (bytes == 0) return '0 MB';
-  let k = 1024; //设定基础容量大小
-  let sizeStr = ['MB','GB','TB','PB','EB','ZB','YB']; //容量单位
-  let i = 0; //单位下标和次幂
+  let k = 1024; //set base size
+  let sizeStr = ['MB','GB','TB','PB','EB','ZB','YB']; //size
+  let i = 0; //Unit subscript and power
   for(let l=0;l<6;l++){
     if(bytes / Math.pow(k, l) < 1){
       break;
     }
     i = l;
   }
-  return (bytes / Math.pow(k, i)).toFixed(3) + ' ' + sizeStr[i];  //循环结束 或 条件成立 返回字符
+  return (bytes / Math.pow(k, i)).toFixed(3) + ' ' + sizeStr[i]; 
 }
 
 /**
@@ -57,9 +57,9 @@ const formatterCurrency = (coin:number): Currency =>{
     coin = _.toNumber(coin);
   }
   if (coin == 0) return {money: '0', suffix: 'TCESS'};
-  let k = 1000; //设定基础货币换算比例
-  let currencyStr = ['PICO','NANO','MICRO','MILLI','TCESS','KILO','MILL','BILL']; //容量单位
-  let i = 0; //单位下标和次幂
+  let k = 1000; 
+  let currencyStr = ['PICO','NANO','MICRO','MILLI','TCESS','KILO','MILL','BILL']; 
+  let i = 0; 
   for(let l=0;l<8;l++){
     if(coin / Math.pow(k, l) < 1){
       break;
@@ -78,9 +78,9 @@ const formatterCurrencyStr = (coin:number): string =>{
     coin = _.toNumber(coin);
   }
   if (coin == 0) return "0 TCESS";
-  let k = 1000; //设定基础货币换算比例
-    let currencyStr = ['PICO','NANO','MICRO','MILLI','TCESS','KILO','MILL','BILL']; //容量单位
-  let i = 0; //单位下标和次幂
+  let k = 1000; 
+    let currencyStr = ['PICO','NANO','MICRO','MILLI','TCESS','KILO','MILL','BILL']; 
+  let i = 0;
   for(let l=0;l<8;l++){
     if(coin / Math.pow(k, l) < 1){
       break;

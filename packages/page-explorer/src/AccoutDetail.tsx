@@ -42,7 +42,6 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
   useEffect(()=>{
     if(value){
       (async (): Promise<void> =>{
-        // const result = await api.query.system.account("5HbW1vWRgUbkxqEYRiNVdd6Kx57yuETbZNE1THG5Dk8oSYhP");
         const result:any = await api.query.system.account(value);
         if(result){
           let info = result.toJSON();
@@ -74,18 +73,6 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
     }
   },[value])
 
-  // useEffect(()=>{
-  //   if(value){
-  //     (async ():Promise<void> =>{
-  //       let res:any = await api.query.fileBank.userFileSize(value);
-  //       if(res){
-  //         let size = res.toJSON() || 0;
-  //         size = formatterSize(size);
-  //         setSize(size);
-  //       }
-  //     })().catch(console.error);
-  //   }
-  // },[value])
 
   useEffect(()=>{
     if(value){

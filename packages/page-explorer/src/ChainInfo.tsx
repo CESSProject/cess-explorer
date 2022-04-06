@@ -20,7 +20,6 @@ function ChainInfo({className}: Props): React.ReactElement<Props>{
   let json = lastHeaders && lastHeaders[0] && lastHeaders[0].toJSON();
   let num = json ? json?.number : 0;
 
-  // console.log('********',num,'*********');
 
   useEffect(()=>{
     (async (): Promise<void> =>{
@@ -50,7 +49,6 @@ function ChainInfo({className}: Props): React.ReactElement<Props>{
 
   return (
     <div className={`${className}`}>
-      {/*详情*/}
       <div className={"chain-info"}>
         <div className={"chain-info-details"}>
           <div className={"chain-info-details-block"}>

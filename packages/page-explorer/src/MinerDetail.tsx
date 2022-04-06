@@ -110,47 +110,47 @@ function MinerDetail({ className, value }: Props): React.ReactElement<Props> {
           minerInfoRef.current.resize();
         });
         //get extrinsic data
-        if (resJson && resJson.address) {
-          fetchData(resJson.address)
-        }
+        // if (resJson && resJson.address) {
+        //   fetchData(resJson.address)
+        // }
       }
     })()
   }, [value])
 
-  const fetchData = async (address) => {
-    // await fetchData2({ row: 100, page: 0, address });
-  }
+  // const fetchData = async (address) => {
+  //   // await fetchData2({ row: 100, page: 0, address });
+  // }
 
-  const fetchData2 = useCallback(async ({ pageSize, pageIndex, address }) => {
-    let params = { row: pageSize, page: pageIndex, address: address };
-    const response = await request.post({ url: `${httpUrl}/api/scan/extrinsics`, params });
-    let extrinsics = _.get(response, 'data.extrinsics', []);
-    let count = _.get(response, 'data.count', 0);
-    setData(extrinsics);
-    setPageCount(_.ceil(count / pageSize));
-    setDataCount(count);
-  }, [pageCount])
+  // const fetchData2 = useCallback(async ({ pageSize, pageIndex, address }) => {
+  //   let params = { row: pageSize, page: pageIndex, address: address };
+  //   const response = await request.post({ url: `${httpUrl}/api/scan/extrinsics`, params });
+  //   let extrinsics = _.get(response, 'data.extrinsics', []);
+  //   let count = _.get(response, 'data.count', 0);
+  //   setData(extrinsics);
+  //   setPageCount(_.ceil(count / pageSize));
+  //   setDataCount(count);
+  // }, [pageCount])
 
-  const columns = React.useMemo(() => [
-    { Header: 'extrinsic ID', accessor: 'extrinsic_index', id: 'extrinsic_index', width: '12.5%' },
-    { Header: 'block', accessor: 'block_num', id: 'block_num', width: '12.5%' },
-    { Header: 'extrinsic hash', accessor: 'extrinsic_hash', id: 'extrinsic_hash', width: '12.5%' },
-    {
-      Header: 'time', accessor: 'block_timestamp', id: 'block_timestamp', width: '12.5%', Cell: ({ row }) => (
-        <span>{moment(row.values.block_timestamp * 1000).format("YYYY-MM-DD HH:mm:ss")}</span>
-      )
-    },
-    // {Header: 'Result', accessor: 'result',id:'result', width: '12.5%'},
-    {
-      Header: 'call', accessor: 'call_module', id: 'call_module', // It needs an ID
-      Cell: ({ row }) => (
-        <span {...row.getToggleRowExpandedProps()}>
-          {`${row.values.call_module}(${row.original.call_module_function})`}
-          <Icon icon={row.isExpanded ? 'caret-up' : 'caret-down'} />
-        </span>
-      ),
-    },
-  ], [])
+  // const columns = React.useMemo(() => [
+  //   { Header: 'extrinsic ID', accessor: 'extrinsic_index', id: 'extrinsic_index', width: '12.5%' },
+  //   { Header: 'block', accessor: 'block_num', id: 'block_num', width: '12.5%' },
+  //   { Header: 'extrinsic hash', accessor: 'extrinsic_hash', id: 'extrinsic_hash', width: '12.5%' },
+  //   {
+  //     Header: 'time', accessor: 'block_timestamp', id: 'block_timestamp', width: '12.5%', Cell: ({ row }) => (
+  //       <span>{moment(row.values.block_timestamp * 1000).format("YYYY-MM-DD HH:mm:ss")}</span>
+  //     )
+  //   },
+  //   // {Header: 'Result', accessor: 'result',id:'result', width: '12.5%'},
+  //   {
+  //     Header: 'call', accessor: 'call_module', id: 'call_module', // It needs an ID
+  //     Cell: ({ row }) => (
+  //       <span {...row.getToggleRowExpandedProps()}>
+  //         {`${row.values.call_module}(${row.original.call_module_function})`}
+  //         <Icon icon={row.isExpanded ? 'caret-up' : 'caret-down'} />
+  //       </span>
+  //     ),
+  //   },
+  // ], [])
 
   const renderRowSubComponent = React.useCallback((
     ({ row }) => {

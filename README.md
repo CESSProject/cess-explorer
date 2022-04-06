@@ -9,7 +9,7 @@
 
 # CESS-Explorer Introducation
 
-Polkadot/Substrate UI for interacting with [*CESS*](https://github.com/CESSProject/cess) node for Polkadot Hackathon.
+Polkadot/Substrate UI for interacting with [*CESS*](https://github.com/CESSProject/cess) node.
 
 
 Here is the source code of our blockchain explorer, which is forked from [*polkadot/apps*](https://github.com/polkadot-js/apps), and currently supports http and wss access methods.

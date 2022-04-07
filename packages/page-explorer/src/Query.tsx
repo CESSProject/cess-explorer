@@ -8,8 +8,6 @@ import { Button, FilterOverlay, Input } from '@polkadot/react-components';
 import { isHex } from '@polkadot/util';
 import _ from "lodash"
 import { useTranslation } from './translate';
-import request from "@polkadot/app-explorer/utils/reuqest";
-import {httpUrl} from "@polkadot/apps-config/http";
 
 interface Props {
   className?: string;
@@ -37,31 +35,6 @@ function Query ({ className = '', value: propsValue }: Props): React.ReactElemen
     []
   );
 
-  // const _onQuery = useCallback(
-  //   (): void => {
-  //     if (isValid && value.length !== 0) {
-  //       window.location.hash = `/explorer/query/${value}`;
-  //     }
-  //   },
-  //   [isValid, value]
-  // );
-
-  // const _onQuery = useCallback(
-  //   async (): Promise<void> => {
-  //     let params = {hash: value};
-  //     let res = await request.post({url:`${httpUrl}/api/scan/check_hash`, params});
-  //     let type = _.get(res, 'data.hash_type');
-  //     console.log(res, 'hash_typehash_typehash_type')
-  //     if(!type){
-  //       window.location.hash = `/explorer/query/${value}/${'extrinsic'}`;
-  //       return;
-  //     }
-  //     if (value.length !== 0) {
-  //       window.location.hash = `/explorer/query/${value}/${type}`;
-  //     }
-  //   },
-  //   [value]
-  // );
 
   const _onQuery = useCallback(
     async (): Promise<void> => {

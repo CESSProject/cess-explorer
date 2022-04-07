@@ -13,7 +13,7 @@ import { useTranslation } from '../translate';
 import Peers from './Peers';
 import Summary from './Summary';
 
-const POLL_TIMEOUT = 9900;
+const POLL_TIMEOUT = 6000;
 
 async function retrieveInfo (api: ApiPromise): Promise<Partial<Info>> {
   try {

@@ -43,12 +43,10 @@ function Query ({ className = '', value: propsValue }: Props): React.ReactElemen
       }
       let url='';
       switch(value.length){
-        case 0:
-          break;
-        case 66://hash
+        case 66://hash？
           url=`/explorer/query/${value}/${'block'}`;
           break;
-        case 48://addr
+        case 48://addr？
           url=`/explorer/query/${value}/${'address'}`;
           break;
         default://Extrinsics Hash
@@ -70,7 +68,7 @@ function Query ({ className = '', value: propsValue }: Props): React.ReactElemen
         isError={!isValid && value.length !== 0}
         onChange={_setHash}
         onEnter={_onQuery}
-        placeholder={t<string>('Search by Block Hash / Block Height /  Address')}   //placeholder={t<string>('Search by Block Hash / Extrinsics Hash / Address /  Miner ID')}
+        placeholder={t<string>('Search by Block Hash / Block Height /  Address')}
         withLabel={false}
       >
         <Button

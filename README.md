@@ -90,7 +90,7 @@ To get started -
     ```
 6. Access the UI via [http://localhost:3000](http://localhost:3000)
 
-## Build & Deploy -
+## Build & Deploy 
 
 1. Install the dependencies by running `yarn`:
     ```bash

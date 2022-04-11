@@ -66,7 +66,7 @@ function ExtrinsicDetail({className, value}:Props) :React.ReactElement<Props>{
     {Header: 'event ID', accessor: 'event_id',id:'event_id', width: '12.5%'},
     {Header: 'hash', accessor: 'extrinsic_hash',id:'extrinsic_hash', width: '12.5%'},
     {
-      Header: 'operation', accessor: 'operation', id: 'operation', // It needs an ID
+      Header: 'operation', accessor: 'operation', id: 'operation', 
       Cell: ({row}) => (
         <span {...row.getToggleRowExpandedProps()}>
           {`${row.original.module_id}(${row.original.event_id})`}

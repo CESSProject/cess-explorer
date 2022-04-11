@@ -5,7 +5,6 @@ import { BN_ONE } from '@polkadot/util';
 import _ from "lodash"
 import StorageGroup from './components/StorageGroup';
 import {api} from "@polkadot/react-api";
-import RcTable from '@polkadot/react-components/RcTable/RcTable';
 
 interface Props{
   className?: string,
@@ -23,10 +22,8 @@ function ChainInfo({className}: Props): React.ReactElement<Props>{
 
   useEffect(()=>{
     (async (): Promise<void> =>{
-      // const res = await api.query.sminer.minerStatValue();
       const res = await api.query.sminer.minerItems.entries();      
       if(res){
-        // let info = res1.toJSON();
         let info={
           activeMiners:res.length
         };
@@ -78,7 +75,6 @@ function ChainInfo({className}: Props): React.ReactElement<Props>{
         </div>
         <StorageGroup />
       </div>
-      {/*<RcTable />*/}
     </div>
   )
 }

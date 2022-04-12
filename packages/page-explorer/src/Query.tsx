@@ -8,6 +8,7 @@ import { Button, FilterOverlay, Input } from '@polkadot/react-components';
 import { isHex } from '@polkadot/util';
 import _ from "lodash"
 import { useTranslation } from './translate';
+import { useHistory } from "react-router-dom";
 
 interface Props {
   className?: string;
@@ -35,7 +36,7 @@ function Query ({ className = '', value: propsValue }: Props): React.ReactElemen
     []
   );
 
-
+  let history = useHistory();
   const _onQuery = useCallback(
     async (): Promise<void> => {
       if (value.length === 0) {
@@ -43,18 +44,20 @@ function Query ({ className = '', value: propsValue }: Props): React.ReactElemen
       }
       let url='';
       switch(value.length){
-        case 66://hash？
+        case 66://hash length is 66
           url=`/explorer/query/${value}/${'block'}`;
           break;
-        case 48://addr？
+        case 48://wallet address length is 48
           url=`/explorer/query/${value}/${'address'}`;
           break;
-        default://Extrinsics Hash
+        default://other is Extrinsics Hash
           url=`/explorer/query/${value}/${'extrinsic'}`;          
           break;
       }
       if(url){
-        window.location.hash =url;
+        // window.location.hash =url;
+        // use react-router-dom
+        history.push(url);
       }
     },
     [value]

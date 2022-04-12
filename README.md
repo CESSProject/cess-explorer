@@ -15,7 +15,7 @@ Polkadot/Substrate UI for interacting with [*CESS*](https://github.com/CESSProje
 Here is the source code of our blockchain explorer, which is forked from [*polkadot/apps*](https://github.com/polkadot-js/apps), and currently supports http and wss access methods.
 
 ## About The CESS
-CESS is a distributed cloud data network with user friendly ledgers, novel consensus mechanism, multiple data authenticity proof schemes, and reliable network infrastructure. CESS offers data storage service with the advantages of low cost, privacy protection, security and robustness. With the implementation of CESS data confirmation and proxy re-encryption technology, CESS provides Web3.0 clients and DAPPs with trustworthy, secure and reliable data rights protection.
+CESS is a decentralized cloud data storage network with user friendly ledgers, novel consensus mechanism, multiple data authenticity proof schemes, and reliable network infrastructure. CESS offers data storage service with the advantages of low cost, privacy protection, security and robustness. With the implementation of CESS data confirmation and proxy re-encryption technology, CESS provides Web3.0 clients and DAPPs with trustworthy, secure and reliable data rights protection.
 
 ## Features
 
@@ -59,12 +59,12 @@ In addition the following libraries are also included in the repo. These are to 
 - yarn   >=1.10.1
 - react  >=17.0.2
 - typescript  >=4.4.4
-- echarts
-- polkadot
-- electron
-- webpack
+- echarts >=3.10.5
+- polkadot >=6.12.11
+- electron >=5.17.3
+- webpack >=16.5.1
 
-- docker
+- docker >=7.4.3
 
 
 ## Development
@@ -90,7 +90,7 @@ To get started -
     ```
 6. Access the UI via [http://localhost:3000](http://localhost:3000)
 
-## Build & Deploy -
+## Build & Deploy 
 
 1. Install the dependencies by running `yarn`:
     ```bash
@@ -124,5 +124,5 @@ Thank you to all the people who already contributed to CESS-Explorer!
 We very much welcome your contribution
 
 - Use CESS-Explorer in your daily work.
-- Submit [GitHub issues](https://github.com/CESSProject/cess-explorer/issues)s to report bugs or ask questions.
+- Submit [GitHub issues](https://github.com/CESSProject/cess-explorer/issues) to report bugs or ask questions.
 - Propose [Pull Request](https://github.com/CESSProject/cess-explorer/pulls) to improve our code.

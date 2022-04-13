@@ -50,12 +50,12 @@ function Miners({className}: Props): React.ReactElement<Props>{
 
   useEffect(()=>{
     (async (): Promise<void> =>{
-      const minerItems:any = await api.query.sminer.minerItems.entries();
+      const minerItems:any = await api.query.sminer.minerItems.entries();//get all miner list
       const minerDetails:any = await api.query.sminer.minerDetails.entries();
       const files:any=await api.query.fileBank.file.entries();
 
       let miners:any[]= [];
-      minerItems.forEach(([key, entry]) => {
+      minerItems.forEach(([key, entry]) => {// get id
         let fileid:string = key.args.map((k) => k.toHuman());
         let jsonObj = entry.toJSON();
         miners.push(_.assign(jsonObj,{fileid}));
@@ -143,7 +143,7 @@ function Miners({className}: Props): React.ReactElement<Props>{
       const minerDetails:any = await api.query.sminer.minerDetails.entries();
       let list:any[]= [];
       minerDetails.forEach(([key, entry]) => {
-        let minerId = _.get(key.args.map((k) => k.toHuman()), `0`);
+        let minerId = _.get(key.args.map((k) => k.toHuman()), `0`);// key is a arrary,minerid get first one
         let humanObj = entry.toJSON();
         list.push(_.assign(humanObj, { minerId }));
       });

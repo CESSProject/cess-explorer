@@ -28,7 +28,7 @@ interface Props {
 function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { lastHeaders } = useContext(BlockAuthorsContext);
+  const { lastHeaders } = useContext(BlockAuthorsContext);// block height ,from subscription
   const { eventCount, events } = useContext(EventsContext);
 
   const itemsRef = useRef([
@@ -44,10 +44,6 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
       text: t<string>('Block details'),
       icon: true
     },
-    // {
-    //   name: 'forks',
-    //   text: t<string>('Forks')
-    // },
     {
       name: 'node',
       text: t<string>('Node info'),
@@ -77,7 +73,6 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
       <Switch>
         <Route path={`${basePath}/forks`}><Forks /></Route>
         <Route path={`${basePath}/query/:value/:type`}><BlockInfo /></Route>
-        {/*<Route path={`${basePath}/query/:value`}><BlockInfo /></Route>*/}
         <Route path={`${basePath}/query`}><BlockInfo /></Route>
         <Route path={`${basePath}/node`}><NodeInfo /></Route>
         <Route path={`${basePath}/miners`}><Miners /></Route>

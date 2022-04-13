@@ -17,12 +17,12 @@ function ChainInfo({className}: Props): React.ReactElement<Props>{
   const { lastHeaders } = useContext(BlockAuthorsContext);
 
   let json = lastHeaders && lastHeaders[0] && lastHeaders[0].toJSON();
-  let num = json ? json?.number : 0;
+  let num = json ? json?.number : 0;// block height ,from subscription
 
 
   useEffect(()=>{
     (async (): Promise<void> =>{
-      const res = await api.query.sminer.minerItems.entries();      
+      const res = await api.query.sminer.minerItems.entries();// all miners      
       if(res){
         let info={
           activeMiners:res.length
@@ -36,7 +36,7 @@ function ChainInfo({className}: Props): React.ReactElement<Props>{
     (async (): Promise<void> =>{
       const res = await api.query.staking.currentEra();
       if(res){
-        let info:any = res.toHuman();
+        let info:any = res.toHuman();// or toJSON()
         setCurrentEra(info);
         let res2 = await api.query.staking.erasRewardPoints(info - 1);
         setLastEra(_.get(res2.toHuman(), 'total'));

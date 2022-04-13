@@ -16,7 +16,7 @@ const formatterSize = (bytes) =>{
   }
   if (bytes == 0) return '0 B';
   let k = 1024; 
-  let sizeStr = ['B','KB','MB','GB','TB','PB','EB','ZB','YB']; 
+  let sizeStr = ['B','KB','MB','GB','TB','PB','EB','ZB','YB']; //store
   let i = 0; 
   for(let l=0;l<8;l++){
     if(bytes / Math.pow(k, l) < 1){
@@ -79,7 +79,7 @@ const formatterCurrencyStr = (coin:number): string =>{
   }
   if (coin == 0) return "0 TCESS";
   let k = 1000; 
-    let currencyStr = ['PICO','NANO','MICRO','MILLI','TCESS','KILO','MILL','BILL']; 
+    let currencyStr = ['PICO','NANO','MICRO','MILLI','TCESS','KILO','MILL','BILL']; //convert
   let i = 0;
   for(let l=0;l<8;l++){
     if(coin / Math.pow(k, l) < 1){

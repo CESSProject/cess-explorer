@@ -168,12 +168,9 @@ function Miners({className}: Props): React.ReactElement<Props>{
     {Header: 'total storage', accessor: 'power', Cell: ({row}) => (
        <span>{ formatterSizeFromMB(row.values.power)}</span>
     )},
-    // {Header: 'Average Daily Data Traffic (In)', accessor: 'averageDailyDataTrafficIn'},
-    // {Header: 'Average Daily Data Traffic (Out)', accessor: 'averageDailyDataTrafficOut'},
     {Header: 'mining reward', accessor: 'totalReward', Cell: ({row}) => (
        <span>{ formatterCurrencyStr(row.values.totalReward)}</span>
     )},
-    // {Header: 'Status', accessor: 'status'},
   ], [])
 
   return (

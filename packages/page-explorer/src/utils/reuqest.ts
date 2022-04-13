@@ -4,6 +4,7 @@ interface Params{
   url: string
 }
 
+// for http api
 const request = {
   post: function ({url, params = {}}) {
     return new Promise((resolve, reject) => {

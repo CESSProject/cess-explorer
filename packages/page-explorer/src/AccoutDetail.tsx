@@ -48,7 +48,7 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
           let otherInfo = result.toHuman();
           let freeStr: string = otherInfo.data.free;
           let freeInt: number = _.toNumber(freeStr.replace(/,/g,''));
-          let total: number = freeInt + _.toNumber(otherInfo.data.reserved.replace(/,/g,''));
+          let total: number = freeInt + _.toNumber(otherInfo.data.reserved.replace(/,/g,''));//format
           let availableTransfers: number = freeInt - _.toNumber(otherInfo.data.feeFrozen.replace(/,/g,''));
           let totalObj: Currency = formatterCurrency(total);
           let reservedObj: Currency = formatterCurrency(info.data.reserved);
@@ -63,7 +63,7 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
   useEffect(()=>{
     if(value){
       (async ():Promise<void> =>{
-        let res:any = await api.query.fileBank.userHoldSpaceDetails(value);
+        let res:any = await api.query.fileBank.userHoldSpaceDetails(value);//user space info
         if(res){
           let size = res.toJSON() || 0;
           size = formatterSize(size);
@@ -89,8 +89,6 @@ function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
       let list:any[]= [];
       entries.forEach(([key, entry]) => {
         let fileid:string = key.args.map((k) => k.toHuman());
-        // console.log('key arguments:', key.args.map((k) => k.toHuman()));
-        // console.log('account data--->', entry.toHuman(), 'toJSON ---->', entry.toJSON());
         let jsonObj = entry.toJSON();
         let humanObj = entry.toHuman();
         if(jsonObj.owner == value){

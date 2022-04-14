@@ -2,14 +2,12 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import * as echarts from "echarts";
 import { Button, Icon } from "@polkadot/react-components";
-// import RcTable from "@polkadot/react-components/RcTable";
 import ReactTooltip from "react-tooltip";
 import { useApi } from "@polkadot/react-hooks";
 import _ from "lodash"
 import { formatterCurrency, formatterSizeFromMB, isJson } from "./utils";
 import Empty from "@polkadot/app-explorer/components/Empty";
 import MinerSearch from "./components/MinerSearch";
-// import ControlledTable from "@polkadot/react-components/RcTable/ControlledTable";
 
 interface Props {
   className?: string,
@@ -23,8 +21,7 @@ function MinerDetail({ className, value }: Props): React.ReactElement<Props> {
 
   useEffect(() => {
     (async (): Promise<void> => {
-      // let res:any = await api.query.sminer.minerDetails(1);
-      let res: any = await api.query.sminer.minerDetails(value);
+      let res: any = await api.query.sminer.minerDetails(value);// get miner info
       let resJson: any = res.toJSON();
       resJson.totalRewardObj = formatterCurrency(resJson.totalReward);
       resJson.totalRewardsCurrentlyAvailableObj = formatterCurrency(resJson.totalRewardsCurrentlyAvailable);
@@ -218,11 +215,6 @@ function MinerDetail({ className, value }: Props): React.ReactElement<Props> {
           </div>
           <div className={"miner-content"}>
             <div className={"accout-table"}>
-              {/* <div className={"btn-actions"}>
-                <Button isSelected label={`extrinsics (${dataCount})`} />
-              </div> */}
-              {/* <ControlledTable fetchData={fetchData2} pageCount={pageCount} columns={columns} data={data} renderRowSubComponent={renderRowSubComponent} /> */}
-              {/*<RcTable columns={columns} data={data} renderRowSubComponent={renderRowSubComponent}/>*/}
             </div>
           </div>
         </div> : <Empty />
@@ -234,7 +226,6 @@ function MinerDetail({ className, value }: Props): React.ReactElement<Props> {
 export default React.memo(styled(MinerDetail)`
   margin: -50px 0 20px 0;
   font-size: 16px;
-
   .miner-title, .miner-content {
     padding: 26px 1.5rem !important;
     background: white;

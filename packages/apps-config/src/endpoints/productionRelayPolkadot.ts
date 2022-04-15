@@ -21,7 +21,7 @@ export function createPolkadot (t: TFunction): EndpointOption {
     text: t('rpc.polkadot.parity', 'Polkadot', { ns: 'apps-config' }),
     providers: {
       // Parity: 'wss://rpc.polkadot.io',              // polkadot
-      Parity: 'ws://106.15.44.155:9949/',//'wss://cess.today/rpc2-hacknet/ws/',
+      Parity: 'wss://testnet.rpc.cess.cloud/ws/',//'ws://106.15.44.155:9949/',//'wss://cess.today/rpc2-hacknet/ws/',
       // Parity: "ws://106.15.44.155:9947/",              // local
       OnFinality: 'wss://polkadot.api.onfinality.io/public-ws',
       'Patract Elara': 'wss://pub.elara.patract.io/polkadot',

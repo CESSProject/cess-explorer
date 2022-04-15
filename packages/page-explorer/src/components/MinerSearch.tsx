@@ -10,7 +10,7 @@ function MinerSearch({ className }: Props): React.ReactElement<Props> {
   const [keyword, setKeyword] = useState('');
 
   const _setNumber = useCallback(
-    (event: any): void => setKeyword(event.target.value),
+    (event: any): void => setKeyword(event.target.value),//miner iD
     []
   );
   const _onQuery = useCallback(

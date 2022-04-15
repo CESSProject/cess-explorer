@@ -97,7 +97,7 @@ function formatItem (item: DigestItem): React.ReactNode {
 
   return <div>{item.value.toString().split(',').join(', ')}</div>;
 }
-
+// show logs list
 function Logs ({ value }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 

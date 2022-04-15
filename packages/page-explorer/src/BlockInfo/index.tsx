@@ -62,7 +62,7 @@ function Entry (): React.ReactElement | null {
     return null;
   }
 
-  let queryType = getSearchType(value, type);
+  let queryType = getSearchType(value, type);//get search type 
 
   const Component = isHex(stateValue) ? BlockByHash : BlockByNumber;
 

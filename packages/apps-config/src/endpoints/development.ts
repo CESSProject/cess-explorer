@@ -5,7 +5,7 @@ import type { TFunction } from 'i18next';
 import type { LinkOption } from './types';
 
 export const CUSTOM_ENDPOINT_KEY = 'polkadot-app-custom-endpoints';
-
+// dev tab seting
 interface EnvWindow {
   // eslint-disable-next-line camelcase
   process_env?: {

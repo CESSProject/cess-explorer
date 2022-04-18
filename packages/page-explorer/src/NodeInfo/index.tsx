@@ -44,12 +44,12 @@ function NodeInfo (): React.ReactElement {
     _getStatus();
 
     const timerId = window.setInterval((): void => {
-      setNextRefresh(Date.now() + POLL_TIMEOUT);
+      setNextRefresh(Date.now() + POLL_TIMEOUT);//auto refresh
       _getStatus();
     }, POLL_TIMEOUT);
 
     return (): void => {
-      window.clearInterval(timerId);
+      window.clearInterval(timerId);//clear timer
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

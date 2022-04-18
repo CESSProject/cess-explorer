@@ -42,13 +42,13 @@ function ExtrinsicDetail({className, value}:Props) :React.ReactElement<Props>{
 
   const fetchData = async (): Promise<void> =>{
     let params = {hash: value};
-    let res:any = await request.post({url:`${httpUrl}/api/scan/extrinsic`, params});
+    let res:any = await request.post({url:`${httpUrl}/api/scan/extrinsic`, params});//use http api
     if(res && res.data){
       if(res.data.call_module === "balances" && (res.data.call_module_function === "transfer_keep_alive" || res.data.call_module_function === "transfer")){
         let events = res.data.events;
         let destinationItem = _.find(events, v=> v.name ==="dest");
         let valueItem = _.find(events, v=> v.name ==="value");
-        res.data.destination = destinationItem?.value?.id;
+        res.data.destination = destinationItem?.value?.id;//dest
         res.data.value = valueItem?.value;
       }
       setExtrinsicInfo(res.data);

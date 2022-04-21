@@ -27,9 +27,9 @@ interface Props {
 
 const EMPTY_HEADER = [['...', 'start', 6]];
 
-function transformResult ([events, getBlock, getHeader]: [EventRecord[], SignedBlock, HeaderExtended?]): [KeyedEvent[], SignedBlock, HeaderExtended?] {
+function transformResult([events, getBlock, getHeader]: [EventRecord[], SignedBlock, HeaderExtended?]): [KeyedEvent[], SignedBlock, HeaderExtended?] {
   return [
-    events.map((record, index) => ({
+    events.map((record, index) => ({// build entity
       indexes: [index],
       key: `${Date.now()}-${index}-${record.hash.toHex()}`,
       record
@@ -39,7 +39,7 @@ function transformResult ([events, getBlock, getHeader]: [EventRecord[], SignedB
   ];
 }
 
-function BlockByHash ({ className = '', error, value }: Props): React.ReactElement<Props> {
+function BlockByHash({ className = '', error, value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
@@ -50,8 +50,8 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
     value && Promise
       .all([
         api.query.system.events.at(value),
-        api.rpc.chain.getBlock(value),
-        api.derive.chain.getHeader(value)
+        api.rpc.chain.getBlock(value),//subscribe
+        api.derive.chain.getHeader(value)//subscribe
       ])
       .then((result): void => {
         mountedRef.current && setState(transformResult(result));
@@ -79,14 +79,10 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
   const parentHash = getHeader?.parentHash.toHex();
   const hasParent = !getHeader?.parentHash.isEmpty;
 
-  const onClickName = params =>{
-    let addr  = params.author.toHuman()
+  const onClickName = params => {
+    let addr = params.author.toHuman()
     params = _.trim(params);
-    if(params.length === 48){
-      window.location.hash = `/explorer/query/${addr}/${undefined}`;
-    } else {
-      window.location.hash = `/explorer/query/${addr}/${undefined}`;
-    }
+    window.location.hash = `/explorer/query/${addr}/${undefined}`;
   }
 
   return (
@@ -106,7 +102,7 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
             <tr>
               <td className='address'>
                 {getHeader.author && (
-                  <AddressSmall value={getHeader.author} isNav={true} onClickName={()=>{onClickName(getHeader)}}/>
+                  <AddressSmall value={getHeader.author} isNav={true} onClickName={() => { onClickName(getHeader) }} />
                 )}
               </td>
               <td className='hash overflow'>{getHeader.hash.toHex()}</td>

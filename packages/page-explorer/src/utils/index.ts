@@ -1,5 +1,4 @@
 import _ from "lodash"
-import {number} from "echarts";
 
 type Currency ={
   money: string,

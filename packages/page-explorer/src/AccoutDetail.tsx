@@ -24,10 +24,6 @@ type Currency ={
   suffix: string
 }
 
-interface DnsResponse {
-  Answer?: { name: string }[];
-  Question: { name: string }[];
-}
 
 function AccoutDetail({className, value}: Props) :React.ReactElement<Props>{
   const { api } = useApi();

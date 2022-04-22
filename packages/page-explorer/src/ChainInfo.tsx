@@ -1,16 +1,16 @@
-import React, {useContext, useEffect, useRef, useState} from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styled from "styled-components";
-import {  BlockAuthorsContext, BlockToTime, TimeNow } from '@polkadot/react-query';
+import { BlockAuthorsContext, BlockToTime, TimeNow } from '@polkadot/react-query';
 import { BN_ONE } from '@polkadot/util';
 import _ from "lodash"
 import StorageGroup from './components/StorageGroup';
-import {api} from "@polkadot/react-api";
+import { api } from "@polkadot/react-api";
 
-interface Props{
+interface Props {
   className?: string,
 }
 
-function ChainInfo({className}: Props): React.ReactElement<Props>{
+function ChainInfo({ className }: Props): React.ReactElement<Props> {
   const [minerData, setMinerData] = useState<any>({})
   const [lastEra, setLastEra] = useState<any>(0)
   const [currentEra, setCurrentEra] = useState<any>(0)
@@ -20,23 +20,23 @@ function ChainInfo({className}: Props): React.ReactElement<Props>{
   let num = json ? json?.number : 0;// block height ,from subscription
 
 
-  useEffect(()=>{
-    (async (): Promise<void> =>{
+  useEffect(() => {
+    (async (): Promise<void> => {
       const res = await api.query.sminer.minerItems.entries();// all miners      
-      if(res){
-        let info={
-          activeMiners:res.length
+      if (res) {
+        let info = {
+          activeMiners: res.length
         };
         setMinerData(info);
       }
     })().catch(console.error);
   }, [])
 
-  useEffect(()=>{
-    (async (): Promise<void> =>{
+  useEffect(() => {
+    (async (): Promise<void> => {
       const res = await api.query.staking.currentEra();
-      if(res){
-        let info:any = res.toHuman();// or toJSON()
+      if (res) {
+        let info: any = res.toHuman();// or toJSON()
         setCurrentEra(info);
         let res2 = await api.query.staking.erasRewardPoints(info - 1);
         setLastEra(_.get(res2.toHuman(), 'total'));

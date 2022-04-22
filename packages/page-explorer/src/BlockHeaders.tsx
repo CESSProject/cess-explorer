@@ -2,11 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HeaderExtended } from '@polkadot/api-derive/types';
-
 import React, { useRef } from 'react';
-
 import { Table } from '@polkadot/react-components';
-
 import BlockHeader from './BlockHeader';
 import { useTranslation } from './translate';
 

@@ -113,15 +113,6 @@ Modern browsers.
 | --------- | --------- | --------- | --------- | --------- | 
 |IE11, Edge| last 2 versions| last 2 versions| last 2 versions| last 2 versions
 
-## Contributing
-Thank you to all the people who already contributed to CESS-Explorer!
-
-
-<a href="https://github.com/swowk"><img width="50px" src="https://avatars.githubusercontent.com/u/15166250?s=120&v=4" /></a>
-<a href="https://github.com/ted-tech"><img width="50px" src="https://avatars.githubusercontent.com/u/32032991?v=4" /></a>
-<a href="https://github.com/matthubin"><img width="50px" src="https://avatars.githubusercontent.com/u/7406604?v=4" /></a>
-<a href="https://github.com/xfxly"><img width="50px" src="https://avatars.githubusercontent.com/u/9316508?v=4" /></a>
-
 
 We very much welcome your contribution
 

@@ -32,10 +32,10 @@ function StorageGroup({className}: Props): React.ReactElement<Props>{
       let totalPower:any=totalPowerSrc.toJSON();
       // availabel storage = totalpower - totalspace   
       // used storage = totalspace
-      let availableStorage:any= totalPower-totalSpace;
+      // let availableStorage:any= totalPower;
       let storageInfo={
         usedStorage:totalSpace,
-        availableStorage
+        availableStorage:totalPower
       };
 
       drawUtilization({used_storage: _.toNumber(_.get(storageInfo , 'usedStorage' )), available_storage: _.toNumber(_.get(storageInfo , 'availableStorage' )) - _.toNumber(_.get(storageInfo , 'usedStorage' ))});

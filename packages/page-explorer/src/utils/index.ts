@@ -36,7 +36,7 @@ const formatterSizeFromMB = (bytes) =>{
   }
   if (bytes == 0) return '0 MB';
   let k = 1024; //set base size
-  let sizeStr = ['MB','GB','TB','PB','EB','ZB','YB']; //size
+  let sizeStr = ["B","KB",'MB','GB','TB','PB','EB','ZB','YB']; //size
   let i = 0; //Unit subscript and power
   for(let l=0;l<6;l++){
     if(bytes / Math.pow(k, l) < 1){

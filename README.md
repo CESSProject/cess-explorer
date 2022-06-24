@@ -9,7 +9,7 @@
 
 # CESS-Explorer Introducation
 
-💘 https://testnet.rpc.cess.cloud/explorer
+💘 https://testnet-rpc.cess.cloud/explorer
 
 Polkadot/Substrate UI for interacting with [*CESS*](https://github.com/CESSProject/cess) node.
 

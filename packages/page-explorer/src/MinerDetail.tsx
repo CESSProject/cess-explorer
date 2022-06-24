@@ -19,88 +19,103 @@ function MinerDetail({ className, value }: Props): React.ReactElement<Props> {
   const minerInfoRef = useRef<any>()
   const [minerDetail, setMinerDetail] = useState<any>({})
 
+  useEffect(()=>{ // by cbf
+    (async (): Promise<void> =>{
+      const minerItems:any = await api.query.sminer.minerItems.entries();//get all miner list
+
+      let miners:any[]= [];
+      minerItems.forEach(([key, entry]) => {// get id
+        let address:string = key.args.map((k) => k.toHuman());
+        address=address[0];
+        let jsonObj = entry.toJSON();        
+        let totalReward=_.toNumber(jsonObj.rewardInfo.totalReward);
+        let totalRewardObj=formatterCurrency(totalReward);
+        let totalRewardsCurrentlyAvailableObj=formatterCurrency(_.toNumber(jsonObj.rewardInfo.totalRewardsCurrentlyAvailable));
+        let totaldNotReceiveObj=formatterCurrency(_.toNumber(jsonObj.rewardInfo.totaldNotReceive));
+        let collateralsObj=formatterCurrency(_.toNumber(jsonObj.collaterals));
+        miners.push(_.assign(jsonObj,{address,totalRewardObj,totalRewardsCurrentlyAvailableObj,totaldNotReceiveObj,collateralsObj}));
+      });
+      let miner=miners.find(t=>t.peerid==value);
+      // console.log('***************miner*****************');
+      // console.log(miner);
+      setMinerDetail(miner);
+
+    })().catch(console.error);
+  }, [])
+
   useEffect(() => {
     (async (): Promise<void> => {
-      let res: any = await api.query.sminer.minerDetails(value);// get miner info
-      let resJson: any = res.toJSON();
-      resJson.totalRewardObj = formatterCurrency(resJson.totalReward);
-      resJson.totalRewardsCurrentlyAvailableObj = formatterCurrency(resJson.totalRewardsCurrentlyAvailable);
-      resJson.totaldNotReceiveObj = formatterCurrency(resJson.totaldNotReceive);
-      resJson.collateralsObj = formatterCurrency(resJson.collaterals);
-      if (res) {
-        setMinerDetail(resJson)
-        let barData = [
-          { value: resJson.space, name: 'used storage' },
-          { value: resJson.power - resJson.space, name: 'available storage' },
-        ];
-        const option: any = {
-          tooltip: {
-            trigger: 'item',
-            formatter: list => {
-              let res = list.name;
-              res += "<br/>" + list.marker + list.seriesName + "<span style=\"margin-left:20px;text-align: right;font-weight: bold;\">" + formatterSizeFromMB(Math.abs(list.value)) + "</span>"
-              return res;
-            }
+      let barData = [
+        { value: minerDetail.space, name: 'used storage' },
+        { value: minerDetail.power - minerDetail.space, name: 'available storage' },
+      ];
+      const option: any = {
+        tooltip: {
+          trigger: 'item',
+          formatter: list => {
+            let res = list.name;
+            res += "<br/>" + list.marker + list.seriesName + "<span style=\"margin-left:20px;text-align: right;font-weight: bold;\">" + formatterSizeFromMB(Math.abs(list.value)) + "</span>"
+            return res;
+          }
+        },
+        legend: {
+          align: 'right',
+          right: '5%',
+          top: 'center',
+          orient: 'vertical',
+          icon: 'roundRect',
+          itemWidth: 8,
+          itemHeight: 61,
+          formatter: name => {
+            let value = _.get(_.find(barData, v => v.name === name), 'value');
+            return ['{a|' + name + '}', '{b|' + formatterSizeFromMB(value) + '}'].join('\n');
           },
-          legend: {
-            align: 'right',
-            right: '5%',
-            top: 'center',
-            orient: 'vertical',
-            icon: 'roundRect',
-            itemWidth: 8,
-            itemHeight: 61,
-            formatter: name => {
-              let value = _.get(_.find(barData, v => v.name === name), 'value');
-              return ['{a|' + name + '}', '{b|' + formatterSizeFromMB(value) + '}'].join('\n');
-            },
-            textStyle: {
-              rich: {
-                a: {
-                  color: '#858585',
-                  fontSize: 14,
-                  verticalAlign: 'middle'
-                },
-                b: {
-                  align: 'right',
-                  lineHeight: 40,
-                  fontSize: 18,
-                  color: '#464646',
-                  verticalAlign: 'middle'
-                }
+          textStyle: {
+            rich: {
+              a: {
+                color: '#858585',
+                fontSize: 14,
+                verticalAlign: 'middle'
               },
+              b: {
+                align: 'right',
+                lineHeight: 40,
+                fontSize: 18,
+                color: '#464646',
+                verticalAlign: 'middle'
+              }
             },
           },
-          series: [
-            {
-              name: 'Chain Info',
-              type: 'pie',
-              radius: ['50%', '70%'],
-              color: ['#5078FE', '#5CD5B4'],
+        },
+        series: [
+          {
+            name: 'Chain Info',
+            type: 'pie',
+            radius: ['50%', '70%'],
+            color: ['#5078FE', '#5CD5B4'],
+            label: {
+              show: false,
+              position: 'center',
+            },
+            emphasis: {
               label: {
-                show: false,
-                position: 'center',
-              },
-              emphasis: {
-                label: {
-                  show: true,
-                  fontSize: '18',
-                  fontWeight: 'bold'
-                }
-              },
-              labelLine: {
-                show: false
-              },
-              data: barData
-            }
-          ]
-        };
-        let myChart = minerInfoRef.current = echarts.init(document.getElementById("miner-info-box") as HTMLDivElement);
-        myChart.setOption(option);
-        window.addEventListener("resize", () => {
-          minerInfoRef.current.resize();
-        });
-      }
+                show: true,
+                fontSize: '18',
+                fontWeight: 'bold'
+              }
+            },
+            labelLine: {
+              show: false
+            },
+            data: barData
+          }
+        ]
+      };
+      let myChart = minerInfoRef.current = echarts.init(document.getElementById("miner-info-box") as HTMLDivElement);
+      myChart.setOption(option);
+      window.addEventListener("resize", () => {
+        minerInfoRef.current.resize();
+      });
     })()
   }, [value])
 

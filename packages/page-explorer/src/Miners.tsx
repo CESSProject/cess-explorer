@@ -51,37 +51,48 @@ function Miners({className}: Props): React.ReactElement<Props>{
   useEffect(()=>{
     (async (): Promise<void> =>{
       const minerItems:any = await api.query.sminer.minerItems.entries();//get all miner list
-      const minerDetails:any = await api.query.sminer.minerDetails.entries();
+      // const minerDetails:any = await api.query.sminer.minerDetails.entries();
       const files:any=await api.query.fileBank.file.entries();
 
       let miners:any[]= [];
+      let reward=0;
+      let staking=0;
       minerItems.forEach(([key, entry]) => {// get id
-        let fileid:string = key.args.map((k) => k.toHuman());
-        let jsonObj = entry.toJSON();
-        miners.push(_.assign(jsonObj,{fileid}));
+        let minerID:string = key.args.map((k) => k.toHuman());
+        minerID=minerID[0];
+        let jsonObj = entry.toJSON();        
+        let totalReward=_.toNumber(jsonObj.rewardInfo.totalReward);
+        reward+=totalReward;
+        staking+=_.toNumber(jsonObj.collaterals);
+        miners.push(_.assign(jsonObj,{minerID,totalReward}));
       });
+      let miningReward=formatterCurrency(reward);
+      console.log('reward',reward);
+      let stakingObj=formatterCurrency(staking);
+      // console.log('*******************miners*************************');
       // console.log(miners);
+      setMinerList(miners);
 
-      let details:any[]= [];
-      minerDetails.forEach(([key, entry]) => {
-        let fileid:string = key.args.map((k) => k.toHuman());
-        let jsonObj = entry.toJSON();
-        details.push(_.assign(jsonObj,{fileid}));
-      });
+      // let details:any[]= [];
+      // minerDetails.forEach(([key, entry]) => {
+      //   let fileid:string = key.args.map((k) => k.toHuman());
+      //   let jsonObj = entry.toJSON();
+      //   details.push(_.assign(jsonObj,{fileid}));
+      // });
       // console.log(details);
 
 
-      let reward=0;
-      details.forEach(t=>{
-        reward+=_.toNumber(t.totalReward);
-      });
-      let miningReward=formatterCurrency(reward);
+      // let reward=0;
+      // details.forEach(t=>{
+      //   reward+=_.toNumber(t.totalReward);
+      // });
+      // let miningReward=formatterCurrency(reward);
 
-      let staking=0;
-      miners.forEach(t=>{
-        staking+=_.toNumber(t.collaterals);
-      });
-      let stakingObj=formatterCurrency(staking);
+      // let staking=0;
+      // miners.forEach(t=>{
+      //   staking+=_.toNumber(t.collaterals);
+      // });
+      // let stakingObj=formatterCurrency(staking);
 
 
       let info:any ={
@@ -138,32 +149,34 @@ function Miners({className}: Props): React.ReactElement<Props>{
   //   })().catch(console.error);
   // }, [])
 
-  useEffect(()=>{
-    (async (): Promise<void> =>{
-      const minerDetails:any = await api.query.sminer.minerDetails.entries();
-      let list:any[]= [];
-      minerDetails.forEach(([key, entry]) => {
-        let minerId = _.get(key.args.map((k) => k.toHuman()), `0`);// key is a arrary,minerid get first one
-        let humanObj = entry.toJSON();
-        list.push(_.assign(humanObj, { minerId }));
-      });
-      list = _.sortBy(list, v=> _.toNumber(v.minerId));
-      // console.log(list);
-      setMinerList(list);
-    })().catch(console.error);
-  }, [])
+  // useEffect(()=>{
+  //   (async (): Promise<void> =>{
+  //     const minerDetails:any = await api.query.sminer.minerDetails.entries();
+  //     let list:any[]= [];
+  //     minerDetails.forEach(([key, entry]) => {
+  //       let minerId = _.get(key.args.map((k) => k.toHuman()), `0`);// key is a arrary,minerid get first one
+  //       let humanObj = entry.toJSON();
+  //       list.push(_.assign(humanObj, { minerId }));
+  //     });
+  //     list = _.sortBy(list, v=> _.toNumber(v.minerId));
+  //     // console.log(list);
+  //     setMinerList(list);
+  //   })().catch(console.error);
+  // }, [])
 
 
 
   const columns = React.useMemo(()=> [
-    {Header: 'miner ID', accessor: 'minerId',Cell: ({row}) => (
-      <a href={`#/explorer/query/${row.values.minerId}/${undefined}`} >{row.values.minerId}</a>
+    {Header: 'miner ID', accessor: 'peerid',Cell: ({row}) => (
+      <a href={`#/explorer/query/${row.values.peerid}/${undefined}`} >{row.values.peerid}</a>
     )},
-    {Header: 'address1', accessor: 'address',Cell: ({row}) => (
-       <a href={`#/explorer/query/${row.values.address}/${undefined}`} >{row.values.address}</a>
+    {Header: 'address1', accessor: 'minerID',Cell: ({row}) => (
+      <span>{row.values.minerID}</span>
+      //  <a href={`#/explorer/query/${row.values.minerID}/${undefined}`} >{row.values.minerID}</a>
      )},
     {Header: 'address2', accessor: 'beneficiary',Cell: ({row}) => (
-       <a href={`#/explorer/query/${row.values.beneficiary}/${undefined}`} >{row.values.beneficiary}</a>
+      //  <a href={`#/explorer/query/${row.values.beneficiary}/${undefined}`} >{row.values.beneficiary}</a>
+      <span>{row.values.beneficiary}</span>
     )},
     {Header: 'total storage', accessor: 'power', Cell: ({row}) => (
        <span>{ formatterSizeFromMB(row.values.power)}</span>

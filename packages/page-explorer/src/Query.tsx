@@ -1,3 +1,10 @@
+/*
+ * @Description: 
+ * @Autor: fage
+ * @Date: 2022-03-28 09:31:13
+ * @LastEditors: fage
+ * @LastEditTime: 2022-07-04 17:15:17
+ */
 // Copyright 2017-2021 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
@@ -71,7 +78,7 @@ function Query ({ className = '', value: propsValue }: Props): React.ReactElemen
         isError={!isValid && value.length !== 0}
         onChange={_setHash}
         onEnter={_onQuery}
-        placeholder={t<string>('Search by Block Hash / Block Height /  Address')}
+        placeholder={t<string>('Search by Block Hash / Block Height')}
         withLabel={false}
       >
         <Button

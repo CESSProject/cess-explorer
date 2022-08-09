@@ -1,3 +1,10 @@
+/*
+ * @Description: 
+ * @Autor: fage
+ * @Date: 2022-03-28 09:31:13
+ * @LastEditors: fage
+ * @LastEditTime: 2022-07-15 11:35:33
+ */
 // Copyright 2017-2021 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
@@ -21,7 +28,7 @@ export function createPolkadot (t: TFunction): EndpointOption {
     text: t('rpc.polkadot.parity', 'Polkadot', { ns: 'apps-config' }),
     providers: {
       // Parity: 'wss://rpc.polkadot.io',              // polkadot
-      Parity: 'wss://testnet-rpc.cess.cloud/ws/',//'ws://106.15.44.155:9949/',//'wss://cess.today/rpc2-hacknet/ws/',
+      Parity: 'wss://testnet-rpc0.cess.cloud/ws/',//'wss://testnet-rpc.cess.cloud/ws/',//'ws://106.15.44.155:9949/',//'wss://cess.today/rpc2-hacknet/ws/',
       // Parity: "ws://106.15.44.155:9947/",              // local
       OnFinality: 'wss://polkadot.api.onfinality.io/public-ws',
       'Patract Elara': 'wss://pub.elara.patract.io/polkadot',

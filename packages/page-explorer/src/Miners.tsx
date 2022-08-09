@@ -57,20 +57,22 @@ function Miners({className}: Props): React.ReactElement<Props>{
       let miners:any[]= [];
       let reward=0;
       let staking=0;
-      minerItems.forEach(([key, entry]) => {// get id
+      minerItems.forEach(([key, entry],i) => {// get id
+        let peerid=i+1;
         let minerID:string = key.args.map((k) => k.toHuman());
         minerID=minerID[0];
         let jsonObj = entry.toJSON();        
         let totalReward=_.toNumber(jsonObj.rewardInfo.totalReward);
         reward+=totalReward;
         staking+=_.toNumber(jsonObj.collaterals);
-        miners.push(_.assign(jsonObj,{minerID,totalReward}));
+        miners.push(_.assign(jsonObj,{minerID,totalReward,peerid}));
       });
       let miningReward=formatterCurrency(reward);
       console.log('reward',reward);
       let stakingObj=formatterCurrency(staking);
       // console.log('*******************miners*************************');
       // console.log(miners);
+      miners.sort((t1,t2)=>t1.peerid-t2.peerid);
       setMinerList(miners);
 
       // let details:any[]= [];
@@ -168,7 +170,8 @@ function Miners({className}: Props): React.ReactElement<Props>{
 
   const columns = React.useMemo(()=> [
     {Header: 'miner ID', accessor: 'peerid',Cell: ({row}) => (
-      <a href={`#/explorer/query/${row.values.peerid}/${undefined}`} >{row.values.peerid}</a>
+      // <a href={`#/explorer/query/${row.values.peerid}/${undefined}`} >{row.values.peerid}</a>
+      <span>{row.values.peerid}</span>
     )},
     {Header: 'address1', accessor: 'minerID',Cell: ({row}) => (
       <span>{row.values.minerID}</span>
@@ -217,7 +220,7 @@ function Miners({className}: Props): React.ReactElement<Props>{
         <div className={"miners-title"}>
           <Icon className='highlight--color' icon='dot-circle'/>
           <span>miners</span>
-          <MinerSearch className="right-search-box" />
+          {/* <MinerSearch className="right-search-box" /> */}
         </div>
         <div className={"miners-table-info"}>
           <RcTable columns={columns} data={minerList}/>

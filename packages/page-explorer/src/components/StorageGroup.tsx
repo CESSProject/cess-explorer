@@ -26,8 +26,8 @@ function StorageGroup({className}: Props): React.ReactElement<Props>{
       // let storageInfoValue = await api.query.sminer.storageInfoValue();
       // let storageInfo = storageInfoValue.toJSON();//{usedStorage: 0, availableStorage: 39936, time: 0}
 
-      let totalSpaceSrc = await api.query.sminer.totalSpace();
-      let totalPowerSrc = await api.query.sminer.totalPower();
+      let totalSpaceSrc = await api.query.sminer.totalServiceSpace();
+      let totalPowerSrc = await api.query.sminer.totalIdleSpace();
       let totalSpace:any=totalSpaceSrc.toJSON();
       let totalPower:any=totalPowerSrc.toJSON();
       // availabel storage = totalpower - totalspace   

@@ -170,8 +170,8 @@ function Miners({className}: Props): React.ReactElement<Props>{
 
   const columns = React.useMemo(()=> [
     {Header: 'miner ID', accessor: 'peerid',Cell: ({row}) => (
-      // <a href={`#/explorer/query/${row.values.peerid}/${undefined}`} >{row.values.peerid}</a>
-      <span>{row.values.peerid}</span>
+      <a href={`#/explorer/query/${row.values.peerid}/${undefined}`} >{row.values.peerid}</a>
+      // <span>{row.values.peerid}</span>
     )},
     {Header: 'address1', accessor: 'minerID',Cell: ({row}) => (
       <span>{row.values.minerID}</span>
@@ -220,7 +220,7 @@ function Miners({className}: Props): React.ReactElement<Props>{
         <div className={"miners-title"}>
           <Icon className='highlight--color' icon='dot-circle'/>
           <span>miners</span>
-          {/* <MinerSearch className="right-search-box" /> */}
+          <MinerSearch className="right-search-box" />
         </div>
         <div className={"miners-table-info"}>
           <RcTable columns={columns} data={minerList}/>

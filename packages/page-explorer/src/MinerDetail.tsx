@@ -31,17 +31,17 @@ function MinerDetail({ className, value }: Props): React.ReactElement<Props> {
         let totalReward=_.toNumber(jsonObj.rewardInfo.totalReward);
         let totalRewardObj=formatterCurrency(totalReward);
         let totalRewardsCurrentlyAvailableObj=formatterCurrency(_.toNumber(jsonObj.rewardInfo.totalRewardsCurrentlyAvailable));
-        let totaldNotReceiveObj=formatterCurrency(_.toNumber(jsonObj.rewardInfo.totaldNotReceive));
+        let totaldNotReceiveObj=formatterCurrency(_.toNumber(jsonObj.rewardInfo.totalNotReceive));
         let collateralsObj=formatterCurrency(_.toNumber(jsonObj.collaterals));
         miners.push(_.assign(jsonObj,{address,totalRewardObj,totalRewardsCurrentlyAvailableObj,totaldNotReceiveObj,collateralsObj}));
       });
-      let miner=miners.find(t=>t.peerid==value);
-      // console.log('***************miner*****************');
-      // console.log(miner);
+      let miner=miners.find(t=>t.peerId==value);
+      // console.log('***************miners*****************');
+      // console.log(miners);
       setMinerDetail(miner);
 
     })().catch(console.error);
-  }, [])
+  }, [value])
 
   useEffect(() => {
     (async (): Promise<void> => {

@@ -58,10 +58,14 @@ function Miners({className}: Props): React.ReactElement<Props>{
       let reward=0;
       let staking=0;
       minerItems.forEach(([key, entry],i) => {// get id
-        let peerid=i+1;
+        let peerid=i+1;        
         let minerID:string = key.args.map((k) => k.toHuman());
+        console.log('minerID',minerID)
         minerID=minerID[0];
-        let jsonObj = entry.toJSON();        
+        let jsonObj = entry.toJSON();     
+        if(jsonObj.peerId){
+          peerid=jsonObj.peerId;
+        }   
         let totalReward=_.toNumber(jsonObj.rewardInfo.totalReward);
         reward+=totalReward;
         staking+=_.toNumber(jsonObj.collaterals);

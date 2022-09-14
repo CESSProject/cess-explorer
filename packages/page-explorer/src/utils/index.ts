@@ -34,7 +34,7 @@ const formatterSizeFromMB = (bytes) =>{
   if(_.isString(bytes)){
     bytes = _.toNumber(bytes);
   }
-  if (bytes == 0) return '0 MB';
+  if (bytes == 0) return '0 MiB';
   let k = 1024; //set base size
   let sizeStr = ["B","KiB",'MiB','GiB','TiB','PiB','EiB','ZiB','YiB']; //size
   let i = 0; //Unit subscript and power
